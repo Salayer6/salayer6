@@ -9,6 +9,7 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #000;
     color: #fff;
+    line-height: 1.6;
 }
 
 .container {
@@ -22,28 +23,23 @@ body {
 .header-section {
     display: flex;
     align-items: center;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 40%, rgba(82, 111, 155, 1) 100%);
-}
-
-.level3-logo {
-    display: flex;
-    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #fff 40%, #526F9B 100%);
+    color: #333;
+    padding: 20px;
 }
 
 .level3-logo img {
-    width: 150px;
-}
-
-.logo-text {
-    margin-left: 20px;
+    width: 120px;
 }
 
 .logo-text h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 .logo-text p {
     font-style: italic;
+    color: #333;
 }
 
 /* Shout Section */
@@ -51,45 +47,50 @@ body {
     background-color: #EEE62C;
     color: #000;
     padding: 20px;
-    border: 2px solid blue;
     text-align: center;
+    border: 2px solid #000;
 }
 
 .shout-header h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 .shout-nav {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
-.shout-nav input {
-    padding: 5px;
+.search-bar {
+    display: flex;
+    gap: 10px;
 }
 
-.shout-nav button {
-    padding: 5px 10px;
+.search-bar input {
+    padding: 10px;
+    width: 200px;
+}
+
+.search-bar button {
+    padding: 10px 15px;
 }
 
 /* Profile Section */
 .profile-section {
     display: flex;
-    align-items: flex-start;
     gap: 20px;
     background-color: rgba(192, 192, 192, 0.3);
-    border: 2px solid orange;
     padding: 20px;
+    border: 2px solid orange;
 }
 
 .profile-image img {
-    width: 200px;
+    width: 180px;
 }
 
 .profile-info h2 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .profile-info p {
@@ -99,25 +100,25 @@ body {
 /* Interests Section */
 .interests-section {
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #111;
     color: #fff;
     border: 2px solid red;
 }
 
 .interests-section h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 10px;
 }
 
 /* Video Section */
 .video-section {
     padding: 20px;
-    border: 2px solid purple;
     text-align: center;
+    border: 2px solid purple;
 }
 
 .video-section img {
-    width: 100%;
-    max-width: 600px;
+    max-width: 100%;
+    height: auto;
     border: 5px solid #fff;
 }
