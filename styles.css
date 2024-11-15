@@ -19,7 +19,7 @@ body {
     width: 100%;
     max-width: 1980px;
     margin: 0 auto;
-    padding: none;
+    padding: 0;
 }
 
 /* ADS Section */
@@ -32,7 +32,6 @@ body {
     padding: none;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
-
 
 .ad-img {
     height: 88px; /* La imagen ocupará toda la altura disponible */
@@ -61,6 +60,7 @@ body {
     color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
     font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
 }
+
 /* Header Section */
 .header-section {
     display: flex;
@@ -209,4 +209,116 @@ body {
     max-width: 100%;
     height: auto;
     border: 5px solid #fff;
+}
+
+/* Media Queries for Responsive Design */
+
+/* Mobile (Phones) */
+@media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo h1 {
+        font-size: 2rem;
+    }
+
+    .logo p {
+        font-size: 0.9rem;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+
+    .search-bar button {
+        width: 100%;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-info h2 {
+        font-size: 1.6rem;
+    }
+
+    .gallery-section h2 {
+        font-size: 2rem;
+    }
+
+    .gallery {
+        flex-direction: column;
+    }
+
+    .gallery img {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .interests-section,
+    .education-section,
+    .video-section {
+        padding: 10px;
+    }
+
+    .video-section iframe {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+/* Tablet (Medium Devices) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .header-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-image img {
+        width: 150px;
+    }
+
+    .gallery img {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .video-section iframe {
+        width: 100%;
+        height: 300px;
+    }
+}
+
+/* Desktop (Large Screens) */
+@media (min-width: 1025px) {
+    .header-section {
+        flex-direction: row;
+    }
+
+    .profile-section {
+        flex-direction: row;
+    }
+
+    .gallery {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .gallery img {
+        width: 300px;
+    }
+
+    .video-section iframe {
+        width: 560px;
+        height: 315px;
+    }
 }
