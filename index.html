@@ -1,91 +1,112 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blog personal de Nachito - Analista de Datos y Growth Hacker">
-    <title>Blog de Nachito</title>
-    <style>
-        body {
-            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-        }
-        .menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .menu a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        .menu a:hover {
-            text-decoration: underline;
-        }
-        .main-content {
-            padding: 20px;
-        }
-        .post {
-            background: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .post h2 {
-            color: #4CAF50;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 20px;
-        }
-    </style>
+
+<title>v6</title>
+<link rel="stylesheet" type="text/css" href="v6.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
+
+
 <body>
 
-    <!-- Menú Superior -->
-    <header>
-        <div class="menu">
-            <h1>Blog de Nachito</h1>
-            <nav>
-                <a href="#">Inicio</a>
-                <a href="#">Sobre mí</a>
-                <a href="#">Análisis de Datos</a>
-                <a href="#">Growth Hacking</a>
-                <a href="#">Contacto</a>
-            </nav>
-        </div>
-    </header>
+<div class="container"  style="  background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 40%, rgba(82,111,155,1) 100%);  ">
 
-    <!-- Contenido Principal -->
-    <div class="main-content">
-        <div class="post">
-            <h2>Bienvenido a mi blog</h2>
-            <p>Hola, soy Nachito, un analista de datos y growth hacker apasionado por el análisis y la optimización de negocios. En este blog compartiré insights y estrategias para ayudarte a crecer tu negocio.</p>
-        </div>
+	<div class="header">
+	
+	<div> <!--css grid 6-->
+		<img src="eyes.png" alt="womans face">
+	</div>
+	
+	<div>
+		<p>LEVEL3DIGITAL</p>
+		<p>"JOIN THE REVOLUTION"</p>
+	</div>
+	
+	</div>
+</div>
 
-        <div class="post">
-            <h2>Primer Análisis: Tendencias en Bienestar en Chile</h2>
-            <p>En esta publicación, exploraremos los datos recientes de la Encuesta Casen para identificar tendencias clave en el sector de bienestar en Chile. ¿Quieres saber más? ¡Sigue leyendo!</p>
-        </div>
+<div class="container"  style="background-color: #EEE62C; border-style:solid; border-color:blue;">
 
-    <!-- Pie de Página -->
-    <footer>
-        <p>© 2024 Nachito - Analista de Datos y Growth Hacker | Todos los derechos reservados</p>
-    </footer>
+	<div class="header">
+	
+	<div> <!--css grid 6-->
+		<p>mySHOUT.US<i class="fa fa-bullhorn"></i><p>
+		<p>Get your shout on the web.<p>
+		
+	</div>
+	
+	<div>
+		<p><a href="#">JOIN</a> | <a href="#">LOGIN</a> | <a href="#">ABOUT</a></p>
+		<input type="text">
+		<p>SEARCH</p>
+	</div>
+	
+	</div>
+</div>
 
+<div class="container"  style="background-color:rgba(192,192,192,0.3); border-style:solid; border-color:orange;">
+	
+	<div class="intro">
+	<div>
+		<img src="yo.jpg" alt="Jesse"><!-- background img of pic to match  -->
+		<p><a href="#">VIEW MY PIX</a> | <a href="#">JOIN MY LIST</a></p> 
+	</div>
+	
+	<div>
+		<img src="" alt="KRYSTAL SHIP">
+		<h3>cap'n cooks</h3>
+		<p>STATUS: Single, Baby, Single!</br />
+		HERE FOR: Hook ups<br />
+		BODY TYPE: Lean & Mean<br />
+		ETHNICITY: I'm totally cool with ethnics -Black, Mexican, whatever...as long as you're SMOKIN' HOT, YO!
+		<p>
+	</div>
+	</div>
+</div>
+
+
+
+<div class="container">
+  <p>CSS Grid Method</p>
+  <div class="image-stack">  <!-- in order to use css grid u need to have grid be in the css-->
+  
+  <!-- Initial plan was to have the below which works be one piece and then have the other images just be aligned above but now thinking of it - might as well have all of the elements in the one container with staggering height percentages-->
+  
+  
+    <div class="image-stack__item image-stack__item--top">
+      
+	  <p style="border-style:solid; border-color:red; height:90%; ">
+		
+	  </p>
+    </div>
+    <div class="image-stack__item image-stack__item--bottom">
+      <img src="main_pic_crop.png" alt="">
+    </div>
+	<div  class="image-stack__item image-stack__item--top-2">
+	   <p style="padding:5px;">GENERAL INTERESTS:<br \>Fine herbage! Keepin' it real, Jui Ryo Ki Kung-Fu (Blue belt with shuriken certification). Banging the skins with my smokin band 'TwaughtHammer'. European motocross (plan to attend Wheelie School in Vegas this summer).<br /> MILF's,MILF's,MILF's,MILF's!<br />
+	   <br />
+	   EDUCATION:<br />
+	   J.P Wynne High School, DeVry University data systems management...<br />
+	   The STREETS, YO!</p>
+    </div>
+  </div>
+  
+<div class="container"  style="border-style:solid; border-color:purple;">
+
+	<div class="header">
+	
+	<div>
+		<p>WASHING BITCHES</p>
+		<img src="washing_bitches.jpg" alt="face in tv">
+	</div>
+	
+	</div>
+</div>
+
+</div>
 </body>
 </html>
