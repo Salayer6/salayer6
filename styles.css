@@ -12,6 +12,7 @@ body {
     line-height: 1.6;
 }
 
+/* Container */
 .container {
     width: 100%;
     max-width: 1280px;
@@ -24,8 +25,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(90deg, #fff 40%, #526F9B 100%);
-    color: #333;
+    background: #666; /* Cambia a un gris oscuro */
+    color: #fff;
     padding: 20px;
 }
 
@@ -35,11 +36,13 @@ body {
 
 .logo-text h1 {
     font-size: 2rem;
+    font-family: 'Comic Sans MS', cursive; /* Añade un toque más informal */
+    color: #EEE62C; /* Amarillo brillante */
 }
 
 .logo-text p {
     font-style: italic;
-    color: #333;
+    color: #EEE62C; /* Amarillo brillante */
 }
 
 /* Shout Section */
@@ -48,77 +51,72 @@ body {
     color: #000;
     padding: 20px;
     text-align: center;
-    border: 2px solid #000;
+    border: 3px solid #000; /* Bordes más gruesos */
 }
 
 .shout-header h2 {
     font-size: 2.5rem;
-}
-
-.shout-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.search-bar {
-    display: flex;
-    gap: 10px;
-}
-
-.search-bar input {
-    padding: 10px;
-    width: 200px;
-}
-
-.search-bar button {
-    padding: 10px 15px;
+    text-transform: uppercase; /* Mayúsculas para destacar */
 }
 
 /* Profile Section */
 .profile-section {
     display: flex;
     gap: 20px;
-    background-color: rgba(192, 192, 192, 0.3);
+    background-color: rgba(192, 192, 192, 0.2);
     padding: 20px;
-    border: 2px solid orange;
+    border: 3px solid orange;
+    background-image: url('tu_imagen_de_fondo.jpg'); /* Imagen de fondo tipo collage */
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
 }
 
 .profile-image img {
     width: 180px;
+    border: 5px solid #fff; /* Agrega borde blanco a las imágenes */
 }
 
 .profile-info h2 {
     font-size: 1.8rem;
+    font-family: 'Comic Sans MS', cursive; /* Estilo de letra informal */
 }
 
 .profile-info p {
     margin-top: 10px;
+    color: #EEE62C; /* Amarillo brillante para destacar */
 }
 
 /* Interests Section */
 .interests-section {
     padding: 20px;
-    background-color: #111;
-    color: #fff;
-    border: 2px solid red;
+    background-color: #333;
+    color: #EEE62C; /* Amarillo brillante */
+    border: 3px solid red;
 }
 
 .interests-section h2 {
     font-size: 2rem;
     margin-bottom: 10px;
+    text-transform: uppercase;
+    font-family: 'Comic Sans MS', cursive;
 }
 
 /* Video Section */
 .video-section {
     padding: 20px;
     text-align: center;
-    border: 2px solid purple;
+    background-color: #000;
+    border: 3px solid purple;
 }
 
 .video-section img {
     max-width: 100%;
     height: auto;
     border: 5px solid #fff;
+}
+
+/* General Font Adjustments */
+h2, p {
+    font-family: 'Comic Sans MS', cursive; /* Usar una fuente más llamativa en general */
 }
