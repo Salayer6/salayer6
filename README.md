@@ -5,6 +5,8 @@ Plan, Execute and Document a real-world data science task completed using the Py
 
 
 ## Background Information:
+
+Tips:
 Use Pandas & Matplotlib
 
 ## ...Asking questions.
