@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #000;
     color: #fff;
     line-height: 1.6;
@@ -25,8 +25,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #666;
-    color: #EEE62C;
+    background: #666; /* Dark gray */
+    color: #fff;
     padding: 20px;
 }
 
@@ -35,16 +35,14 @@ body {
 }
 
 .logo-text h1 {
-    font-size: 3rem;
-    color: #EEE62C;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px #000; /* Sombra para efecto dramático */
+    font-size: 2rem;
+    font-weight: bold;
+    color: #EEE62C; /* Bright yellow */
 }
 
 .logo-text p {
     font-style: italic;
-    color: #EEE62C;
+    color: #EEE62C; /* Bright yellow */
 }
 
 /* Shout Section */
@@ -53,26 +51,25 @@ body {
     color: #000;
     padding: 20px;
     text-align: center;
-    border: 5px solid #000;
+    border: 3px solid #000;
 }
 
 .shout-header h2 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     text-transform: uppercase;
-    font-weight: bold;
-    text-shadow: 2px 2px #000;
 }
 
 /* Profile Section */
 .profile-section {
     display: flex;
     gap: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(192, 192, 192, 0.2);
     padding: 20px;
-    border: 5px solid #FFA500;
-    background-image: url('pattern_background.png');
+    border: 3px solid orange;
+    background-image: url('pattern_background.png'); /* Background collage */
     background-repeat: repeat;
     background-size: cover;
+    color: #fff;
 }
 
 .profile-image img {
@@ -81,27 +78,25 @@ body {
 }
 
 .profile-info h2 {
-    font-size: 2.5rem;
-    color: #EEE62C;
-    text-transform: uppercase;
+    font-size: 1.8rem;
+    font-weight: bold;
 }
 
 .profile-info p {
     margin-top: 10px;
-    font-size: 1.2rem;
-    color: #EEE62C;
+    color: #EEE62C; /* Bright yellow */
 }
 
 /* Interests Section */
 .interests-section {
     padding: 20px;
     background-color: #333;
-    color: #EEE62C;
-    border: 5px solid #FF0000;
+    color: #EEE62C; /* Bright yellow */
+    border: 3px solid red;
 }
 
 .interests-section h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 10px;
     text-transform: uppercase;
     font-weight: bold;
@@ -112,7 +107,7 @@ body {
     padding: 20px;
     text-align: center;
     background-color: #000;
-    border: 5px solid #800080;
+    border: 3px solid purple;
 }
 
 .video-section img {
@@ -123,12 +118,5 @@ body {
 
 /* General Font Adjustments */
 h2, p {
-    font-family: 'Comic Sans MS', cursive;
-    text-transform: uppercase;
-}
-
-/* Destacar palabras clave */
-strong {
-    color: #EEE62C;
-    font-weight: bold;
+    font-family: 'Arial', sans-serif; /* Keeping fonts clean and bold */
 }
