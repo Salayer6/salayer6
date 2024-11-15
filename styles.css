@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
     background-color: #000;
     color: #fff;
     line-height: 1.6;
@@ -25,8 +25,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #666; /* Cambia a un gris oscuro */
-    color: #fff;
+    background: #666;
+    color: #EEE62C;
     padding: 20px;
 }
 
@@ -35,14 +35,16 @@ body {
 }
 
 .logo-text h1 {
-    font-size: 2rem;
-    font-family: 'Comic Sans MS', cursive; /* Añade un toque más informal */
-    color: #EEE62C; /* Amarillo brillante */
+    font-size: 3rem;
+    color: #EEE62C;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px #000; /* Sombra para efecto dramático */
 }
 
 .logo-text p {
     font-style: italic;
-    color: #EEE62C; /* Amarillo brillante */
+    color: #EEE62C;
 }
 
 /* Shout Section */
@@ -51,55 +53,58 @@ body {
     color: #000;
     padding: 20px;
     text-align: center;
-    border: 3px solid #000; /* Bordes más gruesos */
+    border: 5px solid #000;
 }
 
 .shout-header h2 {
-    font-size: 2.5rem;
-    text-transform: uppercase; /* Mayúsculas para destacar */
+    font-size: 3rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 2px 2px #000;
 }
 
 /* Profile Section */
 .profile-section {
     display: flex;
     gap: 20px;
-    background-color: rgba(192, 192, 192, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
-    border: 3px solid orange;
-    background-image: url('pattern_background.png'); /* Imagen de fondo tipo collage */
+    border: 5px solid #FFA500;
+    background-image: url('pattern_background.png');
     background-repeat: repeat;
     background-size: cover;
-    color: #fff;
 }
 
 .profile-image img {
     width: 180px;
-    border: 5px solid #fff; /* Agrega borde blanco a las imágenes */
+    border: 5px solid #fff;
 }
 
 .profile-info h2 {
-    font-size: 1.8rem;
-    font-family: 'Comic Sans MS', cursive; /* Estilo de letra informal */
+    font-size: 2.5rem;
+    color: #EEE62C;
+    text-transform: uppercase;
 }
 
 .profile-info p {
     margin-top: 10px;
-    color: #EEE62C; /* Amarillo brillante para destacar */
+    font-size: 1.2rem;
+    color: #EEE62C;
 }
 
 /* Interests Section */
 .interests-section {
     padding: 20px;
     background-color: #333;
-    color: #EEE62C; /* Amarillo brillante */
-    border: 3px solid red;
+    color: #EEE62C;
+    border: 5px solid #FF0000;
 }
 
 .interests-section h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 10px;
     text-transform: uppercase;
-    font-family: 'Comic Sans MS', cursive;
+    font-weight: bold;
 }
 
 /* Video Section */
@@ -107,7 +112,7 @@ body {
     padding: 20px;
     text-align: center;
     background-color: #000;
-    border: 3px solid purple;
+    border: 5px solid #800080;
 }
 
 .video-section img {
@@ -118,5 +123,12 @@ body {
 
 /* General Font Adjustments */
 h2, p {
-    font-family: 'Comic Sans MS', cursive; /* Usar una fuente más llamativa en general */
+    font-family: 'Comic Sans MS', cursive;
+    text-transform: uppercase;
+}
+
+/* Destacar palabras clave */
+strong {
+    color: #EEE62C;
+    font-weight: bold;
 }
