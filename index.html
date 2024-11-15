@@ -1,111 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-
-<title>v6</title>
-<link rel="stylesheet" type="text/css" href="v6.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v6 - Optimizado</title>
+    <link rel="stylesheet" href="v6.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
-
-
 <body>
 
-<div class="container"  style="  background: rgb(255,255,255);
-background: linear-gradient(90deg, rgba(255,255,255,1) 40%, rgba(82,111,155,1) 100%);  ">
-
-	<div class="header">
-	
-	<div> <!--css grid 6-->
-		<img src="eyes.png" alt="womans face">
-	</div>
-	
-	<div>
-		<p>LEVEL3DIGITAL</p>
-		<p>"JOIN THE REVOLUTION"</p>
-	</div>
-	
-	</div>
+<!-- Container 1 -->
+<div class="container gradient-bg">
+    <div class="header">
+        <div>
+            <img src="eyes.png" alt="womans face">
+        </div>
+        <div>
+            <p>LEVEL3DIGITAL</p>
+            <p>"JOIN THE REVOLUTION"</p>
+        </div>
+    </div>
 </div>
 
-<div class="container"  style="background-color: #EEE62C; border-style:solid; border-color:blue;">
-
-	<div class="header">
-	
-	<div> <!--css grid 6-->
-		<p>mySHOUT.US<i class="fa fa-bullhorn"></i><p>
-		<p>Get your shout on the web.<p>
-		
-	</div>
-	
-	<div>
-		<p><a href="#">JOIN</a> | <a href="#">LOGIN</a> | <a href="#">ABOUT</a></p>
-		<input type="text">
-		<p>SEARCH</p>
-	</div>
-	
-	</div>
+<!-- Container 2 -->
+<div class="container yellow-bg border-blue">
+    <div class="header">
+        <div>
+            <p>mySHOUT.US <i class="fa fa-bullhorn"></i></p>
+            <p>Get your shout on the web.</p>
+        </div>
+        <div>
+            <p><a href="#">JOIN</a> | <a href="#">LOGIN</a> | <a href="#">ABOUT</a></p>
+            <input type="text" placeholder="Search...">
+        </div>
+    </div>
 </div>
 
-<div class="container"  style="background-color:rgba(192,192,192,0.3); border-style:solid; border-color:orange;">
-	
-	<div class="intro">
-	<div>
-		<img src="yo.jpg" alt="Jesse"><!-- background img of pic to match  -->
-		<p><a href="#">VIEW MY PIX</a> | <a href="#">JOIN MY LIST</a></p> 
-	</div>
-	
-	<div>
-		<img src="" alt="KRYSTAL SHIP">
-		<h3>cap'n cooks</h3>
-		<p>STATUS: Single, Baby, Single!</br />
-		HERE FOR: Hook ups<br />
-		BODY TYPE: Lean & Mean<br />
-		ETHNICITY: I'm totally cool with ethnics -Black, Mexican, whatever...as long as you're SMOKIN' HOT, YO!
-		<p>
-	</div>
-	</div>
+<!-- Container 3 -->
+<div class="container gray-bg border-orange">
+    <div class="intro">
+        <div>
+            <img src="yo.jpg" alt="Jesse">
+            <p><a href="#">VIEW MY PIX</a> | <a href="#">JOIN MY LIST</a></p>
+        </div>
+        <div>
+            <img src="" alt="KRYSTAL SHIP">
+            <h3>cap'n cooks</h3>
+            <p>
+                STATUS: Single, Baby, Single!<br>
+                HERE FOR: Hook ups<br>
+                BODY TYPE: Lean & Mean<br>
+                ETHNICITY: I'm totally cool with ethnics - Black, Mexican, whatever... as long as you're SMOKIN' HOT, YO!
+            </p>
+        </div>
+    </div>
 </div>
 
-
-
+<!-- Container 4 - Image Stack -->
 <div class="container">
-  <div class="image-stack">  <!-- in order to use css grid u need to have grid be in the css-->
-  
-  <!-- Initial plan was to have the below which works be one piece and then have the other images just be aligned above but now thinking of it - might as well have all of the elements in the one container with staggering height percentages-->
-  
-  
-    <div class="image-stack__item image-stack__item--top">
-      
-	  <p style="border-style:solid; border-color:red; height:90%; ">
-		
-	  </p>
+    <div class="image-stack">
+        <div class="image-stack__item image-stack__item--top">
+            <p class="red-border">GENERAL INTERESTS:<br>
+                Fine herbage! Keepin' it real, Jui Ryo Ki Kung-Fu (Blue belt with shuriken certification).<br>
+                Banging the skins with my smokin' band 'TwaughtHammer'. European motocross (plan to attend Wheelie School in Vegas this summer).<br>
+                MILF's, MILF's, MILF's, MILF's!<br><br>
+                EDUCATION:<br>
+                J.P Wynne High School, DeVry University data systems management...<br>
+                The STREETS, YO!
+            </p>
+        </div>
+        <div class="image-stack__item image-stack__item--bottom">
+            <img src="main_pic_crop.png" alt="Main picture">
+        </div>
+        <div class="image-stack__item image-stack__item--top-2">
+            <p class="interests-text">Jui Ryo Ki Kung-Fu, European motocross, and more...</p>
+        </div>
     </div>
-    <div class="image-stack__item image-stack__item--bottom">
-      <img src="main_pic_crop.png" alt="">
-    </div>
-	<div  class="image-stack__item image-stack__item--top-2">
-	   <p style="padding:5px;">GENERAL INTERESTS:<br \>Fine herbage! Keepin' it real, Jui Ryo Ki Kung-Fu (Blue belt with shuriken certification). Banging the skins with my smokin band 'TwaughtHammer'. European motocross (plan to attend Wheelie School in Vegas this summer).<br /> MILF's,MILF's,MILF's,MILF's!<br />
-	   <br />
-	   EDUCATION:<br />
-	   J.P Wynne High School, DeVry University data systems management...<br />
-	   The STREETS, YO!</p>
-    </div>
-  </div>
-  
-<div class="container"  style="border-style:solid; border-color:purple;">
-
-	<div class="header">
-	
-	<div>
-		<p>WASHING BITCHES</p>
-		<img src="washing_bitches.jpg" alt="face in tv">
-	</div>
-	
-	</div>
 </div>
 
+<!-- Container 5 -->
+<div class="container border-purple">
+    <div class="header">
+        <div>
+            <p>WASHING BITCHES</p>
+            <img src="washing_bitches.jpg" alt="face in tv">
+        </div>
+    </div>
 </div>
+
 </body>
 </html>
