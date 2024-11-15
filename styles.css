@@ -19,7 +19,7 @@ body {
     width: 100%;
     max-width: 1980px;
     margin: 0 auto;
-    padding: 0px;
+    padding: none;
 }
 
 /* ADS Section */
@@ -29,7 +29,7 @@ body {
     justify-content: space-between;
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
-    padding: 0px;
+    padding: none;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
 
@@ -165,9 +165,9 @@ body {
 }
 
 .gallery img {
-    width: 150px;
+    width: auto;
     height: auto;
-    border: 5px solid #fff;
+    border: none solid #fff;
 }
 
 /* Interests Section */
