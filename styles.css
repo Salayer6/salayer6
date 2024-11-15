@@ -8,6 +8,8 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #000;
+    background-image: url('pattern_background.png');
+    background-repeat: repeat;
     color: #fff;
     line-height: 1.6;
 }
@@ -15,48 +17,107 @@ body {
 /* Container */
 .container {
     width: 100%;
-    max-width: 1280px;
+    max-width: 1980px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px;
 }
 
+/* ADS Section */
+.ads-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
+    color: #fff;
+    padding: 0px;
+    height: 88px; /* Ajusta esta altura según lo necesario */
+}
+
+
+.ad-img {
+    height: 88px; /* La imagen ocupará toda la altura disponible */
+    width: auto; /* Mantiene la proporción de la imagen */
+}
+
+.ad-text {
+    width: 100%; /* O un valor específico de ancho si prefieres */
+    max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
+    margin: 0 auto; /* Esto centra el div horizontalmente */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ad-text p {
+    font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
+    color: black; /* Establece el color del texto a negro */
+}
+
+.ad-text p span {
+    color: #00bcd4;
+    /* Azul celeste para el número 3 */
+}
+.ad-text p:last-child {
+    color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
+    font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
+}
 /* Header Section */
 .header-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #666; /* Dark gray */
-    color: #fff;
-    padding: 20px;
+    background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
+    padding: 10px;
 }
 
-.level3-logo img {
-    width: 120px;
-}
-
-.logo-text h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #EEE62C; /* Bright yellow */
-}
-
-.logo-text p {
-    font-style: italic;
-    color: #EEE62C; /* Bright yellow */
-}
-
-/* Shout Section */
-.shout-section {
-    background-color: #EEE62C;
+.logo h1 {
+    font-size: 3rem;
     color: #000;
-    padding: 20px;
-    text-align: center;
-    border: 3px solid #000;
 }
 
-.shout-header h2 {
-    font-size: 2.5rem;
-    text-transform: uppercase;
+.logo p {
+    font-style: italic;
+    color: #000;
+}
+.nav {
+    display: flex;
+    align-items: center;
+    color: #000;
+    margin: 0 10px;
+    text-decoration: none;
+}
+.nav a {
+    color: #000;
+    font-size: 0.65rem;
+    text-decoration: none;
+}
+.nav p {
+    color: #000;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
+    align-items: flex-end; /* Alinea los elementos a la izquierda */
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 200px; /* Ajusta el ancho según sea necesario */
+    margin-bottom: 5px; /* Espacio entre el input y el botón */
+}
+
+.search-bar button {
+    padding: 0px 30px;
+    background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
+    color: #EEE62C;
+    border: none;
+    cursor: pointer;
+    height: 15px; /* Ajusta el ancho según sea necesario */
+    margin-left: auto; /* Alinea el botón a la derecha */
+    border-radius: 12px; /* Redondea los bordes */
 }
 
 /* Profile Section */
@@ -66,9 +127,6 @@ body {
     background-color: rgba(192, 192, 192, 0.2);
     padding: 20px;
     border: 3px solid orange;
-    background-image: url('pattern_background.png'); /* Background collage */
-    background-repeat: repeat;
-    background-size: cover;
     color: #fff;
 }
 
@@ -79,19 +137,44 @@ body {
 
 .profile-info h2 {
     font-size: 1.8rem;
-    font-weight: bold;
+    color: #EEE62C;
 }
 
 .profile-info p {
     margin-top: 10px;
-    color: #EEE62C; /* Bright yellow */
+    color: #EEE62C;
+}
+
+/* Gallery Section */
+.gallery-section {
+    text-align: center;
+    padding: 20px;
+}
+
+.gallery-section h2 {
+    font-size: 2.5rem;
+    color: #EEE62C;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.gallery {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.gallery img {
+    width: 150px;
+    height: auto;
+    border: 5px solid #fff;
 }
 
 /* Interests Section */
 .interests-section {
     padding: 20px;
     background-color: #333;
-    color: #EEE62C; /* Bright yellow */
+    color: #EEE62C;
     border: 3px solid red;
 }
 
@@ -99,7 +182,13 @@ body {
     font-size: 2rem;
     margin-bottom: 10px;
     text-transform: uppercase;
-    font-weight: bold;
+}
+
+/* Education Section */
+.education-section {
+    padding: 20px;
+    color: #EEE62C;
+    border-top: 3px solid #EEE62C;
 }
 
 /* Video Section */
@@ -110,13 +199,14 @@ body {
     border: 3px solid purple;
 }
 
+.video-section h2 {
+    font-size: 2rem;
+    color: #EEE62C;
+    margin-bottom: 20px;
+}
+
 .video-section img {
     max-width: 100%;
     height: auto;
     border: 5px solid #fff;
-}
-
-/* General Font Adjustments */
-h2, p {
-    font-family: 'Arial', sans-serif; /* Keeping fonts clean and bold */
 }
