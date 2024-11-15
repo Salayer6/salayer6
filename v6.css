@@ -1,66 +1,11 @@
-/* Global Styles */
-* {
-  box-sizing: border-box;
-}
-
+/* Estilos Generales */
 body {
-  background-image: url("pattern_background.png");
-  background-repeat: repeat;
+    font-family: Arial, sans-serif;
+    color: #333;
 }
 
-p {
-  font-size: 20px;
-  font-family: sans-serif;
-  color: white;
-}
-
-/* Layout Styles */
-.container {
-  padding: 100px 30px;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.header,
-.intro {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-/* Image Stack Styles */
-.image-stack {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-}
-
-.image-stack__item {
-  grid-row: 1;
-  grid-column: 1 / span 12;
-}
-
-.image-stack__item--bottom {
-  z-index: 0;
-}
-
-.image-stack__item--top {
-  z-index: 1;
-}
-
-.image-stack__item--top-2 {
-  z-index: 2;
-}
-
-/* Image Styles */
-img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3; /* Mantiene proporción */
-}
-
-/* Fondo y Bordes */
 .gradient-bg {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 40%, rgba(82, 111, 155, 1) 100%);
+    background: linear-gradient(90deg, #fff 40%, #526F9B 100%);
 }
 
 .yellow-bg {
@@ -72,31 +17,72 @@ img {
 }
 
 .border-blue {
-    border: 1px solid blue;
+    border: 2px solid blue;
 }
 
 .border-orange {
-    border: 1px solid orange;
+    border: 2px solid orange;
 }
 
 .border-purple {
-    border: 1px solid purple;
+    border: 2px solid purple;
 }
 
-/* Estilos del Texto */
-.red-border {
-    border: 1px solid red;
-    padding: 10px;
+/* Header */
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
 }
 
-.interests-text {
-    padding: 5px;
-    color: #333;
+.header-left img {
+    max-width: 100%;
 }
 
-/* Estilo del Input */
-input[type="text"] {
+.header-right {
+    text-align: center;
+}
+
+/* Intro Section */
+.intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.profile-pic img {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+}
+
+.interests-box {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+}
+
+/* Image Stack */
+.image-stack {
+    position: relative;
+}
+
+.image-stack__item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.image-stack__item--bottom img {
+    width: 100%;
+}
+
+.image-stack__item--top {
+    z-index: 1;
+}
+
+/* Navegación */
+nav a {
+    margin: 0 10px;
+    color: #000;
+    text-decoration: none;
 }
