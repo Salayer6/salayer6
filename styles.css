@@ -7,10 +7,9 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #000;
+    background-color: #2b2a29;
     background-image: url('pattern_background.webp');
     background-repeat: repeat;
-    color: #fff;
     line-height: 1.6;
 }
 
@@ -69,7 +68,7 @@ body {
 .header-section {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
     padding: 10px;
 }
