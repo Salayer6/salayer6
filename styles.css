@@ -177,9 +177,9 @@ body {
 /* Interests Section */
 .interests-section {
     padding: 20px;
-    background-color: #333;
-    color: #EEE62C;
-    border: 3px solid red;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    color: #fff;
+    border: 3px solid yellow;
 }
 
 .interests-section h2 {
@@ -191,14 +191,14 @@ body {
 /* Video Section */
 .video-section {
     padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    background-color: #000;
-    border: 3px solid purple;
+    border: 3px solid #EEE62C;
 }
 
 .video-section h2 {
-    font-size: 2rem;
-    color: #EEE62C;
+    font-size: 4rem;
+    color: #fff;
     margin-bottom: 20px;
 }
 
