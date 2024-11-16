@@ -17,7 +17,7 @@ body {
 
 /* Container */
 .container {
-    width: 100%;
+    width: 95%;
     max-width: 1980px;
     margin: 0 auto;
     padding: 0;
@@ -127,26 +127,26 @@ body {
 /* Profile Section */
 .profile-section {
     display: flex;
-    gap: 20px;
-    background-color: rgba(192, 192, 192, 0.2);
-    padding: 20px;
-    border: 3px solid orange;
+    gap: 10px;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    padding: 0px;
+    border: 3px solid #EEE62C;
     color: #fff;
 }
 
 .profile-image img {
-    width: 180px;
-    border: 5px solid #fff;
+    width: 100%;
 }
 
 .profile-info h2 {
-    font-size: 1.8rem;
-    color: #EEE62C;
+    font-size: 2.1rem;
+    color: #fff;
 }
 
 .profile-info p {
-    margin-top: 10px;
-    color: #EEE62C;
+    font-size: 1.2rem;
+    margin-top: 11px;
+    color: #fff;
 }
 
 /* Gallery Section */
@@ -156,10 +156,11 @@ body {
 }
 
 .gallery-section h2 {
-    font-size: 2.5rem;
-    color: #EEE62C;
+    font-size: 2.8rem;
+    color: #fff;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: none;
+    transform: rotate(350deg);
 }
 
 .gallery {
@@ -185,13 +186,6 @@ body {
     font-size: 2rem;
     margin-bottom: 10px;
     text-transform: uppercase;
-}
-
-/* Education Section */
-.education-section {
-    padding: 20px;
-    color: #EEE62C;
-    border-top: 3px solid #EEE62C;
 }
 
 /* Video Section */
@@ -262,7 +256,6 @@ body {
     }
 
     .interests-section,
-    .education-section,
     .video-section {
         padding: 10px;
     }
