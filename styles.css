@@ -29,13 +29,17 @@ body {
     justify-content: space-between;
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
-    padding: none;
+    padding: 0;
+    width: 100%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
 
 .ad-img {
-    height: 88px; /* La imagen ocupará toda la altura disponible */
+    max-height: 88px; /* La imagen ocupará toda la altura disponible */
+    max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
     width: auto; /* Mantiene la proporción de la imagen */
+    height: auto; /* Mantiene la proporción al ajustar la altura */
+    object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
 }
 
 .ad-text {
@@ -43,7 +47,7 @@ body {
     max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
     margin: 0 auto; /* Esto centra el div horizontalmente */
     text-align: center;
-    display: flex;
+    display: flex ;
     flex-direction: column;
     align-items: center;
 }
@@ -94,13 +98,12 @@ body {
 .nav p {
     color: #000;
     margin: 0 10px;
-    text-decoration: none;
 }
 
 .search-bar {
     display: flex;
     flex-direction: column; /* Organiza los elementos en columna */
-    align-items: flex-end; /* Alinea los elementos a la izquierda */
+    align-items: center
 }
 
 .search-bar input {
@@ -115,7 +118,7 @@ body {
     color: #EEE62C;
     border: none;
     cursor: pointer;
-    height: 15px; /* Ajusta el ancho según sea necesario */
+    height: 15px; /* Ajusta la altura según sea necesario */
     margin-left: auto; /* Alinea el botón a la derecha */
     border-radius: 12px; /* Redondea los bordes */
 }
@@ -167,7 +170,6 @@ body {
 .gallery img {
     width: auto;
     height: auto;
-    border: none solid #fff;
 }
 
 /* Interests Section */
@@ -287,7 +289,8 @@ body {
     }
 
     .gallery img {
-        width: 100%;
+        max-width: 100%;
+        height: auto;
         margin-bottom: 10px;
     }
 
@@ -314,7 +317,7 @@ body {
     }
 
     .gallery img {
-        width: 300px;
+        width: auto;
     }
 
     .video-section iframe {
