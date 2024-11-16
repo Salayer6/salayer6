@@ -10,7 +10,9 @@ body {
     background-color: #2b2a29;
     background-image: url('pattern_background.webp');
     background-repeat: repeat;
+    background-size: auto;
     line-height: 1.6;
+    color: #fff;
 }
 
 /* Container */
