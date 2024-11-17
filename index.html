@@ -101,10 +101,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         
     </section>
 
-    <!-- Video o Imagen Inferior -->
-    <footer style="background-color: #222; color: #fff; text-align: center; padding: 20px; font-size: 14px;">
-    <p>Desarrollo open source con ❤️, por <a href="https://github.com/mcnabola" target="_blank" style="color: #00b4d8; text-decoration: none;">@mcnabola</a>. Gracias, mi irlandés amigo. <br>Código disponible bajo licencia <a href="https://opensource.org/licenses/MIT" target="_blank" style="color: #00b4d8; text-decoration: none;">MIT</a>.</p>
-    <p>© <span id="year"></span> Todos los derechos reservados.</p>
+    <!-- Footer -->
+    
+    <footer style="
+    background: linear-gradient(145deg, #0a0a0a, #121212);
+    color: #e0e0e0;
+    padding: 30px 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    ">
+    <p style="margin: 0; font-size: 16px;">
+        Desarrollo open source con ❤️, por <a href="https://github.com/mcnabola" target="_blank" style="color: #00b4d8; text-decoration: none;">@mcnabola</a>.
+        Código disponible bajo <a href="https://opensource.org/licenses/MIT" target="_blank" style="
+            color: #00bfff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        ">licencia MIT</a>.
+    </p>
+    <p style="margin-top: 10px; font-size: 14px; color: #888;">
+        © <span id="year"></span> Todos los derechos reservados.
+    </p>
+</footer>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+
+    
 </footer>
 </div>
 <script>
