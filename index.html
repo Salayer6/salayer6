@@ -105,23 +105,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <footer style="
     background: linear-gradient(145deg, #0a0a0a, #121212);
-    color: #e0e0e0;
-    padding: 30px 20px;
+    color: #a8a8a8;
+    padding: 20px;
     text-align: center;
     font-family: 'Arial', sans-serif;
     box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    ">
-    <p style="margin: 0; font-size: 16px; color: 494949;">
-        Desarrollo web realizado sobre proyecto open source con ❤️ por <a href="https://github.com/mcnabola" target="_blank" style="color: #2a4cbd; text-decoration: none;">@mcnabola</a>.
-        Código disponible bajo <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" style="
-            color: #2a4cbd;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 120px;
+">
+    <p style="margin: 0; font-size: 12px; color: #666;">
+        Desarrollo web realizado sobre proyecto open source con ❤️ por 
+        <a href="https://github.com/mcnabola" target="_blank" style="
+            color: #4a6ff5;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: normal;
             transition: color 0.3s ease;
-        ">licencia Attribution-NonCommercial 4.0 International</a>. Algunas de las imágenes pertenecen al tremendo Vince Gilligan, creador de Breaking Bad. El favicon del sitio pertenece al tremendo Yoshihiro Togashi, mangaka creador de Hunter X. Se usan bajo el concepto de "non-commercial fair use".
+        ">@mcnabola</a>.
+        Código disponible bajo <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" style="
+            color: #4a6ff5;
+            text-decoration: none;
+            font-weight: normal;
+            transition: color 0.3s ease;
+        ">licencia Attribution-NonCommercial 4.0 International</a>. Algunas imágenes pertenecen al tremendo Vince Gilligan (Breaking Bad) y Yoshihiro Togashi (Hunter X), usadas bajo "non-commercial fair use".
     </p>
-    <p style="margin-top: 10px; font-size: 14px; color: 332c30;">
+    <p style="margin-top: 5px; font-size: 11px; color: #444;">
         © <span id="year"></span> Todos los derechos reservados.
     </p>
 </footer>
@@ -130,9 +140,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
-
-    
-</footer>
 </div>
 <script>
     document.getElementById("year").textContent = new Date().getFullYear();
