@@ -45,6 +45,7 @@ body {
 }
 
 .ad-text {
+    font-size: 1.2rem;
     width: 100%; /* O un valor específico de ancho si prefieres */
     max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
     margin: 0 auto; /* Esto centra el div horizontalmente */
