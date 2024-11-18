@@ -177,6 +177,7 @@ body {
 
 /* Interests Section */
 .interests-section {
+    font-size: 1.2rem;
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     color: #fff;
@@ -184,7 +185,7 @@ body {
 }
 
 .interests-section h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 10px;
     text-transform: uppercase;
 }
