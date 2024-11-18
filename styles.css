@@ -270,6 +270,11 @@ body {
         width: 100%;
         height: 200px;
     }
+    
+    .video-section iframe {
+        width: 100%;
+        height: 200px;
+    }
 }
 
 /* Tablet (Medium Devices) */
@@ -320,7 +325,13 @@ body {
         width: auto;
     }
 
-    .video-section iframe {
+    .bitches-section iframe {
+        width: 560px;
+        height: 315px;
+    }
+}
+    
+    .cience-section iframe {
         width: 560px;
         height: 315px;
     }
