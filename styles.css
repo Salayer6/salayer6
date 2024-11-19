@@ -16,29 +16,45 @@ body {
     font-size: 0.51rem;
 }
 
-/* Media Queries for Responsive Design */
+/* General Section Styles */
+.header-section,
+.profile-section,
+.gallery-section,
+.bitches-section,
+.cience-section,
+.ads-section {
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 8px;
+}
 
-/* Móviles (Pantallas pequeñas) */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
     .header-section {
+        display: flex;
         flex-direction: column;
+        align-items: center;
         text-align: center;
         padding: 10px;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%);
     }
 
     .logo h1 {
         font-size: 2rem;
+        color: #000;
     }
 
     .logo p {
-        font-size: 0.9rem;
+        font-style: italic;
+        font-size: 1rem;
+        color: #000;
     }
 
     .nav {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        gap: 10px;
         margin: 10px 0;
     }
 
@@ -46,81 +62,73 @@ body {
         color: #000;
         font-size: 1rem;
         text-decoration: none;
-        margin: 5px 0;
     }
 
-    .search-bar input {
-        width: 80%;
-    }
-
+    .search-bar input,
     .search-bar button {
-        width: 80%;
+        width: 90%;
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 8px;
+        border: 1px solid #EEE62C;
     }
 
     .profile-section {
         flex-direction: column;
         align-items: center;
+        background-color: rgba(50, 50, 50, 0.8);
     }
 
     .profile-info h2 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
+        color: #EEE62C;
     }
 
     .gallery-section h2 {
         font-size: 2rem;
+        text-align: center;
     }
 
     .gallery {
+        display: flex;
         flex-direction: column;
+        gap: 10px;
     }
 
     .gallery img {
         width: 100%;
-        margin-bottom: 10px;
         height: auto;
-    }
-
-    .interests-section,
-    .video-section {
-        padding: 10px;
+        border-radius: 8px;
     }
 
     .bitches-section,
     .cience-section {
-        display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         text-align: center;
-        margin: 0 auto;
         padding: 10px;
-        max-width: 100%;
-    }
-
-    .bitches-section iframe,
-    .cience-section iframe {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
+        background-color: rgba(255, 255, 255, 0.1);
     }
 
     .bitches-section h2,
     .cience-section h2 {
         font-size: 2rem;
-        color: #fff;
-        margin-bottom: 15px;
-        transform: rotate(0deg);
+        color: #EEE62C;
+    }
+
+    .bitches-section iframe,
+    .cience-section iframe {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
     }
 
     .ads-section {
-        display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        background: linear-gradient(to right, #ffffff, #526F9B);
-        color: #fff;
+        text-align: center;
         padding: 10px;
-        height: auto;
+        background: linear-gradient(to right, #ffffff, #526F9B);
     }
 
     .ad-img {
@@ -131,109 +139,110 @@ body {
     .ad-text {
         font-size: 1rem;
         color: black;
-        text-align: center;
         margin-top: 10px;
     }
 }
 
-/* Tablets (Dispositivos medianos) */
+/* Tablet Styles (min-width: 769px and max-width: 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
     .header-section {
+        display: flex;
         flex-direction: column;
+        align-items: center;
         text-align: center;
-        padding: 15px;
+        padding: 20px;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%);
     }
 
     .logo h1 {
         font-size: 3rem;
+        color: #000;
     }
 
     .logo p {
+        font-style: italic;
         font-size: 1.2rem;
+        color: #000;
     }
 
     .nav {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        gap: 15px;
         justify-content: center;
-        margin: 10px 0;
+        margin: 15px 0;
     }
 
     .nav a {
         color: #000;
         font-size: 1.2rem;
         text-decoration: none;
-        margin: 5px 0;
     }
 
-    .search-bar input {
-        width: 70%;
-    }
-
+    .search-bar input,
     .search-bar button {
         width: 70%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #EEE62C;
     }
 
     .profile-section {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+        background-color: rgba(50, 50, 50, 0.8);
     }
 
     .profile-info h2 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
+        color: #EEE62C;
     }
 
     .gallery-section h2 {
         font-size: 2.5rem;
+        text-align: center;
     }
 
     .gallery {
-        flex-direction: row;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
         justify-content: center;
     }
 
     .gallery img {
-        width: 100%;
+        width: 48%;
         height: auto;
-        margin-bottom: 15px;
+        border-radius: 8px;
     }
 
     .bitches-section,
     .cience-section {
-        display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         text-align: center;
-        margin: 0 auto;
-        padding: 20px;
-        max-width: 100%;
-    }
-
-    .bitches-section iframe,
-    .cience-section iframe {
-        width: 100%;
-        max-width: 80%;
-        height: auto;
+        padding: 15px;
     }
 
     .bitches-section h2,
     .cience-section h2 {
         font-size: 2.5rem;
-        color: #fff;
-        margin-bottom: 20px;
-        transform: rotate(0deg);
+        color: #EEE62C;
+    }
+
+    .bitches-section iframe,
+    .cience-section iframe {
+        width: 90%;
+        height: auto;
+        border-radius: 8px;
     }
 
     .ads-section {
-        display: flex;
         flex-direction: row;
+        align-items: center;
         justify-content: space-between;
-        background: linear-gradient(to right, #ffffff, #526F9B);
-        color: #fff;
         padding: 20px;
-        width: 100%;
+        background: linear-gradient(to right, #ffffff, #526F9B);
     }
 
     .ad-img {
@@ -249,14 +258,14 @@ body {
     }
 }
 
-/* Desktop (Pantallas grandes) */
+/* Desktop Styles (min-width: 1025px) */
 @media (min-width: 1025px) {
     .header-section {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: space-between;
         background: linear-gradient(to top, #EEE62C, #ffffff 120%);
-        padding: 10px;
+        padding: 20px;
     }
 
     .logo h1 {
@@ -272,92 +281,54 @@ body {
     .nav {
         display: flex;
         align-items: center;
-        color: #000;
-        margin: 0 10px;
+        gap: 15px;
     }
 
     .nav a {
         color: #000;
-        font-size: 1rem;
+        font-size: 1.2rem;
         text-decoration: none;
-        margin: 0 10px;
     }
 
-    .search-bar input {
-        padding: 10px;
-        width: 200px;
-    }
-
+    .search-bar input,
     .search-bar button {
+        width: 300px;
         padding: 10px;
-        background: linear-gradient(to top, #000, #ffffff 190%);
-        color: #EEE62C;
-        border: none;
-        cursor: pointer;
-        height: 40px;
-        margin-left: auto;
         border-radius: 12px;
     }
 
     .profile-section {
         display: flex;
-        gap: 10px;
+        gap: 20px;
         background-color: rgba(50, 50, 50, 0.8);
-        padding: 20px;
-        border: 3px solid #EEE62C;
     }
 
     .profile-info h2 {
         font-size: 2.5rem;
-        color: #fff;
+        color: #EEE62C;
     }
 
-    .bitches-section,
-    .cience-section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    .gallery-section h2 {
+        font-size: 3rem;
         text-align: center;
-        margin: 0 auto;
-        padding: 20px;
-        max-width: 100%;
     }
 
-    .bitches-section iframe,
-    .cience-section iframe {
-        width: 100%;
-        max-width: 560px;
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .gallery img {
+        width: 30%;
         height: auto;
+        border-radius: 8px;
     }
 
     .bitches-section h2,
     .cience-section h2 {
         font-size: 4rem;
-        color: #fff;
-        margin-bottom: 20px;
-        transform: rotate(357.5deg);
-    }
-
-    .ads-section {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: linear-gradient(to right, #ffffff, #526F9B);
-        color: #fff;
-        padding: 20px;
-        width: 100%;
-    }
-
-    .ad-img {
-        max-width: 45%;
-        height: auto;
-    }
-
-    .ad-text {
-        font-size: 1.2rem;
-        color: black;
-        text-align: center;
-        width: 50%;
+        color: #EEE62C;
     }
 }
