@@ -318,28 +318,29 @@ body {
   max-width: 100%; /* Asegura que no se desborden */
 }
 
-.bitches-section iframe,
-.cience-section iframe {
+.bitches-section iframe {
   width: 100%; /* Asegura que los iframes sean responsivos */
   max-width: 560px; /* Limita el tamaño máximo */
 }
-    
 .bitches-section h2 {
  font-size: 4rem;
  color: #fff;
  margin-bottom: 20px;
  transform: rotate(357.5deg);
 }
- 
-.instagram-media {
-    max-width: 100%; /* Se adapta al 100% de su contenedor en pantallas grandes */
-    padding: 10px;
-}
     
+.cience-section iframe {
+  width: 100%; /* Asegura que los iframes sean responsivos */
+  max-width: 560px; /* Limita el tamaño máximo */
 }
 .cience-section h2 {
  font-size: 4rem;
  color: #fff;
  margin-bottom: 20px;
  transform: rotate(357.5deg);
+}
+
+.instagram-media {
+    max-width: 100%; /* Se adapta al 100% de su contenedor en pantallas grandes */
+    padding: 10px;
 }
