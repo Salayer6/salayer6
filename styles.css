@@ -1,65 +1,204 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #2b2a29;
+    background-image: url('pattern_background.webp');
+    background-repeat: repeat;
+    background-size: auto;
+    line-height: 1.6;
+    color: #fff;
+    font-size: 0.51rem;
+}
+
+/* Media Queries for Responsive Design */
+
 /* Móviles (Pantallas pequeñas) */
 @media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .logo h1 {
+        font-size: 2rem;
+    }
+
+    .logo p {
+        font-size: 0.9rem;
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .nav a {
+        color: #000;
+        font-size: 1rem;
+        text-decoration: none;
+        margin: 5px 0;
+    }
+
+    .search-bar input {
+        width: 80%;
+    }
+
+    .search-bar button {
+        width: 80%;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-info h2 {
+        font-size: 1.6rem;
+    }
+
+    .gallery-section h2 {
+        font-size: 2rem;
+    }
+
+    .gallery {
+        flex-direction: column;
+    }
+
+    .gallery img {
+        width: 100%;
+        margin-bottom: 10px;
+        height: auto;
+    }
+
+    .interests-section,
+    .video-section {
+        padding: 10px;
+    }
+
     .bitches-section,
     .cience-section {
         display: flex;
-        flex-direction: column; /* Apilar los elementos verticalmente */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
         margin: 0 auto;
-        padding: 10px; /* Reduce el padding para ajustarse a pantallas pequeñas */
-        max-width: 100%; /* Asegura que no se desborden */
+        padding: 10px;
+        max-width: 100%;
     }
 
     .bitches-section iframe,
     .cience-section iframe {
         width: 100%;
-        max-width: 100%; /* Asegura que el iframe sea responsivo */
-        height: auto; /* Mantiene la proporción */
+        max-width: 100%;
+        height: auto;
     }
 
     .bitches-section h2,
     .cience-section h2 {
-        font-size: 2rem; /* Reduce el tamaño de la fuente en móviles */
+        font-size: 2rem;
         color: #fff;
         margin-bottom: 15px;
-        transform: rotate(0deg); /* Rota solo si es necesario */
+        transform: rotate(0deg);
+    }
+
+    .ads-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #ffffff, #526F9B);
+        color: #fff;
+        padding: 10px;
+        height: auto;
+    }
+
+    .ad-img {
+        width: 100%;
+        height: auto;
+    }
+
+    .ad-text {
+        font-size: 1rem;
+        color: black;
+        text-align: center;
+        margin-top: 10px;
     }
 }
 
 /* Tablets (Dispositivos medianos) */
 @media (min-width: 769px) and (max-width: 1024px) {
-    .bitches-section,
-    .cience-section {
-        display: flex;
-        flex-direction: column; /* Apilar los elementos verticalmente */
-        justify-content: center;
-        align-items: center;
+    .header-section {
+        flex-direction: column;
         text-align: center;
-        margin: 0 auto;
-        padding: 20px; /* Un poco más de padding para pantallas medianas */
-        max-width: 100%; /* Asegura que no se desborden */
+        padding: 15px;
     }
 
-    .bitches-section iframe,
-    .cience-section iframe {
+    .logo h1 {
+        font-size: 3rem;
+    }
+
+    .logo p {
+        font-size: 1.2rem;
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .nav a {
+        color: #000;
+        font-size: 1.2rem;
+        text-decoration: none;
+        margin: 5px 0;
+    }
+
+    .search-bar input {
+        width: 70%;
+    }
+
+    .search-bar button {
+        width: 70%;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-info h2 {
+        font-size: 1.8rem;
+    }
+
+    .gallery-section h2 {
+        font-size: 2.5rem;
+    }
+
+    .gallery {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .gallery img {
         width: 100%;
-        max-width: 80%; /* Limita el tamaño máximo para dispositivos medianos */
-        height: auto; /* Mantiene la proporción */
-    }
-
-    .bitches-section h2,
-    .cience-section h2 {
-        font-size: 2.5rem; /* Ajuste de tamaño para pantallas medianas */
-        color: #fff;
+        height: auto;
         margin-bottom: 15px;
-        transform: rotate(0deg); /* Rota solo si es necesario */
     }
-}
 
-/* Desktop (Pantallas grandes) */
-@media (min-width: 1025px) {
     .bitches-section,
     .cience-section {
         display: flex;
@@ -69,21 +208,156 @@
         text-align: center;
         margin: 0 auto;
         padding: 20px;
-        max-width: 100%; /* Asegura que no se desborden */
+        max-width: 100%;
     }
 
     .bitches-section iframe,
     .cience-section iframe {
         width: 100%;
-        max-width: 560px; /* Limita el tamaño máximo */
+        max-width: 80%;
         height: auto;
     }
 
     .bitches-section h2,
     .cience-section h2 {
-        font-size: 4rem; /* Tamaño grande para pantallas grandes */
+        font-size: 2.5rem;
         color: #fff;
         margin-bottom: 20px;
-        transform: rotate(357.5deg); /* Mantén el estilo original de rotación */
+        transform: rotate(0deg);
+    }
+
+    .ads-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background: linear-gradient(to right, #ffffff, #526F9B);
+        color: #fff;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .ad-img {
+        max-width: 45%;
+        height: auto;
+    }
+
+    .ad-text {
+        font-size: 1.2rem;
+        color: black;
+        text-align: center;
+        width: 50%;
+    }
+}
+
+/* Desktop (Pantallas grandes) */
+@media (min-width: 1025px) {
+    .header-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%);
+        padding: 10px;
+    }
+
+    .logo h1 {
+        font-size: 4rem;
+        color: #000;
+    }
+
+    .logo p {
+        font-style: italic;
+        color: #000;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        color: #000;
+        margin: 0 10px;
+    }
+
+    .nav a {
+        color: #000;
+        font-size: 1rem;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    .search-bar input {
+        padding: 10px;
+        width: 200px;
+    }
+
+    .search-bar button {
+        padding: 10px;
+        background: linear-gradient(to top, #000, #ffffff 190%);
+        color: #EEE62C;
+        border: none;
+        cursor: pointer;
+        height: 40px;
+        margin-left: auto;
+        border-radius: 12px;
+    }
+
+    .profile-section {
+        display: flex;
+        gap: 10px;
+        background-color: rgba(50, 50, 50, 0.8);
+        padding: 20px;
+        border: 3px solid #EEE62C;
+    }
+
+    .profile-info h2 {
+        font-size: 2.5rem;
+        color: #fff;
+    }
+
+    .bitches-section,
+    .cience-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .bitches-section iframe,
+    .cience-section iframe {
+        width: 100%;
+        max-width: 560px;
+        height: auto;
+    }
+
+    .bitches-section h2,
+    .cience-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
+
+    .ads-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to right, #ffffff, #526F9B);
+        color: #fff;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .ad-img {
+        max-width: 45%;
+        height: auto;
+    }
+
+    .ad-text {
+        font-size: 1.2rem;
+        color: black;
+        text-align: center;
+        width: 50%;
     }
 }
