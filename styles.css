@@ -281,7 +281,7 @@ body {
     .nav {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 1rem;
     }
 
     .nav a {
@@ -316,7 +316,7 @@ body {
     .gallery {
         display: flex;
         flex-wrap: wrap;
-        gap: 15px;
+        gap: 1rem;
         justify-content: center;
     }
 
@@ -324,10 +324,11 @@ body {
         width: 30%;
         height: auto;
         border-radius: 8px;
+        object-fit: cover; /* Ajusta las imágenes para mantener proporciones sin deformarse */
     }
 
     .bitches-section h2,
-    .cience-section h2 {
+    .science-section h2 { /* Corregido el error tipográfico */
         font-size: 4rem;
         color: #EEE62C;
     }
