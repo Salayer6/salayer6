@@ -307,15 +307,21 @@ body {
     transform: rotate(357.5deg);
 }
 
-.bitches-section {
+.bitches-section, .cience-section {
   display: flex;
-  flex-direction: column; /* Cambia a columna para apilar los elementos verticalmente */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-items: center; /* Centra el contenido verticalmente si es necesario */
-  text-align: center; /* Asegura que el texto dentro de los elementos también esté centrado */
-  margin: 0 auto; /* Asegura que la sección se mantenga centrada en la página */
-  max-width: 100%; /* Asegura que no se desborde en pantallas más grandes */
-  padding: 20px; /* Agrega espacio interno (opcional) */
+  flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+  justify-content: center; /* Centra el contenido verticalmente si es necesario */
+  align-items: center; /* Centra el contenido horizontalmente */
+  text-align: center; /* Asegura que el texto esté centrado */
+  margin: 0 auto; /* Asegura que las secciones se mantengan centradas */
+  padding: 20px; /* Espaciado interno */
+  max-width: 100%; /* Asegura que no se desborden */
+}
+
+.bitches-section iframe,
+.cience-section iframe {
+  width: 100%; /* Asegura que los iframes sean responsivos */
+  max-width: 560px; /* Limita el tamaño máximo */
 }
     
 .bitches-section h2 {
@@ -330,18 +336,6 @@ body {
     padding: 10px;
 }
     
-.cience-section {
-  display: flex;
-  flex-direction: column; /* Cambia a columna para apilar los elementos verticalmente */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-items: center; /* Centra el contenido verticalmente si es necesario */
-  text-align: center; /* Asegura que el texto dentro de los elementos también esté centrado */
-  margin: 0 auto; /* Asegura que la sección se mantenga centrada en la página */
-  max-width: 100%; /* Asegura que no se desborde en pantallas más grandes */
-  padding: 20px; /* Agrega espacio interno (opcional) */
-  width: 560px;
-  height: 315px;
-    }
 }
 .cience-section h2 {
  font-size: 4rem;
