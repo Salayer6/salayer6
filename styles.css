@@ -1,356 +1,89 @@
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #2b2a29;
-    background-image: url('pattern_background.webp');
-    background-repeat: repeat;
-    background-size: auto;
-    line-height: 1.6;
-    color: #fff;
-    font-size: 0.51rem;
-}
-
-/* Media Queries for Responsive Design */
-
-/* Mobile (Phones) */
+/* Móviles (Pantallas pequeñas) */
 @media (max-width: 768px) {
-    .header-section {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .logo h1 {
-        font-size: 2rem;
-    }
-
-    .logo p {
-        font-size: 0.9rem;
-    }
-
-    .search-bar input {
-    width: 80%; /* Hace que ocupe el 80% del contenedor en pantallas pequeñas */
-}
-
-.search-bar button {
-    width: 80%; /* Botón con 80% de ancho en móviles */
-}
-
-    .profile-section {
-    flex-direction: column; /* Esto apilará los elementos de perfil en pantallas pequeñas */
-    align-items: center;
-}
-
-
-    .profile-info h2 {
-        font-size: 1.6rem;
-    }
-
-    .gallery-section h2 {
-        font-size: 2rem;
-    }
-
-    .gallery {
-        flex-direction: column;
-    }
-
-    .gallery img {
-    width: 100%;
-    margin-bottom: 10px;
-    height: auto; /* Asegura que las imágenes no se deformen */
-}
-
-
-    .interests-section,
-    .video-section {
-        padding: 10px;
-    }
-
-    .bitches-section {
-    padding: 10px;
-  }
-    .instagram-media {
-    max-width: 100%; /* Deja que el contenedor ocupe el 100% del ancho disponible */
-  }
-}
-
-/* Tablet (Medium Devices) */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .header-section {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .profile-section {
-        flex-direction: column;
+    .bitches-section,
+    .cience-section {
+        display: flex;
+        flex-direction: column; /* Apilar los elementos verticalmente */
+        justify-content: center;
         align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        padding: 10px; /* Reduce el padding para ajustarse a pantallas pequeñas */
+        max-width: 100%; /* Asegura que no se desborden */
     }
 
-    .profile-image img {
-        width: 150px;
+    .bitches-section iframe,
+    .cience-section iframe {
+        width: 100%;
+        max-width: 100%; /* Asegura que el iframe sea responsivo */
+        height: auto; /* Mantiene la proporción */
     }
 
-    .gallery img {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 10px;
+    .bitches-section h2,
+    .cience-section h2 {
+        font-size: 2rem; /* Reduce el tamaño de la fuente en móviles */
+        color: #fff;
+        margin-bottom: 15px;
+        transform: rotate(0deg); /* Rota solo si es necesario */
     }
-
-    .bitches-section {
-    padding: 20px;
-  }
-  .instagram-media {
-    max-width: 400px; /* Reducimos el tamaño del contenedor para pantallas más pequeñas */
-  }
-  .cience-section iframe {
-    width: 100%; /* Haciendo que el iframe ocupe el 100% del contenedor en pantallas pequeñas */
-    height: auto;
- }
 }
 
-/* Desktop (Large Screens) */
+/* Tablets (Dispositivos medianos) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .bitches-section,
+    .cience-section {
+        display: flex;
+        flex-direction: column; /* Apilar los elementos verticalmente */
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        padding: 20px; /* Un poco más de padding para pantallas medianas */
+        max-width: 100%; /* Asegura que no se desborden */
+    }
+
+    .bitches-section iframe,
+    .cience-section iframe {
+        width: 100%;
+        max-width: 80%; /* Limita el tamaño máximo para dispositivos medianos */
+        height: auto; /* Mantiene la proporción */
+    }
+
+    .bitches-section h2,
+    .cience-section h2 {
+        font-size: 2.5rem; /* Ajuste de tamaño para pantallas medianas */
+        color: #fff;
+        margin-bottom: 15px;
+        transform: rotate(0deg); /* Rota solo si es necesario */
+    }
+}
+
+/* Desktop (Pantallas grandes) */
 @media (min-width: 1025px) {
-    /* Container */
-.container {
-    width: 98%;
-    max-width: 1980px;
-    margin: 0 auto;
-    padding: 0;
-}
+    .bitches-section,
+    .cience-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        padding: 20px;
+        max-width: 100%; /* Asegura que no se desborden */
+    }
 
-/* ADS Section */
-.ads-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
-    color: #fff;
-    padding: 0;
-    width: 100%;
-    height: 88px; /* Ajusta esta altura según lo necesario */
-}
+    .bitches-section iframe,
+    .cience-section iframe {
+        width: 100%;
+        max-width: 560px; /* Limita el tamaño máximo */
+        height: auto;
+    }
 
-.ad-img {
-    max-height: 88px; /* La imagen ocupará toda la altura disponible */
-    max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
-    width: auto; /* Mantiene la proporción de la imagen */
-    height: auto; /* Mantiene la proporción al ajustar la altura */
-    object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
-}
-
-.ad-text {
-    font-size: 1.2rem;
-    width: 100%; /* O un valor específico de ancho si prefieres */
-    max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
-    margin: 0 auto; /* Esto centra el div horizontalmente */
-    text-align: center;
-    display: flex ;
-    flex-direction: column;
-    align-items: center;
-}
-.ad-text p {
-    font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
-    color: black; /* Establece el color del texto a negro */
-}
-
-.ad-text p span {
-    color: #00bcd4;
-    /* Azul celeste para el número 3 */
-}
-.ad-text p:last-child {
-    color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
-    font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
-}
-
-/* Header Section */
-.header-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
-    padding: 10px;
-}
-
-.logo h1 {
-    font-size: 4rem;
-    color: #000;
-}
-
-.logo p {
-    font-style: italic;
-    color: #000;
-}
-.nav {
-    display: flex;
-    align-items: center;
-    color: #000;
-    margin: 0 10px;
-    text-decoration: none;
-}
-.nav a {
-    color: #000;
-    font-size: 0.65rem;
-    text-decoration: none;
-}
-.nav p {
-    color: #000;
-    margin: 0 10px;
-}
-
-.search-bar {
-    display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: center
-}
-
-.search-bar input {
-    padding: 10px;
-    width: 200px; /* Ajusta el ancho según sea necesario */
-    margin-bottom: 5px; /* Espacio entre el input y el botón */
-}
-
-.search-bar button {
-    padding: 0px 30px;
-    background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
-    color: #EEE62C;
-    border: none;
-    cursor: pointer;
-    height: 15px; /* Ajusta la altura según sea necesario */
-    margin-left: auto; /* Alinea el botón a la derecha */
-    border-radius: 12px; /* Redondea los bordes */
-}
-
-/* Profile Section */
-.profile-section {
-    display: flex;
-    gap: 10px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    padding: 0px;
-    border: 3px solid #EEE62C;
-    color: #fff;
-}
-
-.profile-image img {
-    width: 100%;
-}
-
-.profile-info h2 {
-    font-size: 2.1rem;
-    color: #fff;
-}
-
-.profile-info p {
-    font-size: 1.2rem;
-    margin-top: 11px;
-    color: #fff;
-}
-
-/* Gallery Section */
-.gallery-section {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.7rem;
-
-}
-
-.gallery-section h2 {
-    font-size: 2.8rem;
-    color: #fff;
-    text-transform: uppercase;
-    margin-bottom: none;
-    transform: rotate(350deg);
-}
-
-.gallery {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.gallery img {
-    width: auto;
-    height: auto;
-}
-
-/* Interests Section */
-.interests-section {
-    font-size: 1.2rem;
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    color: #fff;
-    border: 3px solid yellow;
-}
-
-.interests-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-
-/* Video Section */
-.video-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-}
-
-.video-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
-
-.bitches-section {
-  display: flex;
-  flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
-  justify-content: center; /* Centra el contenido verticalmente si es necesario */
-  align-items: center; /* Centra el contenido horizontalmente */
-  text-align: center; /* Asegura que el texto esté centrado */
-  margin: 0 auto; /* Asegura que las secciones se mantengan centradas */
-  padding: 20px; /* Espaciado interno */
-  max-width: 100%; /* Asegura que no se desborden */
-}
-
-.bitches-section iframe {
-  width: 100%; /* Asegura que los iframes sean responsivos */
-  max-width: 560px; /* Limita el tamaño máximo */
-}
-.bitches-section h2 {
- font-size: 4rem;
- color: #fff;
- margin-bottom: 20px;
- transform: rotate(357.5deg);
-}
-
- .cience-section {
-  display: flex;
-  flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
-  justify-content: center; /* Centra el contenido verticalmente si es necesario */
-  align-items: center; /* Centra el contenido horizontalmente */
-  text-align: center; /* Asegura que el texto esté centrado */
-  margin: 0 auto; /* Asegura que las secciones se mantengan centradas */
-  padding: 20px; /* Espaciado interno */
-  max-width: 100%; /* Asegura que no se desborden */
-}   
-.cience-section iframe {
-  width: 100%; /* Asegura que los iframes sean responsivos */
-  max-width: 560px; /* Limita el tamaño máximo */
-}
-.cience-section h2 {
- font-size: 4rem;
- color: #fff;
- margin-bottom: 20px;
- transform: rotate(357.5deg);
-}
-
-.instagram-media {
-    max-width: 100%; /* Se adapta al 100% de su contenedor en pantallas grandes */
-    padding: 10px;
+    .bitches-section h2,
+    .cience-section h2 {
+        font-size: 4rem; /* Tamaño grande para pantallas grandes */
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg); /* Mantén el estilo original de rotación */
+    }
 }
