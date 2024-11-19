@@ -316,7 +316,14 @@ body {
   max-width: 100%; /* Asegura que no se desborde en pantallas más grandes */
   padding: 20px; /* Agrega espacio interno (opcional) */
 }
-
+    
+.bitches.-section h2 {
+ font-size: 4rem;
+ color: #fff;
+ margin-bottom: 20px;
+ transform: rotate(357.5deg);
+}
+ 
 .instagram-media {
     max-width: 100%; /* Se adapta al 100% de su contenedor en pantallas grandes */
     padding: 10px;
@@ -333,4 +340,10 @@ body {
   width: 560px;
   height: 315px;
     }
+}
+.cience.-section h2 {
+ font-size: 4rem;
+ color: #fff;
+ margin-bottom: 20px;
+ transform: rotate(357.5deg);
 }
