@@ -307,7 +307,7 @@ body {
     transform: rotate(357.5deg);
 }
 
-.bitches-section, .cience-section {
+.bitches-section {
   display: flex;
   flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
   justify-content: center; /* Centra el contenido verticalmente si es necesario */
@@ -328,7 +328,17 @@ body {
  margin-bottom: 20px;
  transform: rotate(357.5deg);
 }
-    
+
+ .cience-section {
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+  justify-content: center; /* Centra el contenido verticalmente si es necesario */
+  align-items: center; /* Centra el contenido horizontalmente */
+  text-align: center; /* Asegura que el texto esté centrado */
+  margin: 0 auto; /* Asegura que las secciones se mantengan centradas */
+  padding: 20px; /* Espaciado interno */
+  max-width: 100%; /* Asegura que no se desborden */
+}   
 .cience-section iframe {
   width: 100%; /* Asegura que los iframes sean responsivos */
   max-width: 560px; /* Limita el tamaño máximo */
