@@ -317,12 +317,19 @@ body {
   padding: 20px; /* Agrega espacio interno (opcional) */
 }
 
-    .instagram-media {
+.instagram-media {
     max-width: 100%; /* Se adapta al 100% de su contenedor en pantallas grandes */
     padding: 10px;
 }
     
 .cience-section iframe {
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente si es necesario */
+  text-align: center; /* Asegura que el texto dentro de los elementos también esté centrado */
+  margin: 0 auto; /* Asegura que la sección se mantenga centrada en la página */
+  max-width: 100%; /* Asegura que no se desborde en pantallas más grandes */
+  padding: 20px; /* Agrega espacio interno (opcional) */
   width: 560px;
   height: 315px;
     }
