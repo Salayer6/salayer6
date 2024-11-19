@@ -34,17 +34,18 @@ body {
     }
 
     .search-bar input {
-        width: 100%;
-    }
+    width: 80%; /* Hace que ocupe el 80% del contenedor en pantallas pequeñas */
+}
 
-    .search-bar button {
-        width: 100%;
-    }
+.search-bar button {
+    width: 80%; /* Botón con 80% de ancho en móviles */
+}
 
     .profile-section {
-        flex-direction: column;
-        align-items: center;
-    }
+    flex-direction: column; /* Esto apilará los elementos de perfil en pantallas pequeñas */
+    align-items: center;
+}
+
 
     .profile-info h2 {
         font-size: 1.6rem;
@@ -106,13 +107,17 @@ body {
   .instagram-media {
     max-width: 400px; /* Reducimos el tamaño del contenedor para pantallas más pequeñas */
   }
+  .cience-section iframe {
+    width: 100%; /* Haciendo que el iframe ocupe el 100% del contenedor en pantallas pequeñas */
+    height: auto;
+ }
 }
 
 /* Desktop (Large Screens) */
 @media (min-width: 1025px) {
     /* Container */
 .container {
-    width: 95%;
+    width: 98%;
     max-width: 1980px;
     margin: 0 auto;
     padding: 0;
@@ -313,8 +318,8 @@ body {
 }
 
     .instagram-media {
-  max-width: 540px; /* Limita el tamaño máximo del contenedor de la publicación */
-  width: 100%; /* Asegura que ocupe el 100% del contenedor de la sección */
+    max-width: 100%; /* Se adapta al 100% de su contenedor en pantallas grandes */
+    padding: 10px;
 }
     
 .cience-section iframe {
