@@ -304,6 +304,7 @@ body {
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
@@ -323,6 +324,7 @@ body {
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
