@@ -544,14 +544,23 @@ body {
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .LARVA-section h2 {
-    font-size: 4rem;
-    color: #8e9190; /* Gris más oscuro */
-    background-color: #c4c9c7; /* Gris mármol */
+    font-size: 3rem;
+    color: #6e6e6e; /* Gris oscuro piedra para las letras talladas */
+    background-color: #dcd7c9; /* Gris claro similar al mármol */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
+    letter-spacing: 6px;     /* Efecto de texto tallado */
+/* Espaciado entre letras para mayor dramatismo */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
+    background-clip: text; 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Relleno transparente para aplicar gradiente */}
 }
 }
 
@@ -805,14 +814,23 @@ body {
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .LARVA-section h2 {
-    font-size: 4rem;
-    color: #8e9190; /* Gris más oscuro */
-    background-color: #c4c9c7; /* Gris mármol */
+    font-size: 3.7rem;
+    color: #6e6e6e; /* Gris oscuro piedra para las letras talladas */
+    background-color: #dcd7c9; /* Gris claro similar al mármol */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
+    letter-spacing: 6px;     /* Efecto de texto tallado */
+/* Espaciado entre letras para mayor dramatismo */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
+    background-clip: text; 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Relleno transparente para aplicar gradiente */}
 }
 }
 
@@ -1072,8 +1090,8 @@ body {
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
-    /* Efecto de texto tallado */
+    letter-spacing: 6px;     /* Efecto de texto tallado */
+/* Espaciado entre letras para mayor dramatismo */
     text-shadow: 
         -1px -1px 0 #e4e0d7, /* Luz superior */
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
