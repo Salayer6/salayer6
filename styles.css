@@ -487,6 +487,8 @@ body {
     width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
+    max-width: 700px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     border: 3px solid #EEE62C;
 }
 
@@ -512,6 +514,8 @@ body {
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
+    max-width: 700px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
@@ -533,6 +537,8 @@ body {
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
+    max-width: 700px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
@@ -780,6 +786,8 @@ body {
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
+    max-width: 900px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
@@ -804,6 +812,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
+    max-width: 900px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .bitches-section h2 {
@@ -1028,6 +1038,8 @@ body {
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
+    max-width: 1000px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     border: 3px solid #EEE62C;
 }
 .video-section h2 {
@@ -1053,6 +1065,8 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     width: 100%;
+    max-width: 1000px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .science-section h2 {
@@ -1073,6 +1087,8 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     width: 100%;
+    max-width: 1000px; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .bitches-section h2 {
