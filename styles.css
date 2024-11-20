@@ -216,6 +216,7 @@ body {
 /* Video Section */
 .video-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -234,6 +235,7 @@ body {
 /* YEAH SCIENCE, BITCH! */
 .science-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -251,6 +253,7 @@ body {
 }
 .LARVA-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -273,6 +276,7 @@ body {
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -282,14 +286,13 @@ body {
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
-
-
 .bitches-section h2 {
     font-size: 4rem;
     color: #fff;
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
+
 /* Media Queries for Responsive Design */
 /* Mobile (Phones) */
 @media (max-width: 768px) {
@@ -467,11 +470,11 @@ body {
 
 /* Video Section */
 .video-section {
-    padding: 20px;
+    padding: 7px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
-    width: 98%;
 }
 
 .video-section h2 {
@@ -490,7 +493,8 @@ body {
     
 /* YEAH SCIENCE, BITCH! */
 .science-section {
-    padding: 20px;
+    padding: 7px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -499,7 +503,6 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 98%;
 }
 .science-section h2 {
     font-size: 4rem;
@@ -510,7 +513,8 @@ body {
     
 /* my WASHING BITCHES */
 .bitches-section {
-    padding: 20px;
+    padding: 7px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -519,7 +523,6 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 98%;
 }
 .bitches-section h2 {
     font-size: 4rem;
@@ -528,7 +531,8 @@ body {
     transform: rotate(357.5deg);
 }
 .LARVA-section {
-    padding: 20px;
+    padding: 7px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -537,7 +541,6 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 98%;
 }
 .LARVA-section h2 {
     font-size: 4rem;
@@ -731,10 +734,10 @@ body {
 /* Video Section */
 .video-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
-    width: 100%;
 }
 .video-section h2 {
     font-size: 4rem;
@@ -751,6 +754,7 @@ body {
 /* YEAH SCIENCE, BITCH! */
 .science-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -759,7 +763,6 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 100%;
 }
 .science-section h2 {
     font-size: 4rem;
@@ -771,6 +774,7 @@ body {
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -779,7 +783,6 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 100%;
 }
 .bitches-section h2 {
     font-size: 4rem;
@@ -790,6 +793,7 @@ body {
 
 .LARVA-section {
     padding: 20px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -798,7 +802,6 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 100%;
 }
 .LARVA-section h2 {
     font-size: 4rem;
@@ -1018,9 +1021,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
     width: 100%;
-
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .science-section h2 {
     font-size: 4rem;
@@ -1039,8 +1041,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
     width: 100%;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .bitches-section h2 {
     font-size: 4rem;
