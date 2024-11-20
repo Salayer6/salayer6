@@ -828,7 +828,7 @@ body {
 /* Header Section */
 .header-section {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-evenly;
     background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
     padding: 10px;
