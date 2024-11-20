@@ -265,13 +265,22 @@ body {
 }
 .LARVA-section h2 {
     font-size: 4rem;
-    color: #8e9190; /* Gris más oscuro */
-    background-color: #c4c9c7; /* Gris mármol */
+    color: #6e6e6e; /* Gris oscuro piedra */
     margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
-    text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
+    font-family: "Times New Roman", serif; /* Fuente clásica */
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 6px; /* Espaciado entre letras */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 /* my WASHING BITCHES */
 .bitches-section {
@@ -555,10 +564,12 @@ body {
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
     
     /* Sutileza en la transición de colores */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    background-clip: text; 
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Relleno transparente para aplicar gradiente */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 }
 
@@ -823,10 +834,12 @@ body {
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
     
     /* Sutileza en la transición de colores */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    background-clip: text; 
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Relleno transparente para aplicar gradiente */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 }
 
@@ -1097,6 +1110,5 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
-    
 }
 }
