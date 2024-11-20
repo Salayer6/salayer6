@@ -1091,9 +1091,12 @@ body {
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
     
     /* Sutileza en la transición de colores */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    background-clip: text; 
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Relleno transparente para aplicar gradiente */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
+    
 }
 }
