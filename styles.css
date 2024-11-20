@@ -301,7 +301,7 @@ body {
     flex-direction: column;
     align-items: center; /* Centra el contenido */
     justify-content: flex-start;
-    width: 98%;
+    width: 100%;
     text-align: center;
     max-width: 1440px;
     margin: 0 auto;
@@ -316,10 +316,9 @@ body {
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
     padding: 0;
-    width: 100%;
+    width: 98%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
-
 .ad-img {
     max-height: 88px; /* La imagen ocupará toda la altura disponible */
     max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
@@ -327,7 +326,6 @@ body {
     height: auto; /* Mantiene la proporción al ajustar la altura */
     object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
 }
-
 .ad-text {
     width: 100%; /* O un valor específico de ancho si prefieres */
     max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
@@ -341,7 +339,6 @@ body {
     font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
     color: black; /* Establece el color del texto a negro */
 }
-
 .ad-text p span {
     color: #00bcd4;
     /* Azul celeste para el número 3 */
@@ -358,13 +355,12 @@ body {
     justify-content: space-evenly;
     background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
     padding: 10px;
+    width: 98%;
 }
-
 .logo h1 {
     font-size: 4rem;
     color: #000;
 }
-
 .logo p {
     font-style: italic;
     color: #000;
@@ -385,19 +381,16 @@ body {
     color: #000;
     margin: 0 10px;
 }
-
 .search-bar {
     display: flex;
     flex-direction: column; /* Organiza los elementos en columna */
     align-items: center
 }
-
 .search-bar input {
     padding: 10px;
     width: 200px; /* Ajusta el ancho según sea necesario */
     margin-bottom: 5px; /* Espacio entre el input y el botón */
 }
-
 .search-bar button {
     padding: 0px 30px;
     background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
@@ -417,17 +410,15 @@ body {
     padding: 0px;
     border: 3px solid #EEE62C;
     color: #fff;
+    width: 98%;
 }
-
 .profile-image img {
     width: 100%;
 }
-
 .profile-info h2 {
     font-size: 2.1rem;
     color: #fff;
 }
-
 .profile-info p {
     font-size: 1.2rem;
     margin-top: 11px;
@@ -438,8 +429,8 @@ body {
 .gallery-section {
     text-align: center;
     padding: 20px;
+    width: 98%;
 }
-
 .gallery-section h2 {
     font-size: 2.8rem;
     color: #fff;
@@ -447,15 +438,14 @@ body {
     margin-bottom: none;
     transform: rotate(350deg);
 }
-
 .gallery {
     display: flex;
     justify-content: center;
     gap: 10px;
+    width: 98%;
 }
-
 .gallery img {
-    width: auto;
+    width: 98%;
     height: auto;
 }
 
@@ -466,8 +456,8 @@ body {
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     color: #fff;
     border: 3px solid yellow;
+    width: 98%;
 }
-
 .interests-section h2 {
     font-size: 1.8rem;
     margin-bottom: 10px;
@@ -480,6 +470,7 @@ body {
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
+    width: 98%;
 }
 
 .video-section h2 {
@@ -493,6 +484,7 @@ body {
     max-width: 100%;
     height: auto;
     border: 5px solid #fff;
+    width: 98%;
 }
     
 /* YEAH SCIENCE, BITCH! */
@@ -506,6 +498,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
 }
 .science-section h2 {
     font-size: 4rem;
@@ -525,6 +518,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
 }
 .bitches-section h2 {
     font-size: 4rem;
@@ -542,6 +536,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
 }
 .LARVA-section h2 {
     font-size: 4rem;
@@ -564,7 +559,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra el contenido */
-    justify-content: flex-start;
+    justify-content: center;
     width: 98%;
     text-align: center;
     max-width: 1440px;
@@ -619,6 +614,7 @@ body {
     justify-content: space-evenly;
     background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
     padding: 10px;
+    width: 100%;
 }
 .logo h1 {
     font-size: 4rem;
@@ -671,6 +667,7 @@ body {
 /* Profile Section */
 .profile-section {
     display: flex;
+    width: 100%;
     gap: 10px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     padding: 0px;
@@ -694,6 +691,7 @@ body {
 .gallery-section {
     text-align: center;
     padding: 20px;
+    width: 100%;
 }
 .gallery-section h2 {
     font-size: 2.8rem;
@@ -719,6 +717,7 @@ body {
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     color: #fff;
     border: 3px solid yellow;
+    width: 100%;
 }
 .interests-section h2 {
     font-size: 1.8rem;
@@ -732,6 +731,7 @@ body {
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
+    width: 100%;
 }
 .video-section h2 {
     font-size: 4rem;
@@ -756,6 +756,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
 .science-section h2 {
     font-size: 4rem;
@@ -775,6 +776,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
 .bitches-section h2 {
     font-size: 4rem;
@@ -793,6 +795,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
 .LARVA-section h2 {
     font-size: 4rem;
@@ -834,7 +837,6 @@ body {
     width: 100%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
-
 .ad-img {
     max-height: 88px; /* La imagen ocupará toda la altura disponible */
     max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
@@ -842,7 +844,6 @@ body {
     height: auto; /* Mantiene la proporción al ajustar la altura */
     object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
 }
-
 .ad-text {
     width: 100%; /* O un valor específico de ancho si prefieres */
     max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
@@ -856,7 +857,6 @@ body {
     font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
     color: black; /* Establece el color del texto a negro */
 }
-
 .ad-text p span {
     color: #00bcd4;
     /* Azul celeste para el número 3 */
@@ -904,19 +904,16 @@ body {
     margin: 0 10px;
     font-size: 1rem;
 }
-
 .search-bar {
     display: flex;
     flex-direction: column; /* Organiza los elementos en columna */
     align-items: center
 }
-
 .search-bar input {
     padding: 10px;
     width: 200px; /* Ajusta el ancho según sea necesario */
     margin-bottom: 5px; /* Espacio entre el input y el botón */
 }
-
 .search-bar button {
     padding: 0px 30px;
     background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
@@ -927,7 +924,7 @@ body {
     margin-left: auto; /* Alinea el botón a la derecha */
     border-radius: 12px; /* Redondea los bordes */
 }
-
+    
 /* Profile Section */
 .profile-section {
     display: flex;
@@ -937,28 +934,24 @@ body {
     border: 3px solid #EEE62C;
     color: #fff;
 }
-
 .profile-image img {
     width: 100%;
 }
-
 .profile-info h2 {
     font-size: 2.1rem;
     color: #fff;
 }
-
 .profile-info p {
     font-size: 1.2rem;
     margin-top: 11px;
     color: #fff;
 }
-
 /* Gallery Section */
 .gallery-section {
+    width: 100%;
     text-align: center;
     padding: 20px;
 }
-
 .gallery-section h2 {
     font-size: 2.8rem;
     color: #fff;
@@ -966,13 +959,12 @@ body {
     margin-bottom: none;
     transform: rotate(350deg);
 }
-
 .gallery {
     display: flex;
     justify-content: center;
     gap: 10px;
+    width: 100%;
 }
-
 .gallery img {
     width: auto;
     height: auto;
@@ -986,7 +978,6 @@ body {
     color: #fff;
     border: 3px solid yellow;
 }
-
 .interests-section h2 {
     font-size: 1.8rem;
     margin-bottom: 10px;
@@ -995,24 +986,24 @@ body {
 
 /* Video Section */
 .video-section {
+    width: 100%;
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
 }
-
 .video-section h2 {
     font-size: 4rem;
     color: #fff;
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-
 .video-section img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     border: 5px solid #fff;
 }
+    
 /* YEAH SCIENCE, BITCH! */
 .science-section {
     padding: 20px;
@@ -1024,35 +1015,16 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
+
 }
-
-
 .science-section h2 {
     font-size: 4rem;
     color: #fff;
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.LARVA-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.LARVA-section h2 {
-    font-size: 4rem;
-    color: #d3d3d3; /* Gris claro */
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
-    text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 2px; /* Espaciado entre letras para mayor dramatismo */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
-}   
+ 
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
@@ -1064,9 +1036,8 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
-
-
 .bitches-section h2 {
     font-size: 4rem;
     color: #fff;
@@ -1074,6 +1045,7 @@ body {
     transform: rotate(357.5deg);
 }
     
+    /* LARVAE */
 .LARVA-section {
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
@@ -1084,6 +1056,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
 .LARVA-section h2 {
     font-size: 4rem;
