@@ -709,6 +709,23 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
+.LARVA-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+}
+.LARVA-section h2 {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 20px;
+    transform: rotate(357.5deg);
+}   
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
