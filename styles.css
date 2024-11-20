@@ -5,8 +5,10 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
+    height: 100%; /* Asegura que todo el documento tenga altura completa */
     font-family: 'Helvetica', sans-serif;
+    margin: 0;
     background-color: #2b2a29;
     background-image: url('pattern_background.webp');
     background-repeat: repeat;
@@ -15,6 +17,7 @@ body {
     color: #fff;
     font-size: 0.51rem;
 }
+
  /* General Styles */
 .container {
     margin: 0;
