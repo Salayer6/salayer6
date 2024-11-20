@@ -262,13 +262,14 @@ body {
 }
 .LARVA-section h2 {
     font-size: 4rem;
-    color: #d3d3d3; /* Gris claro */
+    color: #8e9190; /* Gris más oscuro */
+    background-color: #c4c9c7; /* Gris mármol */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 2px; /* Espaciado entre letras para mayor dramatismo */
+    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
-}   
+}
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
@@ -540,11 +541,12 @@ body {
 }
 .LARVA-section h2 {
     font-size: 4rem;
-    color: #d3d3d3; /* Gris claro */
+    color: #8e9190; /* Gris más oscuro */
+    background-color: #c4c9c7; /* Gris mármol */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 2px; /* Espaciado entre letras para mayor dramatismo */
+    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
 }
 }
@@ -800,11 +802,12 @@ body {
 }
 .LARVA-section h2 {
     font-size: 4rem;
-    color: #d3d3d3; /* Gris claro */
+    color: #8e9190; /* Gris más oscuro */
+    background-color: #c4c9c7; /* Gris mármol */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 2px; /* Espaciado entre letras para mayor dramatismo */
+    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
 }
 }
@@ -1061,11 +1064,12 @@ body {
 }
 .LARVA-section h2 {
     font-size: 4rem;
-    color: #d3d3d3; /* Gris claro */
+    color: #8e9190; /* Gris más oscuro */
+    background-color: #c4c9c7; /* Gris mármol */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente similar a las romanas clásicas */
     text-transform: uppercase; /* Mayúsculas para un estilo más impactante */
-    letter-spacing: 2px; /* Espaciado entre letras para mayor dramatismo */
+    letter-spacing: 6px; /* Espaciado entre letras para mayor dramatismo */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Efecto de sombra para apariencia tallada */
 }
 }
