@@ -19,7 +19,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
-    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXXXXXX-X'); // Reemplaza con tu ID de Analytics
+
+    function trackIframeInteraction(eventType) {
+      gtag('event', 'iframe_interaction', {
+        event_category: 'iframe',
+        event_label: 'Video Embebido',
+        event_action: eventType,
+      });
+    }
+ </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Naxhito</title>
@@ -122,25 +138,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
  
     <!--LARVA CONNECTION-->
-    zz!--<section>-->
-    <div class="LARVA-section">
+    <section>-->
+
+    <div class="LARVA-section" style="border: 2px solid #ccc; padding: 10px;">
     <iframe 
-     src="https://player.kick.com/westcol?muted=true&allowfullscreen=true" 
-     height="720" 
-     width="1280"
-     frameborder="0" 
-     scrolling="no"> 
+      src="https://player.kick.com/westcol?muted=true&allowfullscreen=true" 
+      height="720" 
+      width="1280"
+      frameborder="0" 
+      scrolling="no" 
+      allowfullscreenonmouseover="trackIframeInteraction('hover')"
+      onclick="trackIframeInteraction('click')">
     </iframe>
-    </div></section>
-    <div class="LARVA">
-        <iframe 
-     src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true" 
-     height="720" 
-     width="1280"
-     frameborder="0" 
-     scrolling="no"> 
-        </iframe>
     </div>
+    </section>
+    <section>-->
+
+    <div class="LARVA-section" style="border: 2px solid #ccc; padding: 10px;">
+    <iframe 
+      src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true" 
+      height="720" 
+      width="1280"
+      frameborder="0" 
+      scrolling="no" 
+      allowfullscreenonmouseover="trackIframeInteraction('hover')"
+      onclick="trackIframeInteraction('click')">
+    </iframe>
+    </div>
+    </section>
+    <div >
+        
+    </div>
+<!--</section>-->
+
+    
+    
+    
     <!-- Footer -->
     
     <footer style="
