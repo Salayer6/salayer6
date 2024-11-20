@@ -24,7 +24,7 @@ body {
     flex-direction: column;
     align-items: center; /* Centra el contenido */
     justify-content: flex-start;
-    width: 98%;
+    width: 95%;
     text-align: center;
     max-width: 1440px;
     margin: 0 auto;
@@ -826,7 +826,7 @@ body {
     flex-direction: column;
     align-items: center; /* Centra el contenido */
     justify-content: flex-start;
-    width: 98%;
+    width: 95%;
     text-align: center;
     max-width: 1440px;
     margin: 0 auto;
