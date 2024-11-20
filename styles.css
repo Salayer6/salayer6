@@ -832,6 +832,13 @@ body {
     justify-content: space-evenly;
     background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
     padding: 10px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
+    padding: 10px;
+    font-size: 0.6rem;
+    margin: 0;
+
 }
 
 .logo h1 {
