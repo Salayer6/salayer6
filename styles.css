@@ -1229,8 +1229,7 @@ body {
 }
 .video-section iframe {
     width: 100%;
-    height: auto;
-    border: 5px solid #fff;
+    height: 100%;
 }
     
 /* YEAH SCIENCE, BITCH! */
