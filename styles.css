@@ -1260,7 +1260,6 @@ body {
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
