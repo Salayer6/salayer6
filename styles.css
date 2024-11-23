@@ -230,9 +230,17 @@ body {
     margin-bottom: 20px;
 }
 .video-section img {
+    padding: 20px;
+    width: 100%;
     max-width: 100%;
-    height: auto;
-    border: 5px solid #fff;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 /* YEAH SCIENCE, BITCH! */
 .science-section {
@@ -498,10 +506,18 @@ body {
 }
 
 .video-section img {
+    display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
+    margin: 0 auto;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     height: auto;
+    flex-direction: column;
+    text-align: center;
     border: 5px solid #fff;
     width: 98%;
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    border: 3px solid #EEE62C;
 }
     
 /* YEAH SCIENCE, BITCH! */
@@ -512,7 +528,7 @@ body {
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
-    max-width: 768px; /* Ajusta este valor según necesites */
+    max-width: 100%; /* Ajusta este valor según necesites */
     margin: 0 auto;
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
