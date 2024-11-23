@@ -226,9 +226,23 @@ body {
 }
 .video-section h2 {
     font-size: 4rem;
-    color: #fff;
     max-width: 100%;
+    color: #fff;
     margin-bottom: 20px;
+    font-family: "Times New Roman", serif; /* Fuente clásica */
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 6px; /* Espaciado entre letras */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section img {
     padding: 20px;
@@ -502,8 +516,23 @@ body {
 
 .video-section h2 {
     font-size: 4rem;
+    max-width: 100%;
     color: #fff;
     margin-bottom: 20px;
+    font-family: "Times New Roman", serif; /* Fuente clásica */
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 6px; /* Espaciado entre letras */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 
 .video-section img {
@@ -785,8 +814,23 @@ body {
 }
 .video-section h2 {
     font-size: 4rem;
+    max-width: 100%;
     color: #fff;
     margin-bottom: 20px;
+    font-family: "Times New Roman", serif; /* Fuente clásica */
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 6px; /* Espaciado entre letras */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section img {
     max-width: 100%;
@@ -1059,8 +1103,23 @@ body {
 }
 .video-section h2 {
     font-size: 4rem;
+    max-width: 100%;
     color: #fff;
     margin-bottom: 20px;
+    font-family: "Times New Roman", serif; /* Fuente clásica */
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 6px; /* Espaciado entre letras */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    
+    /* Sutileza en la transición de colores */
+    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section img {
     width: 100%;
