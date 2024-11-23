@@ -512,12 +512,12 @@ body {
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
-    max-width: 700px; /* Ajusta este valor según necesites */
+    max-width: 768px; /* Ajusta este valor según necesites */
     margin: 0 auto;
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .science-section h2 {
     font-size: 4rem;
