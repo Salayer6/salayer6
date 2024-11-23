@@ -44,7 +44,7 @@ body {
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
     padding: 0;
-    width: 100%;
+    width: 110%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
 .ad-img {
@@ -155,12 +155,11 @@ body {
 .profile-section {
     display: flex;
     gap: 10px;
-    font-size: 1.7rem;
-    margin: 0;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     padding: 0px;
     border: 3px solid #EEE62C;
     color: #fff;
+    width: 100%;
 }
 .profile-image img {
     width: 100%;
@@ -219,10 +218,17 @@ body {
 /* Video Section */
 .video-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .video-section h2 {
     font-size: 4rem;
@@ -235,31 +241,25 @@ body {
     text-shadow: 
         -1px -1px 0 #e4e0d7, /* Luz superior */
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section iframe {
-    padding: 20px;
-    width: 100%;
+    display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
+    max-height: auto;
+    margin: 0 auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
+    text-align: center;
+    width: 98%;
+    height: auto;
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    justify-content: center; /* Centra horizontalmente el contenido */
 }
-/* YEAH SCIENCE, BITCH! */
-.science-section {
+
+/* FINANTIAL TIMES Section */
+.finantial-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -267,6 +267,50 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+}
+.finantial-section h2 {
+    font-size: 4rem;
+    max-width: 100%;
+    color: #000000;
+    margin-bottom: 20px;
+    font-family: "Times New Roman", serif; /* Fuente clásica */
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 6px; /* Espaciado entre letras */
+    text-shadow: 
+        -1px -1px 0 #e4e0d7, /* Luz superior */
+        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+}
+.finantial-section iframe {
+    display: flex; /* Activa el modo Flexbox */
+    max-width: 100%;
+    max-height: auto;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    text-align: center;
+    width: 98%;
+    height: auto;
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    justify-content: center; /* Centra horizontalmente el contenido */
+}
+
+/* YEAH SCIENCE, BITCH! */
+.science-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .science-section h2 {
@@ -277,17 +321,18 @@ body {
 }
 .science-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
+    max-height: auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
+    height: auto;
 }
+
     /* LARVAE */
 .LARVAE-section {
     padding: 20px;
@@ -322,21 +367,21 @@ body {
 }
 .LARVAE-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
+    max-height: auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
+    height: auto;
 }
 
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -344,6 +389,9 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .bitches-section h2 {
@@ -352,10 +400,10 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section iframe {
+.bitches-section blockquote {
     padding: 20px;
-    width: 100%;
-    max-width: 100%;
+    max-height: auto;
+    max-width: 100%
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -363,8 +411,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 1000px;
+    height: auto;}
 
 /* Media Queries for Responsive Design */
 /* Mobile (Phones) */
@@ -393,7 +441,7 @@ body {
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
     padding: 0;
-    width: 98%;
+    width: 110%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
 .ad-img {
@@ -488,7 +536,7 @@ body {
     padding: 0px;
     border: 3px solid #EEE62C;
     color: #fff;
-    width: 98%;
+    width: 100%;
 }
 .profile-image img {
     width: 100%;
@@ -544,13 +592,18 @@ body {
 
 /* Video Section */
 .video-section {
-    padding: 7px;
-    width: 100%;
+    padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    max-width: 700px; /* Ajusta este valor según necesites */
-    margin: 0 auto;
     border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .video-section h2 {
     font-size: 4rem;
@@ -563,44 +616,33 @@ body {
     text-shadow: 
         -1px -1px 0 #e4e0d7, /* Luz superior */
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section iframe {
     display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
-    margin: 0 auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    height: auto;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
     width: 98%;
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    height: auto;    align-items: center; /* Centra verticalmente el contenido (opcional) */
     justify-content: center; /* Centra horizontalmente el contenido */
-    border: 3px solid #EEE62C;
 }
     
 /* YEAH SCIENCE, BITCH! */
 .science-section {
-    padding: 7px;
-    width: 100%;
+    padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .science-section h2 {
     font-size: 4rem;
@@ -610,31 +652,29 @@ body {
 }
 .science-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 98%;
+    height: auto;}
     
 /* my WASHING BITCHES */
 .bitches-section {
-    padding: 7px;
-    width: 100%;
+    padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
-    max-width: 700px; /* Ajusta este valor según necesites */
-    margin: 0 auto;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .bitches-section h2 {
@@ -643,10 +683,9 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section iframe {
+.bitches-section blockquote {
     padding: 20px;
-    width: 100%;
-    max-width: 100%;
+    max-width: 70%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -654,8 +693,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 1000px;
+    height: auto;}
 
     /* LARVAE */
 .LARVAE-section {
@@ -691,7 +730,6 @@ body {
 }
 .LARVAE-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -699,13 +737,12 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 98%;
+    height: auto;}
 }
 
 /* Tablet (Medium Devices) */
-@media (min-width: 769px) and (max-width: 1024px) {
-    /* Container */
+@media (min-width: 769px) and (max-width: 1024px) {/* Container */
 .container {
     margin: 0;
     font-family: Helvetica, sans-serif;
@@ -730,7 +767,7 @@ body {
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
     padding: 0;
-    width: 100%;
+    width: 110%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
 .ad-img {
@@ -822,12 +859,12 @@ body {
 /* Profile Section */
 .profile-section {
     display: flex;
-    width: 100%;
     gap: 10px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     padding: 0px;
     border: 3px solid #EEE62C;
     color: #fff;
+    width: 100%;
 }
 .profile-image img {
     width: 100%;
@@ -883,10 +920,17 @@ body {
 /* Video Section */
 .video-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .video-section h2 {
     font-size: 4rem;
@@ -911,30 +955,29 @@ body {
 .video-section iframe {
     display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
-    margin: 0 auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    height: auto;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
-    width: 98%;
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     justify-content: center; /* Centra horizontalmente el contenido */
-    border: 3px solid #EEE62C;
-}
+    width: 98%;
+    height: auto;
+}*/
+    
 /* YEAH SCIENCE, BITCH! */
 .science-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
-    max-width: 900px; /* Ajusta este valor según necesites */
-    margin: 0 auto;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .science-section h2 {
@@ -945,22 +988,19 @@ body {
 }
 .science-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 98%;
+    height: auto;}*/
     
-/* my WASHING BITCHES */
+/*Washing Bitches*/    
 .bitches-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -968,9 +1008,11 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    max-width: 900px; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    max-height: auto;
+    width: 700px;
+    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .bitches-section h2 {
     font-size: 4rem;
@@ -978,10 +1020,9 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section iframe {
+.bitches-section blockquote {
     padding: 20px;
-    width: 100%;
-    max-width: 100%;
+    max-width: 90%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -989,8 +1030,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 1000px;
+    height: auto;}
 
     /* LARVAE */
 .LARVAE-section {
@@ -1026,7 +1067,6 @@ body {
 }
 .LARVAE-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -1034,9 +1074,10 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
+    height: auto;}*/
 }
-}
+
 /* Desktop (Large Screens) */
 @media (min-width: 1025px) {
     /* Container */
@@ -1063,7 +1104,7 @@ body {
     background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
     color: #fff;
     padding: 0;
-    width: 100%;
+    width: 110%;
     height: 88px; /* Ajusta esta altura según lo necesario */
 }
 .ad-img {
@@ -1162,6 +1203,7 @@ body {
     padding: 0px;
     border: 3px solid #EEE62C;
     color: #fff;
+    width: 100%;
 }
 .profile-image img {
     width: 100%;
@@ -1175,6 +1217,7 @@ body {
     margin-top: 11px;
     color: #fff;
 }
+    
 /* Gallery Section */
 .gallery-section {
     width: 100%;
@@ -1215,13 +1258,18 @@ body {
 
 /* Video Section */
 .video-section {
-    width: 100%;
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    max-width: 1000px; /* Ajusta este valor según necesites */
-    margin: 0 auto;
     border: 3px solid #EEE62C;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 .video-section h2 {
     font-size: 4rem;
@@ -1234,28 +1282,18 @@ body {
     text-shadow: 
         -1px -1px 0 #e4e0d7, /* Luz superior */
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section iframe {
     display: flex; /* Activa el modo Flexbox */
-    max-width: 100%;
-    margin: 0 auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    height: auto;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
     width: 98%;
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     justify-content: center; /* Centra horizontalmente el contenido */
-    border: 3px solid #EEE62C;
+    width: 98%;
+    height: auto;
 }
     
 /* YEAH SCIENCE, BITCH! */
@@ -1269,7 +1307,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     width: 100%;
-    max-width: 1000px; /* Ajusta este valor según necesites */
+    max-width: 100%; /* Ajusta este valor según necesites */
     margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
@@ -1281,7 +1319,6 @@ body {
 }
 .science-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -1289,7 +1326,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 98%;
+    height: auto;
 }
  
 /* my WASHING BITCHES */
@@ -1303,7 +1341,7 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     width: 100%;
-    max-width: 1000px; /* Ajusta este valor según necesites */
+    max-width: 100%; /* Ajusta este valor según necesites */
     margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
@@ -1313,10 +1351,9 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section iframe {
+.bitches-section blockquote {
     padding: 20px;
     width: 100%;
-    max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -1324,8 +1361,8 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 1000px;
+    height: auto;}
     
     /* LARVAE */
 .LARVAE-section {
@@ -1361,7 +1398,6 @@ body {
 }
 .LARVAE-section iframe {
     padding: 20px;
-    width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -1369,6 +1405,6 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+    width: 98%;
+    height: auto;}
 }

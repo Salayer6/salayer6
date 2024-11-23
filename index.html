@@ -26,26 +26,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 </script>
     
-<!-- Gtag.js-->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X">
-</script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'UA-XXXXXXXXX-X'); // Reemplaza con tu ID de Analytics
-
-    function trackIframeInteraction(eventType) {
-      gtag('event', 'iframe_interaction', {
-        event_category: 'iframe',
-        event_label: 'Video Embebido',
-        event_action: eventType,
-      });
-    }
- </script>
-    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Perfil de Naxhito</title>
@@ -145,14 +125,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2>YEAH SCIENCE, <span style="background-color: #fff; color: #000; font-weight: bold;">  BITCH!  </span>
     </h2>
     <div>
-        <iframe wid_th="560" he_ight="315" src="https://www.youtube.com/embed/WMr3-ShzB08?si=QcPzGrpWWaAnNQr7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/WMr3-ShzB08?si=QcPzGrpWWaAnNQr7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
     </div>
     </section>
     <br> 
     
     <!-- my WASHING BITCHES -->
     <section class="bitches-section">
-     <h2>my WASHING<span style="background-color: #fff; color: #000; font-weight: bold;"> BITCHES</span>
+     <h2>my WASHING <span style="background-color: #fff; color: #000; font-weight: bold;">BITCHES</span>
      </h2>
      <div>
      <blockquote 
@@ -163,11 +144,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      </blockquote>
      </div>
     </section>
-        
+    <br>     
 
      <!--Finantial Times-->
-    <section class="video-section">
-    <h2>Financial<span style="background-color: #fff; color: #cc2121; font-weight: bold; font-size: 0.5rem;">?</span> Times<span style="background-color: #fff; color: #cc2121; font-weight: bold; font-size: 0.5rem;">!</span>
+    <section class="finantial-section">
+    <h2>Financial<span style="background-color: #fff; color: #cc2121; font-weight: bold; font-size: 1rem;"> ?</span> Times<span style="background-color: #fff; color: #cc2121; font-weight: bold; font-size: 1rem;"> !</span>
     </h2>
     <div>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/pE0YX3NktYY?si=uQs1NlPkIi1dC1KA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -178,7 +159,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <!--LARVAE CONNECTION-->
     <section class="LARVAE-section" style="border: 2px solid #ccc; padding: 10px;">
-    <h2 style="width:100%">LARVAE CONNECTION</h2>
+    <h2>LARVAE CONNECTION</h2>
     <iframe 
       src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true" 
       height="720" 
@@ -188,10 +169,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       allowfullscreenonmouseover="trackIframeInteraction('hover')"
       onclick="trackIframeInteraction('click')">
     </iframe>
-    </section>
-    <br>
-    
-    <section class="LARVAE-section" style="border: 2px solid #ccc; padding: 10px;">
     <iframe 
       src="https://player.kick.com/westcol?muted=true&allowfullscreen=true" 
       height="720" 
@@ -199,10 +176,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       frameborder="0" 
       scrolling="no" 
       allowfullscreenonmouseover="trackIframeInteraction('hover')"
-      onclick="trackIframeInteraction('click')"
-    >
+      onclick="trackIframeInteraction('click')">
     </iframe>
     </section>
+</section>
     <!-- Footer -->
     
     <footer style="
@@ -217,7 +194,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     flex-direction: column;
     justify-content: flex-end;
     height: 120px;
-">
+    width: 120%;">
     <p style="margin: 0; font-size: 8px; color: rgba(255, 255, 255, 0.3);">
         Desarrollo web realizado sobre proyecto open source con ❤️ por 
         <a href="https://github.com/mcnabola" target="_blank" style="
@@ -248,7 +225,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-<script async src="//www.instagram.com/embed.js"></script>
+<script async src="//www.instagram.com/embed.js">
+</script>
 </main>
 </body>
 </html>
