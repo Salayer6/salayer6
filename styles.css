@@ -227,6 +227,7 @@ body {
 .video-section h2 {
     font-size: 4rem;
     color: #fff;
+    max-width: 100%;
     margin-bottom: 20px;
 }
 .video-section img {
