@@ -250,7 +250,6 @@ body {
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
@@ -582,7 +581,6 @@ body {
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
-    border: 5px solid #fff;
     width: 98%;
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     justify-content: center; /* Centra horizontalmente el contenido */
@@ -911,11 +909,19 @@ body {
     -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section iframe {
+    display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
+    margin: 0 auto;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     height: auto;
-    border: 5px solid #fff;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    text-align: center;
+    width: 98%;
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    border: 3px solid #EEE62C;
 }
-    
 /* YEAH SCIENCE, BITCH! */
 .science-section {
     padding: 20px;
@@ -1238,8 +1244,18 @@ body {
     -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .video-section iframe {
-    width: 100%;
-    height: 100%;
+    display: flex; /* Activa el modo Flexbox */
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    height: auto;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    text-align: center;
+    width: 98%;
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    border: 3px solid #EEE62C;
 }
     
 /* YEAH SCIENCE, BITCH! */
