@@ -289,9 +289,9 @@ body {
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
-.LARVA-section {
+    /* LARVAE */
+.LARVAE-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -300,8 +300,9 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
-.LARVA-section h2 {
+.LARVAE-section h2 {
     font-size: 4rem;
     color: #6e6e6e; /* Gris oscuro piedra */
     margin-bottom: 20px;
@@ -320,6 +321,19 @@ body {
     background-clip: text;
     -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
+.LARVAE-section iframe {
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    text-align: center;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+}
+
 /* my WASHING BITCHES */
 .bitches-section {
     padding: 20px;
@@ -645,11 +659,9 @@ body {
     height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 
-/* LARVAE CONNECTION */
-
-.LARVA-section {
-    padding: 7px;
-    width: 100%;
+    /* LARVAE */
+.LARVAE-section {
+    padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -658,9 +670,10 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
-.LARVA-section h2 {
-    font-size: 3rem;
+.LARVAE-section h2 {
+    font-size: 4rem;
     color: #6e6e6e; /* Gris oscuro piedra */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente clásica */
@@ -678,13 +691,12 @@ body {
     background-clip: text;
     -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
-.LARVA-section iframe {
+.LARVAE-section iframe {
     padding: 20px;
     width: 100%;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
@@ -974,10 +986,9 @@ body {
     height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 
-/* LARVAE CONNCECTION*/
+    /* LARVAE */
 .LARVAE-section {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -986,9 +997,10 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    width: 100%;
 }
 .LARVAE-section h2 {
-    font-size: 3.7rem;
+    font-size: 4rem;
     color: #6e6e6e; /* Gris oscuro piedra */
     margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente clásica */
@@ -1012,7 +1024,6 @@ body {
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
@@ -1020,7 +1031,6 @@ body {
     height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
 }
-
 /* Desktop (Large Screens) */
 @media (min-width: 1025px) {
     /* Container */
@@ -1339,7 +1349,6 @@ body {
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
-    border: 3px solid #EEE62C;
     display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
