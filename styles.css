@@ -512,6 +512,7 @@ body {
     margin: 0 auto;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     height: auto;
+    display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
     border: 5px solid #fff;
