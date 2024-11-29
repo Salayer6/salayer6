@@ -318,8 +318,45 @@ body {
     color: #fff;
     margin-bottom: 20px;
     transform: rotate(357.5deg);
+    display: inline-block;
 }
 .science-section iframe {
+    padding: 20px;
+    max-width: 100%;
+    max-height: auto;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    text-align: center;
+    display: flex; /* Activa el modo Flexbox */
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 98%;
+    height: auto;
+}
+
+/* Andá, traés un sobre de cocaína y volvés... */
+.music-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido (opcional) */
+    width: 100%;
+    max-width: 100%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+}
+.music-section h2 {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 20px;
+    transform: rotate(357.5deg);
+    display: inline-block;
+}
+.music-section iframe {
     padding: 20px;
     max-width: 100%;
     max-height: auto;
