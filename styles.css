@@ -5,19 +5,6 @@
     box-sizing: border-box;
 }
 
-body {
-    height: 100%;
-    font-family: 'Helvetica', sans-serif;
-    margin: 0;
-    background-color: #2b2a29;
-    background-image: url('pattern_background.webp');
-    background-repeat: repeat;
-    background-size: auto;
-    line-height: 1.6;
-    color: #fff;
-    font-size: 0.51rem;
-}
-
 /* General Styles
 .container {
     margin: 0;
@@ -1123,21 +1110,26 @@ margin-bottom: 5px;
 
 /* Desktop (Large Screens) */
 @media (min-width: 1025px) {
+.main-container {
+    display: flex;
+    flex-direction: column;
+    background-image: url("pattern_background.webp");
+    background-repeat: repeat;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
 
-    .container {
-        margin: 0;
-        font-family: Helvetica, sans-serif;
-        line-height: 1.6;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 95%;
-        text-align: center;
-        max-width: 1440px;
-        padding: 0;
-    }
-
+.container {
+    width: 80%; /* Ajusta según tus necesidades */
+    max-width: 1440px; /* Ancho máximo */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra opcional */
+    text-align: center; /* Centrar texto */
+}
     .ads-section {
         display: flex;
         font-size: 1rem;
