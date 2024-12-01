@@ -365,20 +365,26 @@
 /* Media Queries for Responsive Design */
 /* Mobile (Phones) */
 @media (max-width: 768px) {
-    .container {
-        margin: 0;
-        font-family: Helvetica, sans-serif;
-        line-height: 1.6;
+    .main-container {
         display: flex;
         flex-direction: column;
+        background-image: url("pattern_background.webp");
+        background-repeat: repeat;
+        justify-content: center;
         align-items: center;
-        justify-content: flex-start;
-        width: 95%;
-        text-align: center;
-        max-width: 1440px;
-        padding: 0;
+        min-height: 100vh;
+        padding: 20px;
+        max-width: 1440px; /* Ancho máximo */
     }
 
+    .container {
+        width: 80%; /* Ajusta según tus necesidades */
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+        border-radius: 10px; /* Bordes redondeados */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra opcional */
+        text-align: center; /* Centrar texto */
+    }
     .ads-section {
         display: flex;
         font-size: 1rem;
@@ -388,8 +394,8 @@
         background: linear-gradient(to right, #ffffff, #526F9B);
         color: #fff;
         padding: 0;
-        width: 110%;
         height: 88px;
+        width: 100%;
     }
 
     .ad-img {
@@ -434,12 +440,13 @@
     .header-section {
         display: flex;
         align-items: center;
-        flex-direction: column;
         justify-content: space-evenly;
         background: linear-gradient(to top, #EEE62C, #ffffff 120%);
         padding: 10px;
         font-size: 0.6rem;
         margin: 0;
+        width: 100%;
+        height: auto;
     }
 
     .logo h1 {
@@ -504,6 +511,8 @@
 
     .profile-section {
         display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
         gap: 10px;
         background-color: rgba(50, 50, 50, 0.8);
         padding: 0;
@@ -560,6 +569,7 @@
     }
 
     .interests-section h2 {
+        justify-self: flex-start;
         font-size: 1.5rem;
         margin-bottom: 10px;
     }
@@ -596,19 +606,6 @@
         1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-    .financial-section iframe {
-        display: flex;
-        max-width: 100%;
-        max-height: none;
-        background-color: rgba(50, 50, 50, 0.8);
-        flex-direction: column;
-        text-align: center;
-        width: 98%;
-        height: auto;
-        align-items: center;
-        justify-content: center;
-    }
-
     .science-section {
         padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
@@ -632,33 +629,14 @@
         display: inline-block;
     }
 
-    .science-section iframe {
-        padding: 20px;
-        max-width: 100%;
-        max-height: none;
-        background-color: rgba(50, 50, 50, 0.8);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 98%;
-        height: auto;
-    }
+
 
     .music-section {
-        padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
         text-align: center;
+        justify-items: center;
         border: 3px solid #EEE62C;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        height: 100%;
+        padding-bottom: 20px;
     }
 
     .music-section h2 {
@@ -670,17 +648,8 @@
     }
 
     .music-section iframe {
-        padding: 20px;
-        max-width: 100%;
-        max-height: none;
         background-color: rgba(50, 50, 50, 0.8);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 98%;
-        height: auto;
+        max-width: 780px;
     }
 
     .LARVAE-section {
@@ -711,21 +680,10 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-
     .LARVAE-section iframe {
-        padding: 20px;
-        max-width: 100%;
-        max-height: none;
-        background-color: rgba(50, 50, 50, 0.8);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 98%;
-        height: auto;
+        height:720px;
+        width:1280px;
     }
-
     .bitches-section {
         padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
@@ -751,361 +709,346 @@
 
 /* Tablet (Medium Devices) */
 @media (min-width: 769px) and (max-width: 1024px) {
-.container {
-    margin: 0;
-    font-family: Helvetica, sans-serif;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 95%;
-    text-align: center;
-    max-width: 1440px;
-    padding: 0;
-}
-.ads-section {
-    display: flex;
-    font-size: 1rem;
-    margin: 0;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #ffffff, #526F9B);
-    color: #fff;
-    padding: 0;
-    width: 110%;
-    height: 88px;
-}
-.ad-img {
-    max-height: 88px;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
-.ad-text {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1rem;
-    display: flex ;
-    flex-direction: column;
-    align-items: center;
-}
-.ad-text p {
-    font-weight: lighter;
-    color: black;
-    font-size: 1rem;
-    margin: 0;
-}
-.ad-text p span {
-    color: #00bcd4;
-    font-size: 1rem;
-    margin: 0;
-}
-.ad-text p:last-child {
-    color: white;
-    font-style: italic;
-    font-size: 1rem;
-    margin: 0;
-}
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        background-image: url("pattern_background.webp");
+        background-repeat: repeat;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        max-width: 1440px; /* Ancho máximo */
+    }
 
-.header-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background: linear-gradient(to top, #EEE62C, #ffffff 120%);
-    padding: 10px;
-    font-size: 0.6rem;
-    margin: 0;
-}
-.logo h1 {
-    font-size: 4rem;
-    color: #000;
-}
-.logo p {
-    font-style: italic;
-    color: #000;
-    font-size: 0.6rem;
-    margin: 0;
-}
-.nav {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    font-size: 1.5rem;
-    color: #000;
-    margin: 0 10px;
-    text-decoration: none;
-}
-.nav a {
-    color: #000;
-    font-size: 0.65rem;
-    text-decoration: none;
-}
-.nav p {
-    color: #000;
-    margin: 0 10px;
-}
-.search-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.9rem;
-    margin: 0;
-}
-.search-bar input {
-    padding: 10px;
-    width: 200px; /
-margin-bottom: 5px;
-    font-size: 0.9rem;
-}
-.search-bar button {
-    padding: 0 30px;
-    background: linear-gradient(to top, #000, #ffffff 190%);
-    color: #EEE62C;
-    font-size: 0.7rem;
-    border: none;
-    cursor: pointer;
-    height: 15px;
-    margin: 0 0 0 auto;
-    border-radius: 12px;
-}
+    .container {
+        width: 80%; /* Ajusta según tus necesidades */
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+        border-radius: 10px; /* Bordes redondeados */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra opcional */
+        text-align: center; /* Centrar texto */
+    }
+    .ads-section {
+        display: flex;
+        font-size: 1rem;
+        margin: 0;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to right, #ffffff, #526F9B);
+        color: #fff;
+        padding: 0;
+        height: 88px;
+        width: 100%;
+    }
 
-.profile-section {
-    display: flex;
-    gap: 10px;
-    background-color: rgba(50, 50, 50, 0.8);
-    padding: 0;
-    border: 3px solid #EEE62C;
-    color: #fff;
-    width: 100%;
-}
-.profile-image img {
-    width: 100%;
-}
-.profile-info h2 {
-    font-size: 1.5rem;
-    color: #fff;
-}
-.profile-info p {
-    font-size: 1rem;
-    margin-top: 11px;
-    color: #fff;
-}
+    .ad-img {
+        max-height: 88px;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
 
-.gallery-section {
-    text-align: center;
-    padding: 20px;
-}
-.gallery-section h2 {
-    font-size: 2.8rem;
-    color: #fff;
-    text-transform: uppercase;
-    margin-bottom: auto;
-    transform: rotate(350deg);
-}
-.gallery {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-.gallery img {
-    width: auto;
-    height: auto;
-}
+    .ad-text {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.interests-section {
-    font-size: 1.2rem;
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8);
-    color: #fff;
-    border: 3px solid yellow;
-}
-.interests-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-.interests-section p {
-    font-size: 1rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
+    .ad-text p {
+        font-weight: lighter;
+        color: black;
+        font-size: 1rem;
+        margin: 0;
+    }
 
-.financial-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    height: 100%;
-}
-.financial-section h2 {
-    font-size: 4rem;
-    max-width: 100%;
-    color: #000000;
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif;
-    text-transform: uppercase;
-    letter-spacing: 6px;
-    text-shadow:
-            -1px -1px 0 #e4e0d7,
-            1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-.financial-section iframe {
-    display: flex;
-    max-width: 100%;
-    max-height: none;
-    background-color: rgba(50, 50, 50, 0.8);
-    flex-direction: column;
-    text-align: center;
-    width: 98%;
-    height: auto;
-    align-items: center;
-    justify-content: center;
-}
+    .ad-text p span {
+        color: #00bcd4;
+        font-size: 1rem;
+        margin: 0;
+    }
 
-.science-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    height: 100%;
-}
-.science-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-    display: inline-block;
-}
-.science-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    max-height: none;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 98%;
-    height: auto;
-}
+    .ad-text p:last-child {
+        color: white;
+        font-style: italic;
+        font-size: 1rem;
+        margin: 0;
+    }
 
-.music-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    height: 100%;
-}
-.music-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-    display: inline-block;
-}
-.music-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    max-height: none;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 98%;
-    height: auto;
-}
+    .header-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%);
+        padding: 10px;
+        font-size: 0.6rem;
+        margin: 0;
+        width: 100%;
+        height: auto;
+    }
 
-.LARVAE-section {
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
-.LARVAE-section h2 {
-    font-size: 4rem;
-    color: #6e6e6e;
-    font-family: "Times New Roman", serif;
-    text-transform: uppercase;
-    letter-spacing: 6px;
-    text-shadow:
-            -1px -1px 0 #e4e0d7,
-            1px 1px 2px rgba(0, 0, 0, 0.5);
+    .logo h1 {
+        font-size: 4rem;
+        color: #000;
+    }
 
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.LARVAE-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    max-height: none;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 98%;
-    height: auto;
-}
+    .logo p {
+        font-style: italic;
+        color: #000;
+        font-size: 0.6rem;
+        margin: 0;
+    }
 
-.bitches-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    height: 100%;
-}
-.bitches-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 1.5rem;
+        color: #000;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+    .nav a {
+        color: #000;
+        font-size: 0.65rem;
+        text-decoration: none;
+    }
+
+    .nav p {
+        color: #000;
+        margin: 0 10px;
+    }
+
+    .search-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    .search-bar input {
+        padding: 10px;
+        width: 200px;
+    / margin-bottom: 5 px;
+        font-size: 0.9rem;
+    }
+
+    .search-bar button {
+        padding: 0 30px;
+        background: linear-gradient(to top, #000, #ffffff 190%);
+        color: #EEE62C;
+        font-size: 0.7rem;
+        border: none;
+        cursor: pointer;
+        height: 15px;
+        margin: 0 0 0 auto;
+        border-radius: 12px;
+    }
+
+    .profile-section {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        gap: 10px;
+        background-color: rgba(50, 50, 50, 0.8);
+        padding: 0;
+        border: 3px solid #EEE62C;
+        color: #fff;
+        width: 100%;
+    }
+
+    .profile-image img {
+        width: 100%;
+    }
+
+    .profile-info h2 {
+        font-size: 1.5rem;
+        color: #fff;
+    }
+
+    .profile-info p {
+        font-size: 1rem;
+        margin-top: 11px;
+        color: #fff;
+    }
+
+    .gallery-section {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .gallery-section h2 {
+        font-size: 2.8rem;
+        color: #fff;
+        text-transform: uppercase;
+        margin-bottom: auto;
+        transform: rotate(350deg);
+    }
+
+    .gallery {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .gallery img {
+        width: auto;
+        height: auto;
+    }
+
+    .interests-section {
+        font-size: 1.2rem;
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8);
+        color: #fff;
+        border: 3px solid yellow;
+    }
+
+    .interests-section h2 {
+        justify-self: flex-start;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .interests-section p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .financial-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8);
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    .financial-section h2 {
+        font-size: 4rem;
+        max-width: 100%;
+        color: #000000;
+        margin-bottom: 20px;
+        font-family: "Times New Roman", serif;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        text-shadow: -1px -1px 0 #e4e0d7,
+        1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .science-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8);
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    .science-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+        display: inline-block;
+    }
+
+
+
+    .music-section {
+        background-color: rgba(50, 50, 50, 0.8);
+        text-align: center;
+        justify-items: center;
+        border: 3px solid #EEE62C;
+        padding-bottom: 20px;
+    }
+
+    .music-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+        display: inline-block;
+    }
+
+    .music-section iframe {
+        background-color: rgba(50, 50, 50, 0.8);
+        max-width: 780px;
+    }
+
+    .LARVAE-section {
+        background-color: rgba(50, 50, 50, 0.8);
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .LARVAE-section h2 {
+        font-size: 4rem;
+        color: #6e6e6e;
+        font-family: "Times New Roman", serif;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        text-shadow: -1px -1px 0 #e4e0d7,
+        1px 1px 2px rgba(0, 0, 0, 0.5);
+
+        background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0);
+        background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);
+        background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .LARVAE-section iframe {
+        height:720px;
+        width:1280px;
+    }
+    .bitches-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8);
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    .bitches-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
 }
 
 /* Desktop (Large Screens) */
@@ -1119,11 +1062,11 @@ margin-bottom: 5px;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    max-width: 1440px; /* Ancho máximo */
 }
 
 .container {
     width: 80%; /* Ajusta según tus necesidades */
-    max-width: 1440px; /* Ancho máximo */
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
     border-radius: 10px; /* Bordes redondeados */
@@ -1256,6 +1199,8 @@ margin-bottom: 5px;
 
     .profile-section {
         display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
         gap: 10px;
         background-color: rgba(50, 50, 50, 0.8);
         padding: 0;
@@ -1312,6 +1257,7 @@ margin-bottom: 5px;
     }
 
     .interests-section h2 {
+        justify-self: flex-start;
         font-size: 1.5rem;
         margin-bottom: 10px;
     }
@@ -1348,19 +1294,6 @@ margin-bottom: 5px;
         1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-    .financial-section iframe {
-        display: flex;
-        max-width: 100%;
-        max-height: none;
-        background-color: rgba(50, 50, 50, 0.8);
-        flex-direction: column;
-        text-align: center;
-        width: 98%;
-        height: auto;
-        align-items: center;
-        justify-content: center;
-    }
-
     .science-section {
         padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
@@ -1384,33 +1317,14 @@ margin-bottom: 5px;
         display: inline-block;
     }
 
-    .science-section iframe {
-        padding: 20px;
-        max-width: 100%;
-        max-height: none;
-        background-color: rgba(50, 50, 50, 0.8);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 98%;
-        height: auto;
-    }
+
 
     .music-section {
-        padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
         text-align: center;
+        justify-items: center;
         border: 3px solid #EEE62C;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        height: 100%;
+        padding-bottom: 20px;
     }
 
     .music-section h2 {
@@ -1422,17 +1336,8 @@ margin-bottom: 5px;
     }
 
     .music-section iframe {
-        padding: 20px;
-        max-width: 100%;
-        max-height: none;
         background-color: rgba(50, 50, 50, 0.8);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 98%;
-        height: auto;
+        max-width: 780px;
     }
 
     .LARVAE-section {
@@ -1463,11 +1368,10 @@ margin-bottom: 5px;
         background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-
     .LARVAE-section iframe {
-
+        height:720px;
+        width:1280px;
     }
-
     .bitches-section {
         padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
