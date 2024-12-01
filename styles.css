@@ -1123,7 +1123,7 @@ margin-bottom: 5px;
 
 /* Desktop (Large Screens) */
 @media (min-width: 1025px) {
-    /* Container */
+
     .container {
         margin: 0;
         font-family: Helvetica, sans-serif;
