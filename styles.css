@@ -18,7 +18,7 @@ body {
     font-size: 0.51rem;
 }
 <!--
- /* General Styles */
+/* General Styles */
 .container {
     margin: 0;
     font-family: Helvetica, sans-serif;
@@ -234,9 +234,9 @@ body {
     font-family: "Times New Roman", serif; /* Fuente clásica */
     text-transform: uppercase; /* Mayúsculas para impacto */
     letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+    text-shadow:
+            -1px -1px 0 #e4e0d7, /* Luz superior */
+            1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
 }
 .financial-section iframe {
     display: flex; /* Activa el modo Flexbox */
@@ -323,7 +323,7 @@ body {
     height: auto;
 }
 
-    /* LARVAE */
+/* LARVAE */
 .LARVAE-section {
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -341,10 +341,10 @@ body {
     font-family: "Times New Roman", serif; /* Fuente clásica */
     text-transform: uppercase; /* Mayúsculas para impacto */
     letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
+    text-shadow:
+            -1px -1px 0 #e4e0d7, /* Luz superior */
+            1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+
     /* Sutileza en la transición de colores */
     background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
     background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
@@ -406,938 +406,858 @@ body {
 /* Mobile (Phones) */
 @media (max-width: 768px) {
     /* Container */
-.container {
-    font-family: Helvetica, sans-serif;
-    line-height: 1.4;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el contenido */
-    justify-content: flex-start;
-    width: 100%;
-    text-align: center;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 3px;
-}
+    .container {
+        font-family: Helvetica, sans-serif;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra el contenido */
+        justify-content: flex-start;
+        width: 100%;
+        text-align: center;
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 3px;
+    }
 
-/* ADS Section */
-.ads-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
-    color: #fff;
-    padding: 0;
-    width: 110%;
-    height: 88px; /* Ajusta esta altura según lo necesario */
-}
-.ad-img {
-    max-height: 88px; /* La imagen ocupará toda la altura disponible */
-    max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
-    width: auto; /* Mantiene la proporción de la imagen */
-    height: auto; /* Mantiene la proporción al ajustar la altura */
-    object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
-}
-.ad-text {
-    width: 100%; /* O un valor específico de ancho si prefieres */
-    max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
-    margin: 0 auto; /* Esto centra el div horizontalmente */
-    text-align: center;
-    display: flex ;
-    flex-direction: column;
-    align-items: center;
-}
-.ad-text p {
-    font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
-    color: black; /* Establece el color del texto a negro */
-}
-.ad-text p span {
-    color: #00bcd4;
-    /* Azul celeste para el número 3 */
-}
-.ad-text p:last-child {
-    color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
-    font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
-}
+    /* ADS Section */
+    .ads-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
+        color: #fff;
+        padding: 0;
+        width: 110%;
+        height: 88px; /* Ajusta esta altura según lo necesario */
+    }
+    .ad-img {
+        max-height: 88px; /* La imagen ocupará toda la altura disponible */
+        max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
+        width: auto; /* Mantiene la proporción de la imagen */
+        height: auto; /* Mantiene la proporción al ajustar la altura */
+        object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
+    }
+    .ad-text {
+        width: 100%; /* O un valor específico de ancho si prefieres */
+        max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
+        margin: 0 auto; /* Esto centra el div horizontalmente */
+        text-align: center;
+        display: flex ;
+        flex-direction: column;
+        align-items: center;
+    }
+    .ad-text p {
+        font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
+        color: black; /* Establece el color del texto a negro */
+    }
+    .ad-text p span {
+        color: #00bcd4;
+        /* Azul celeste para el número 3 */
+    }
+    .ad-text p:last-child {
+        color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
+        font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
+    }
 
-/* Header Section */
-.header-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
-    padding: 10px;
-    width: 98%;
-}
-.logo h1 {
-    font-size: 4rem;
-    color: #000;
-}
-.logo p {
-    font-style: italic;
-    color: #000;
-}
-.nav {
-    display: flex;
-    align-items: center;
-    color: #000;
-    margin: 0 10px;
-    text-decoration: none;
-    justify-content: flex-end;
-}
-.nav a {
-    color: #000;
-    font-size: 0.65rem;
-    text-decoration: none;
-}
-.nav p {
-    color: #000;
-    margin: 0 10px;
-}
-.search-bar {
-    display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: center
-}
-.search-bar input {
-    padding: 10px;
-    width: 200px; /* Ajusta el ancho según sea necesario */
-    margin-bottom: 5px; /* Espacio entre el input y el botón */
-}
-.search-bar button {
-    padding: 0 30px;
-    background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
-    color: #EEE62C;
-    border: none;
-    cursor: pointer;
-    height: 15px; /* Ajusta la altura según sea necesario */
-    margin-left: auto; /* Alinea el botón a la derecha */
-    border-radius: 12px; /* Redondea los bordes */
-}
+    /* Header Section */
+    .header-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
+        padding: 10px;
+        width: 98%;
+    }
+    .logo h1 {
+        font-size: 4rem;
+        color: #000;
+    }
+    .logo p {
+        font-style: italic;
+        color: #000;
+    }
+    .nav {
+        display: flex;
+        align-items: center;
+        color: #000;
+        margin: 0 10px;
+        text-decoration: none;
+        justify-content: flex-end;
+    }
+    .nav a {
+        color: #000;
+        font-size: 0.65rem;
+        text-decoration: none;
+    }
+    .nav p {
+        color: #000;
+        margin: 0 10px;
+    }
+    .search-bar {
+        display: flex;
+        flex-direction: column; /* Organiza los elementos en columna */
+        align-items: center
+    }
+    .search-bar input {
+        padding: 10px;
+        width: 200px; /* Ajusta el ancho según sea necesario */
+        margin-bottom: 5px; /* Espacio entre el input y el botón */
+    }
+    .search-bar button {
+        padding: 0 30px;
+        background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
+        color: #EEE62C;
+        border: none;
+        cursor: pointer;
+        height: 15px; /* Ajusta la altura según sea necesario */
+        margin-left: auto; /* Alinea el botón a la derecha */
+        border-radius: 12px; /* Redondea los bordes */
+    }
 
-/* Profile Section */
-.profile-section {
-    display: flex;
-    gap: 10px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    padding: 0;
-    border: 3px solid #EEE62C;
-    color: #fff;
-    width: 100%;
-}
-.profile-image img {
-    width: 100%;
-}
-.profile-info h2 {
-    font-size: 2.1rem;
-    color: #fff;
-}
-.profile-info p {
-    font-size: 1.2rem;
-    margin-top: 11px;
-    color: #fff;
-}
+    /* Profile Section */
+    .profile-section {
+        display: flex;
+        gap: 10px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        padding: 0;
+        border: 3px solid #EEE62C;
+        color: #fff;
+        width: 100%;
+    }
+    .profile-image img {
+        width: 100%;
+    }
+    .profile-info h2 {
+        font-size: 2.1rem;
+        color: #fff;
+    }
+    .profile-info p {
+        font-size: 1.2rem;
+        margin-top: 11px;
+        color: #fff;
+    }
 
-/* Gallery Section */
-.gallery-section {
-    text-align: center;
-    padding: 20px;
-    width: 98%;
-}
-.gallery-section h2 {
-    font-size: 2.8rem;
-    color: #fff;
-    text-transform: uppercase;
-    margin-bottom: auto;
-    transform: rotate(350deg);
-}
-.gallery {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    width: 98%;
-}
-.gallery img {
-    width: 98%;
-    height: auto;
-}
+    /* Gallery Section */
+    .gallery-section {
+        text-align: center;
+        padding: 20px;
+        width: 98%;
+    }
+    .gallery-section h2 {
+        font-size: 2.8rem;
+        color: #fff;
+        text-transform: uppercase;
+        margin-bottom: auto;
+        transform: rotate(350deg);
+    }
+    .gallery {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        width: 98%;
+    }
+    .gallery img {
+        width: 98%;
+        height: auto;
+    }
 
-/* Interests Section */
-.interests-section {
-    font-size: 1.2rem;
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    color: #fff;
-    border: 3px solid yellow;
-    width: 98%;
-}
-.interests-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
+    /* Interests Section */
+    .interests-section {
+        font-size: 1.2rem;
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        color: #fff;
+        border: 3px solid yellow;
+        width: 98%;
+    }
+    .interests-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
 
-/* Video Section */
-    .video-section h2 {
-    font-size: 4rem;
-    max-width: 100%;
-    color: #fff;
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-}
-.video-section iframe {
-    display: flex; /* Activa el modo Flexbox */
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    flex-direction: column;
-    text-align: center;
-    width: 98%;
-    height: auto;    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    justify-content: center; /* Centra horizontalmente el contenido */
-}
-    
-/* YEAH SCIENCE, BITCH! */
-.science-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.science-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
-.science-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 98%;
-    height: auto;}
-    
-/* my WASHING BITCHES */
-.bitches-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.bitches-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
+    /* YEAH SCIENCE, BITCH! */
+    .science-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 100%;
+        max-width: 100%; /* Ajusta este valor según necesites */
+        margin: 0 auto;
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    }
+    .science-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
+    .science-section iframe {
+        padding: 20px;
+        max-width: 100%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 98%;
+        height: auto;}
+
+    /* my WASHING BITCHES */
+    .bitches-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 100%;
+        max-width: 100%; /* Ajusta este valor según necesites */
+        margin: 0 auto;
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    }
+    .bitches-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
     .instagram-media {
-    padding: 20px;
-    max-width: 70%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 1000px;
-    height: auto;}
+        padding: 20px;
+        max-width: 70%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 1000px;
+        height: auto;}
 
     /* LARVAE */
-.LARVAE-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 100%;
-}
-.LARVAE-section h2 {
-    font-size: 4rem;
-    color: #6e6e6e; /* Gris oscuro piedra */
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
-}
-.LARVAE-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 98%;
-    height: auto;}
+    .LARVAE-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+        width: 100%;
+    }
+    .LARVAE-section h2 {
+        font-size: 4rem;
+        color: #6e6e6e; /* Gris oscuro piedra */
+        margin-bottom: 20px;
+        font-family: "Times New Roman", serif; /* Fuente clásica */
+        text-transform: uppercase; /* Mayúsculas para impacto */
+        letter-spacing: 6px; /* Espaciado entre letras */
+        text-shadow:
+                -1px -1px 0 #e4e0d7, /* Luz superior */
+                1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+
+        /* Sutileza en la transición de colores */
+        background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+        background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+        background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
+    }
+    .LARVAE-section iframe {
+        padding: 20px;
+        max-width: 100%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 98%;
+        height: auto;}
 }
 
 /* Tablet (Medium Devices) */
 @media (min-width: 769px) and (max-width: 1024px) {/* Container */
-.container {
-    font-family: Helvetica, sans-serif;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el contenido */
-    justify-content: center;
-    width: 98%;
-    text-align: center;
-    min-width: 481px;
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 0;
-}
+    .container {
+        font-family: Helvetica, sans-serif;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra el contenido */
+        justify-content: center;
+        width: 98%;
+        text-align: center;
+        min-width: 481px;
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 0;
+    }
 
-/* ADS Section */
-.ads-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
-    color: #fff;
-    padding: 0;
-    width: 110%;
-    height: 88px; /* Ajusta esta altura según lo necesario */
-}
-.ad-img {
-    max-height: 88px; /* La imagen ocupará toda la altura disponible */
-    max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
-    width: auto; /* Mantiene la proporción de la imagen */
-    height: auto; /* Mantiene la proporción al ajustar la altura */
-    object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
-}
-.ad-text {
-    width: 100%; /* O un valor específico de ancho si prefieres */
-    max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
-    margin: 0 auto; /* Esto centra el div horizontalmente */
-    text-align: center;
-    display: flex ;
-    flex-direction: column;
-    align-items: center;
-}
-.ad-text p {
-    font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
-    color: black; /* Establece el color del texto a negro */
-}
-.ad-text p span {
-    color: #00bcd4;
-    /* Azul celeste para el número 3 */
-}
-.ad-text p:last-child {
-    color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
-    font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
-}
+    /* ADS Section */
+    .ads-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
+        color: #fff;
+        padding: 0;
+        width: 110%;
+        height: 88px; /* Ajusta esta altura según lo necesario */
+    }
+    .ad-img {
+        max-height: 88px; /* La imagen ocupará toda la altura disponible */
+        max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
+        width: auto; /* Mantiene la proporción de la imagen */
+        height: auto; /* Mantiene la proporción al ajustar la altura */
+        object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
+    }
+    .ad-text {
+        width: 100%; /* O un valor específico de ancho si prefieres */
+        max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
+        margin: 0 auto; /* Esto centra el div horizontalmente */
+        text-align: center;
+        display: flex ;
+        flex-direction: column;
+        align-items: center;
+    }
+    .ad-text p {
+        font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
+        color: black; /* Establece el color del texto a negro */
+    }
+    .ad-text p span {
+        color: #00bcd4;
+        /* Azul celeste para el número 3 */
+    }
+    .ad-text p:last-child {
+        color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
+        font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
+    }
 
-/* Header Section */
-.header-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
-    padding: 10px;
-    width: 100%;
-}
-.logo h1 {
-    font-size: 4rem;
-    color: #000;
-}
-.logo p {
-    font-style: italic;
-    color: #000;
-}
-.nav {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    color: #000;
-    margin: 0 10px;
-    text-decoration: none;
-}
-.nav a {
-    color: #000;
-    font-size: 0.65rem;
-    text-decoration: none;
-    justify-content: flex-end;
+    /* Header Section */
+    .header-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
+        padding: 10px;
+        width: 100%;
+    }
+    .logo h1 {
+        font-size: 4rem;
+        color: #000;
+    }
+    .logo p {
+        font-style: italic;
+        color: #000;
+    }
+    .nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        color: #000;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+    .nav a {
+        color: #000;
+        font-size: 0.65rem;
+        text-decoration: none;
+        justify-content: flex-end;
 
-}
-.nav p {
-    color: #000;
-    margin: 0 10px;
-}
-.search-bar {
-    display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: center
-}
-.search-bar input {
-    padding: 10px;
-    width: 200px; /* Ajusta el ancho según sea necesario */
-    margin-bottom: 5px; /* Espacio entre el input y el botón */
-}
-.search-bar button {
-    padding: 0 30px;
-    background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
-    color: #EEE62C;
-    border: none;
-    cursor: pointer;
-    height: 15px; /* Ajusta la altura según sea necesario */
-    margin-left: auto; /* Alinea el botón a la derecha */
-    border-radius: 12px; /* Redondea los bordes */
-}
+    }
+    .nav p {
+        color: #000;
+        margin: 0 10px;
+    }
+    .search-bar {
+        display: flex;
+        flex-direction: column; /* Organiza los elementos en columna */
+        align-items: center
+    }
+    .search-bar input {
+        padding: 10px;
+        width: 200px; /* Ajusta el ancho según sea necesario */
+        margin-bottom: 5px; /* Espacio entre el input y el botón */
+    }
+    .search-bar button {
+        padding: 0 30px;
+        background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
+        color: #EEE62C;
+        border: none;
+        cursor: pointer;
+        height: 15px; /* Ajusta la altura según sea necesario */
+        margin-left: auto; /* Alinea el botón a la derecha */
+        border-radius: 12px; /* Redondea los bordes */
+    }
 
-/* Profile Section */
-.profile-section {
-    display: flex;
-    gap: 10px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    padding: 0;
-    border: 3px solid #EEE62C;
-    color: #fff;
-    width: 100%;
-}
-.profile-image img {
-    width: 100%;
-}
-.profile-info h2 {
-    font-size: 2.1rem;
-    color: #fff;
-}
-.profile-info p {
-    font-size: 1.2rem;
-    margin-top: 11px;
-    color: #fff;
-}
+    /* Profile Section */
+    .profile-section {
+        display: flex;
+        gap: 10px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        padding: 0;
+        border: 3px solid #EEE62C;
+        color: #fff;
+        width: 100%;
+    }
+    .profile-image img {
+        width: 100%;
+    }
+    .profile-info h2 {
+        font-size: 2.1rem;
+        color: #fff;
+    }
+    .profile-info p {
+        font-size: 1.2rem;
+        margin-top: 11px;
+        color: #fff;
+    }
 
-/* Gallery Section */
-.gallery-section {
-    text-align: center;
-    padding: 20px;
-    width: 100%;
-}
-.gallery-section h2 {
-    font-size: 2.8rem;
-    color: #fff;
-    text-transform: uppercase;
-    margin-bottom: auto;
-    transform: rotate(350deg);
-}
-.gallery {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-.gallery img {
-    width: auto;
-    height: auto;
-}
+    /* Gallery Section */
+    .gallery-section {
+        text-align: center;
+        padding: 20px;
+        width: 100%;
+    }
+    .gallery-section h2 {
+        font-size: 2.8rem;
+        color: #fff;
+        text-transform: uppercase;
+        margin-bottom: auto;
+        transform: rotate(350deg);
+    }
+    .gallery {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .gallery img {
+        width: auto;
+        height: auto;
+    }
 
-/* Interests Section */
-.interests-section {
-    font-size: 1.2rem;
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    color: #fff;
-    border: 3px solid yellow;
-    width: 100%;
-}
-.interests-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
+    /* Interests Section */
+    .interests-section {
+        font-size: 1.2rem;
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        color: #fff;
+        border: 3px solid yellow;
+        width: 100%;
+    }
+    .interests-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
 
-/* Video Section */
-    .video-section h2 {
-    font-size: 4rem;
-    max-width: 100%;
-    color: #fff;
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
-}
-.video-section iframe {
-    display: flex; /* Activa el modo Flexbox */
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    /* Activa el modo Flexbox */
-    flex-direction: column;
-    text-align: center;
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    justify-content: center; /* Centra horizontalmente el contenido */
-    width: 98%;
-    height: auto;
-}
-    
-/* YEAH SCIENCE, BITCH! */
-.science-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.science-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
-.science-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 98%;
-    height: auto;}
-    
-/*Washing Bitches*/    
-.bitches-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    max-width: 100%; /* Ajusta este valor según necesites */
-    max-height: none;
-    width: 700px;
-    height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.bitches-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
+    /* YEAH SCIENCE, BITCH! */
+    .science-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 100%;
+        max-width: 100%; /* Ajusta este valor según necesites */
+        margin: 0 auto;
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    }
+    .science-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
+    .science-section iframe {
+        padding: 20px;
+        max-width: 100%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 98%;
+        height: auto;}
+
+    /*Washing Bitches*/
+    .bitches-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        max-width: 100%; /* Ajusta este valor según necesites */
+        max-height: none;
+        width: 700px;
+        height: auto; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    }
+    .bitches-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
     .instagram-media {
-    padding: 20px;
-    max-width: 90%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 1000px;
-    height: auto;}
+        padding: 20px;
+        max-width: 90%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 1000px;
+        height: auto;}
 
     /* LARVAE */
-.LARVAE-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-    width: 100%;
-}
-.LARVAE-section h2 {
-    font-size: 4rem;
-    color: #6e6e6e; /* Gris oscuro piedra */
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
-}
-.LARVAE-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 98%;
-    height: auto;}
+    .LARVAE-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+        width: 100%;
+    }
+    .LARVAE-section h2 {
+        font-size: 4rem;
+        color: #6e6e6e; /* Gris oscuro piedra */
+        margin-bottom: 20px;
+        font-family: "Times New Roman", serif; /* Fuente clásica */
+        text-transform: uppercase; /* Mayúsculas para impacto */
+        letter-spacing: 6px; /* Espaciado entre letras */
+        text-shadow:
+                -1px -1px 0 #e4e0d7, /* Luz superior */
+                1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+
+        /* Sutileza en la transición de colores */
+        background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+        background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+        background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
+    }
+    .LARVAE-section iframe {
+        padding: 20px;
+        max-width: 100%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 98%;
+        height: auto;}
 }
 
 /* Desktop (Large Screens) */
 @media (min-width: 1025px) {
-    /* Container */
+/* Container */
 .container {
-    font-family: Helvetica, sans-serif;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el contenido */
-    justify-content: flex-start;
-    width: 95%;
-    text-align: center;
-    max-width: 1440px;
-}
+        font-family: Helvetica, sans-serif;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra el contenido */
+        justify-content: flex-start;
+        width: 95%;
+        text-align: center;
+        max-width: 1440px;
+    }
 
-/* ADS Section */
+    /* ADS Section */
 .ads-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
-    color: #fff;
-    padding: 0;
-    width: 110%;
-    height: 88px; /* Ajusta esta altura según lo necesario */
-}
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to right, #ffffff, #526F9B); /* Gradiente de blanco a #526F9B */
+        color: #fff;
+        padding: 0;
+        width: 110%;
+        height: 88px; /* Ajusta esta altura según lo necesario */
+    }
 .ad-img {
-    max-height: 88px; /* La imagen ocupará toda la altura disponible */
-    max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
-    width: auto; /* Mantiene la proporción de la imagen */
-    height: auto; /* Mantiene la proporción al ajustar la altura */
-    object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
-}
+        max-height: 88px; /* La imagen ocupará toda la altura disponible */
+        max-width: 100%; /* La imagen ocupará el 100% del contenedor en anchura */
+        width: auto; /* Mantiene la proporción de la imagen */
+        height: auto; /* Mantiene la proporción al ajustar la altura */
+        object-fit: contain; /* Asegura que la imagen se mantenga dentro del contenedor */
+    }
 .ad-text {
-    width: 100%; /* O un valor específico de ancho si prefieres */
-    max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
-    margin: 0 auto; /* Esto centra el div horizontalmente */
-    text-align: center;
-    display: flex ;
-    flex-direction: column;
-    align-items: center;
-}
+        width: 100%; /* O un valor específico de ancho si prefieres */
+        max-width: 600px; /* Ancho máximo, ajustable según sea necesario */
+        margin: 0 auto; /* Esto centra el div horizontalmente */
+        text-align: center;
+        display: flex ;
+        flex-direction: column;
+        align-items: center;
+    }
 .ad-text p {
-    font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
-    color: black; /* Establece el color del texto a negro */
-}
+        font-weight: lighter; /* Asegura que todo el texto tenga peso normal */
+        color: black; /* Establece el color del texto a negro */
+    }
 .ad-text p span {
-    color: #00bcd4;
-    /* Azul celeste para el número 3 */
-}
+        color: #00bcd4;
+        /* Azul celeste para el número 3 */
+    }
 .ad-text p:last-child {
-    color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
-    font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
-}
+        color: white; /* Establece el color blanco para "JOIN THE REVOLUTION." */
+        font-style: italic; /* Aplica la cursiva a "JOIN THE REVOLUTION." */
+    }
 
-/* Header Section */
+    /* Header Section */
 .header-section {
-    display: flex;
-    width:100%;
-    align-items: center;
-    padding: 10px;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
-    font-size: 0.6rem;
-    margin: 0;
-}
+        display: flex;
+        width:100%;
+        align-items: center;
+        padding: 10px;
+        flex-direction: column;
+        justify-content: space-evenly;
+        background: linear-gradient(to top, #EEE62C, #ffffff 120%); /* Gradiente de blanco a #526F9B */
+        font-size: 0.6rem;
+        margin: 0;
+    }
 .logo h1 {
-    font-size: 4rem;
-    color: #000;
-}
+        font-size: 4rem;
+        color: #000;
+    }
 .logo p {
-    font-style: italic;
-    color: #000;
-} 
+        font-style: italic;
+        color: #000;
+    }
 .nav {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    color: #000;
-    margin: 0 10px;
-    text-decoration: none;
-}
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        color: #000;
+        margin: 0 10px;
+        text-decoration: none;
+    }
 .nav a {
-    color: #000;
-    font-size: 0.65rem;
-    text-decoration: none;
-}
+        color: #000;
+        font-size: 0.65rem;
+        text-decoration: none;
+    }
 .nav p {
-    color: #000;
-    margin: 0 10px;
-    font-size: 1rem;
-}
+        color: #000;
+        margin: 0 10px;
+        font-size: 1rem;
+    }
 .search-bar {
-    display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: center
-}
+        display: flex;
+        flex-direction: column; /* Organiza los elementos en columna */
+        align-items: center
+    }
 .search-bar input {
-    padding: 10px;
-    width: 200px; /* Ajusta el ancho según sea necesario */
-    margin-bottom: 5px; /* Espacio entre el input y el botón */
-}
+        padding: 10px;
+        width: 200px; /* Ajusta el ancho según sea necesario */
+        margin-bottom: 5px; /* Espacio entre el input y el botón */
+    }
 .search-bar button {
-    padding: 0 30px;
-    background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
-    color: #EEE62C;
-    border: none;
-    cursor: pointer;
-    height: 15px; /* Ajusta la altura según sea necesario */
-    margin-left: auto; /* Alinea el botón a la derecha */
-    border-radius: 12px; /* Redondea los bordes */
-}
-    
-/* Profile Section */
+        padding: 0 30px;
+        background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
+        color: #EEE62C;
+        border: none;
+        cursor: pointer;
+        height: 15px; /* Ajusta la altura según sea necesario */
+        margin-left: auto; /* Alinea el botón a la derecha */
+        border-radius: 12px; /* Redondea los bordes */
+    }
+
+    /* Profile Section */
 .profile-section {
-    display: flex;
-    gap: 10px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    padding: 0;
-    border: 3px solid #EEE62C;
-    color: #fff;
-    width: 100%;
-}
+        display: flex;
+        gap: 10px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        padding: 0;
+        border: 3px solid #EEE62C;
+        color: #fff;
+        width: 100%;
+    }
 .profile-image img {
-    width: 100%;
-}
+        width: 100%;
+    }
 .profile-info h2 {
-    font-size: 2.1rem;
-    color: #fff;
-}
+        font-size: 2.1rem;
+        color: #fff;
+    }
 .profile-info p {
-    font-size: 1.2rem;
-    margin-top: 11px;
-    color: #fff;
-}
-    
-/* Gallery Section */
+        font-size: 1.2rem;
+        margin-top: 11px;
+        color: #fff;
+    }
+
+    /* Gallery Section */
 .gallery-section {
-    width: 100%;
-    text-align: center;
-    padding: 20px;
-}
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+    }
 .gallery-section h2 {
-    font-size: 2.8rem;
-    color: #fff;
-    text-transform: uppercase;
-    margin-bottom: auto;
-    transform: rotate(350deg);
-}
+        font-size: 2.8rem;
+        color: #fff;
+        text-transform: uppercase;
+        margin-bottom: auto;
+        transform: rotate(350deg);
+    }
 .gallery {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-}
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+    }
 .gallery img {
-    width: auto;
-    height: auto;
-}
+        width: auto;
+        height: auto;
+    }
 
-/* Interests Section */
+    /* Interests Section */
 .interests-section {
-    font-size: 1.2rem;
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    color: #fff;
-    border: 3px solid yellow;
-}
+        font-size: 1.2rem;
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        color: #fff;
+        border: 3px solid yellow;
+    }
 .interests-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
 
-/* Video Section */
-    .video-section h2 {
-    font-size: 4rem;
-    max-width: 100%;
-    color: #fff;
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-}
-.video-section iframe {
-    display: flex; /* Activa el modo Flexbox */
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    flex-direction: column;
-    text-align: center;
-    width: 98%;
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    justify-content: center; /* Centra horizontalmente el contenido */
-    height: auto;
-}
-    
-/* YEAH SCIENCE, BITCH! */
+    /* YEAH SCIENCE, BITCH! */
 .science-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 100%;
+        max-width: 100%; /* Ajusta este valor según necesites */
+        margin: 0 auto;
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    }
 .science-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
 .science-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 98%;
-    height: auto;
-}
- 
-/* my WASHING BITCHES */
+        padding: 20px;
+        max-width: 100%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 98%;
+        height: auto;
+    }
+
+    /* my WASHING BITCHES */
 .bitches-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 100%;
+        max-width: 100%; /* Ajusta este valor según necesites */
+        margin: 0 auto;
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+    }
 .bitches-section h2 {
-    font-size: 4rem;
-    color: #fff;
-    margin-bottom: 20px;
-    transform: rotate(357.5deg);
-}
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+    }
 .instagram-media {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 1000px;
-    height: auto;}
-    
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 1000px;
+        height: auto;}
+
     /* LARVAE */
 .LARVAE-section {
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
     width: 100%;
 }
 .LARVAE-section h2 {
-    font-size: 4rem;
-    color: #6e6e6e; /* Gris oscuro piedra */
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-    
-    /* Sutileza en la transición de colores */
-    background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
-    background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
-}
+        font-size: 8rem;
+        color: #6e6e6e; /* Gris oscuro piedra */
+        font-family: "Times New Roman", serif; /* Fuente clásica */
+        letter-spacing: 6px; /* Espaciado entre letras */
+        text-shadow:
+                -1px -1px 0 #e4e0d7, /* Luz superior */
+                1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
+
+        /* Sutileza en la transición de colores */
+        background-image: -webkit-linear-gradient(145deg, #e4e0d7, #d4cfc0); /* Para WebKit */
+        background-image: -moz-linear-gradient(145deg, #e4e0d7, #d4cfc0);    /* Para Firefox */
+        background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);         /* Estándar */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
+    }
+.LARVAE-section h2 span {
+        background-color: #fff; color: #000; font-weight: bold;
+    }
 .LARVAE-section iframe {
-    max-width: 100%;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 98%;
-    height: 100%;}
+        max-width: 100%;
+        background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
+        text-align: center;
+        display: flex; /* Activa el modo Flexbox */
+        flex-direction: column;
+        justify-content: center; /* Centra horizontalmente el contenido */
+        align-items: center; /* Centra verticalmente el contenido (opcional) */
+        width: 98%;
+        height: 100%;}
 }
