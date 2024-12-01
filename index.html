@@ -4,7 +4,7 @@
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-TLBN76K9');
 </script>
@@ -21,7 +21,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
-    
+
+    <!-- Install this snippet AFTER the Tracking code. -->
+    <script>
+        var userId = your_user_id || null; // Replace your_user_id with your own if available.
+        window.hj('identify', userId, {
+            // Add your own custom attributes here. Some EXAMPLES:
+            // 'Signed up': '2019—06-20Z', // Signup date in ISO-8601 format.
+            // 'Last purchase category': 'Electronics', // Send strings with quotes around them.
+            // 'Total purchases': 15, // Send numbers without quotes.
+            // 'Last purchase date': '2019-06-20Z', // Send dates in ISO-8601 format.
+            // 'Last refund date': null, // Send null when no value exists for a user.
+        });
+    </script>
+
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 </script>
@@ -48,6 +61,24 @@ h2 {
     margin-bottom: 15px; /* Margen ajustado para alineación armoniosa */
     font-family: "Helvetica", serif; /* Fuente con más estilo y elegancia */
     text-transform: uppercase; /* Mayúsculas para destacar */
+    letter-spacing: 4px; /* Espaciado más moderado para una apariencia equilibrada */
+    text-shadow: 
+        0 1px 0 #ffffff, /* Luz tenue para un efecto limpio */
+        1px 1px 2px rgba(0, 0, 0, 0.4); /* Sombra ligera para profundidad */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    font-size: 2rem; /* Tamaño ligeramente reducido para mayor sofisticación */
+    max-width: 100%;
+    color: #35e026; /* Azul menos saturado para un tono más sobrio */
+    margin-bottom: 15px; /* Margen ajustado para alineación armoniosa */
+    font-family: "Lucida Console", Monaco, monospace; /* Fuente con más estilo y elegancia */
     letter-spacing: 4px; /* Espaciado más moderado para una apariencia equilibrada */
     text-shadow: 
         0 1px 0 #ffffff, /* Luz tenue para un efecto limpio */
@@ -120,7 +151,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="#">ABOUT</a>
         </nav>
 
-            <input type="text" placeholder="Say Something, YO!">
+            <label>
+                <input type="text" placeholder="Say Something, YO!"></label>
         </div>
         <button>SEND</button>
         </form>
@@ -164,7 +196,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2>YEAH SCIENCE, <span style="background-color: #fff; color: #000; font-weight: bold;">  BITCH!  </span>
     </h2>
     <div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/WMr3-ShzB08?si=QcPzGrpWWaAnNQr7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/WMr3-ShzB08?si=QcPzGrpWWaAnNQr7" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen">
     </iframe>
     </div>
     </section>
@@ -175,14 +207,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2>Andá, traés un sobre de <span style="background-color: #fff; color: #000; font-weight: bold;">cocaína</span> y volvés...🚬
         </h2>
         <div>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3RdCmf0Nz5NAi8w9eoGGcr?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3RdCmf0Nz5NAi8w9eoGGcr?utm_source=generator" width="100%" height="352" allowfullscreen="allowfullscreen" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </section>
     <br>
 
     <!-- my WASHING BITCHES -->
     <section class="bitches-section">
-     <h2>my WASHING <span style="background-color: #fff; color: #000; font-weight: bold;">BITCHES</span>
+     <h2>my WASHING  <span style="background-color: #fff; color: #000; font-weight: bold;"> BITCHES</span>
      </h2>
      <div>
      <blockquote
@@ -200,34 +232,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2>PSYcology and <span style="background-color: #fff; color: #000; font-weight: bold;">Self</span>-Improvement!
     </h2>
     <div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/buD2RM0xChM?si=rAMHKAGLAaPfmaMV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/buD2RM0xChM?si=rAMHKAGLAaPfmaMV" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
     </iframe>
     </div>
     </section>
     <br>
 
-     <!--Finantial Times-->
-    <section class="finantial-section">
+     <!--Financial Times-->
+    <section class="financial-section">
     <h2>Financial<span style="background-color: #fff; color: #cc2121; font-weight: bold; font-size: 1rem;"> ?</span> Times<span style="background-color: #fff; color: #cc2121; font-weight: bold; font-size: 1rem;"> !</span>
     </h2>
     <div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/pE0YX3NktYY?si=uQs1NlPkIi1dC1KA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/pE0YX3NktYY?si=uQs1NlPkIi1dC1KA" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
     </iframe>
     </div>
     </section>
     <br>
 
     <!--LARVAE CONNECTION-->
-    <section class="LARVAE-section" style="border: 2px solid #ccc; padding: 10px;">
+    <section class="LARVAE-section">
     <h2>LARVAE CONNECTION</h2>
-    <iframe src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true"
+    <iframe src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true">
       height="720"
       width="1280"
       frameborder="0"
       scrolling="no"
     </iframe>
     <iframe
-      src="https://player.kick.com/westcol?muted=true&allowfullscreen=true"
+      src="https://player.kick.com/westcol?muted=true&allowfullscreen=true">
       height="720"
       width="1280"
       frameborder="0"
@@ -239,8 +271,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section>
     <h2>¡Gracias! ¡Vuelva pronto!
     </h2>
-    <h2>Su humilde servidor: i-Naxhito</h2>
-    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FAutomotrizTemple%2Fposts%2F121072576852251%3A842439823408353&show_text=true&width=500" width="500" height="498" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+    <h3>Su humilde servidor: i-NAXHITO</h3>
+    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FAutomotrizTemple%2Fposts%2F121072576852251%3A842439823408353&show_text=true&width=500" width="500" height="498" style="border:none;overflow:hidden" allowfullscreen="allowfullscreen" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
     </iframe>
     <div class="fb-comments" data-href="https://salayer6.github.io/salayer6/;ref=embed_post" data-width="1000" data-numposts="5">
     </div>
@@ -277,15 +309,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         © <span id="year"></span> Todos los derechos reservados.
     </p>
 </footer>
-
-<script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-
-
-<script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-</script>
 
 <script>
     document.getElementById("year").textContent = new Date().getFullYear();

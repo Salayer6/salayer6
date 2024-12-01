@@ -139,11 +139,11 @@ body {
     background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
     color: #EEE62C;
     font-size: 0.7rem;
-    margin: 0;
     border: none;
     cursor: pointer;
     height: 15px; /* Ajusta la altura según sea necesario */
-    margin-left: auto; /* Alinea el botón a la derecha */
+    /* Alinea el botón a la derecha */
+    margin: 0 0 0 auto;
     border-radius: 12px; /* Redondea los bordes */
 }
 
@@ -211,8 +211,8 @@ body {
     text-transform: uppercase;
 }
 
-/* Video Section */
-.video-section {
+/* FINANCIAL TIMES Section */
+.financial-section {
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -226,48 +226,7 @@ body {
     margin: 0 auto;
     height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
 }
-.video-section h2 {
-    font-size: 4rem;
-    max-width: 100%;
-    color: #fff;
-    margin-bottom: 20px;
-    font-family: "Times New Roman", serif; /* Fuente clásica */
-    text-transform: uppercase; /* Mayúsculas para impacto */
-    letter-spacing: 6px; /* Espaciado entre letras */
-    text-shadow: 
-        -1px -1px 0 #e4e0d7, /* Luz superior */
-        1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
-}
-.video-section iframe {
-    display: flex; /* Activa el modo Flexbox */
-    max-width: 100%;
-    max-height: none;
-    margin: 0 auto;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    flex-direction: column;
-    text-align: center;
-    width: 98%;
-    height: auto;
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    justify-content: center; /* Centra horizontalmente el contenido */
-}
-
-/* FINANTIAL TIMES Section */
-.finantial-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.finantial-section h2 {
+.financial-section h2 {
     font-size: 4rem;
     max-width: 100%;
     color: #000000;
@@ -279,7 +238,7 @@ body {
         -1px -1px 0 #e4e0d7, /* Luz superior */
         1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra interna */
 }
-.finantial-section iframe {
+.financial-section iframe {
     display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
     max-height: none;
@@ -366,7 +325,6 @@ body {
 
     /* LARVAE */
 .LARVAE-section {
-    padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -380,7 +338,6 @@ body {
 .LARVAE-section h2 {
     font-size: 4rem;
     color: #6e6e6e; /* Gris oscuro piedra */
-    margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente clásica */
     text-transform: uppercase; /* Mayúsculas para impacto */
     letter-spacing: 6px; /* Espaciado entre letras */
@@ -431,7 +388,7 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section blockquote {
+.instagram-media {
     padding: 20px;
     max-height: none;
     max-width: 100%;
@@ -621,21 +578,7 @@ body {
 }
 
 /* Video Section */
-.video-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.video-section h2 {
+    .video-section h2 {
     font-size: 4rem;
     max-width: 100%;
     color: #fff;
@@ -651,7 +594,6 @@ body {
     display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
     width: 98%;
@@ -713,7 +655,7 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section blockquote {
+    .instagram-media {
     padding: 20px;
     max-width: 70%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
@@ -774,7 +716,6 @@ body {
 /* Tablet (Medium Devices) */
 @media (min-width: 769px) and (max-width: 1024px) {/* Container */
 .container {
-    margin: 0;
     font-family: Helvetica, sans-serif;
     line-height: 1.6;
     display: flex;
@@ -876,7 +817,7 @@ body {
     margin-bottom: 5px; /* Espacio entre el input y el botón */
 }
 .search-bar button {
-    padding: 0px 30px;
+    padding: 0 30px;
     background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
     color: #EEE62C;
     border: none;
@@ -891,7 +832,7 @@ body {
     display: flex;
     gap: 10px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    padding: 0px;
+    padding: 0;
     border: 3px solid #EEE62C;
     color: #fff;
     width: 100%;
@@ -948,21 +889,7 @@ body {
 }
 
 /* Video Section */
-.video-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.video-section h2 {
+    .video-section h2 {
     font-size: 4rem;
     max-width: 100%;
     color: #fff;
@@ -986,7 +913,7 @@ body {
     display: flex; /* Activa el modo Flexbox */
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    display: flex; /* Activa el modo Flexbox */
+    /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
     align-items: center; /* Centra verticalmente el contenido (opcional) */
@@ -1038,7 +965,6 @@ body {
     flex-direction: column;
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
     max-width: 100%; /* Ajusta este valor según necesites */
     max-height: none;
     width: 700px;
@@ -1050,7 +976,7 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section blockquote {
+    .instagram-media {
     padding: 20px;
     max-width: 90%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
@@ -1112,7 +1038,6 @@ body {
 @media (min-width: 1025px) {
     /* Container */
 .container {
-    margin: 0;
     font-family: Helvetica, sans-serif;
     line-height: 1.6;
     display: flex;
@@ -1122,8 +1047,6 @@ body {
     width: 95%;
     text-align: center;
     max-width: 1440px;
-    margin: 0 auto;
-    padding: 0;
 }
 
 /* ADS Section */
@@ -1215,7 +1138,7 @@ body {
     margin-bottom: 5px; /* Espacio entre el input y el botón */
 }
 .search-bar button {
-    padding: 0px 30px;
+    padding: 0 30px;
     background: linear-gradient(to top, #000, #ffffff 190%); /* Gradiente de blanco a #526F9B */
     color: #EEE62C;
     border: none;
@@ -1230,7 +1153,7 @@ body {
     display: flex;
     gap: 10px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    padding: 0px;
+    padding: 0;
     border: 3px solid #EEE62C;
     color: #fff;
     width: 100%;
@@ -1287,21 +1210,7 @@ body {
 }
 
 /* Video Section */
-.video-section {
-    padding: 20px;
-    background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    text-align: center;
-    border: 3px solid #EEE62C;
-    display: flex; /* Activa el modo Flexbox */
-    flex-direction: column;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido (opcional) */
-    width: 100%;
-    max-width: 100%; /* Ajusta este valor según necesites */
-    margin: 0 auto;
-    height: 100%; /* Asegura que el contenedor tenga suficiente altura para centrar */
-}
-.video-section h2 {
+    .video-section h2 {
     font-size: 4rem;
     max-width: 100%;
     color: #fff;
@@ -1316,13 +1225,11 @@ body {
 .video-section iframe {
     display: flex; /* Activa el modo Flexbox */
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
-    display: flex; /* Activa el modo Flexbox */
     flex-direction: column;
     text-align: center;
     width: 98%;
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     justify-content: center; /* Centra horizontalmente el contenido */
-    width: 98%;
     height: auto;
 }
     
@@ -1381,9 +1288,8 @@ body {
     margin-bottom: 20px;
     transform: rotate(357.5deg);
 }
-.bitches-section blockquote {
+.instagram-media {
     padding: 20px;
-    width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -1396,7 +1302,6 @@ body {
     
     /* LARVAE */
 .LARVAE-section {
-    padding: 20px;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
     border: 3px solid #EEE62C;
@@ -1410,7 +1315,6 @@ body {
 .LARVAE-section h2 {
     font-size: 4rem;
     color: #6e6e6e; /* Gris oscuro piedra */
-    margin-bottom: 20px;
     font-family: "Times New Roman", serif; /* Fuente clásica */
     text-transform: uppercase; /* Mayúsculas para impacto */
     letter-spacing: 6px; /* Espaciado entre letras */
@@ -1427,7 +1331,6 @@ body {
     -webkit-text-fill-color: transparent;/* Relleno transparente para aplicar gradiente */
 }
 .LARVAE-section iframe {
-    padding: 20px;
     max-width: 100%;
     background-color: rgba(50, 50, 50, 0.8); /* Gris oscuro con alta opacidad */
     text-align: center;
@@ -1436,5 +1339,5 @@ body {
     justify-content: center; /* Centra horizontalmente el contenido */
     align-items: center; /* Centra verticalmente el contenido (opcional) */
     width: 98%;
-    height: auto;}
+    height: 100%;}
 }
