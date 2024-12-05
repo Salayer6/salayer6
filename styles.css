@@ -606,6 +606,34 @@
         1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
+.video-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.video-section h2 {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 20px;
+    transform: rotate(357.5deg);
+    display: inline-block;
+}
+
+.column-section {
+    width: 50%;
+
+}
+
     .science-section {
         padding: 20px;
         background-color: rgba(50, 50, 50, 0.8);
@@ -1317,12 +1345,39 @@
         display: inline-block;
     }
 
+    .video-section {
+        padding: 20px;
+        background-color: rgba(50, 50, 50, 0.8);
+        text-align: center;
+        border: 3px solid #EEE62C;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        height: 100%;
+    }
 
+    .video-section h2 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 20px;
+        transform: rotate(357.5deg);
+        display: inline-block;
+    }
 
     .music-section {
         background-color: rgba(50, 50, 50, 0.8);
         text-align: center;
         justify-items: center;
+        border: 3px solid #EEE62C;
+        padding-bottom: 20px;
+    }
+    .reddit-embed-bq {
+        justify-items: center;
+        width: 50%;
         border: 3px solid #EEE62C;
         padding-bottom: 20px;
     }
@@ -1350,6 +1405,7 @@
         align-items: center;
         height: 100%;
         width: 100%;
+        padding-bottom: 20px;
     }
 
     .LARVAE-section h2 {
@@ -1372,8 +1428,8 @@
         height:720px;
         width:1280px;
     }
-    .bitches-section {
-        padding: 20px;
+
+    .instagram-media {
         background-color: rgba(50, 50, 50, 0.8);
         text-align: center;
         border: 3px solid #EEE62C;
@@ -1381,13 +1437,23 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        height: 100%;
         width: 100%;
-        max-width: 100%;
+    }
+    .instagram-media div{
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 50%;
         margin: 0 auto;
         height: 100%;
     }
 
-    .bitches-section h2 {
+    .instagram-media h2 {
         font-size: 4rem;
         color: #fff;
         margin-bottom: 20px;
