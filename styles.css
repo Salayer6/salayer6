@@ -194,9 +194,20 @@ body {
     width: 100%;
 }
 
-.profile-image img {
-    width: 100%;
-}
+.profile-section img{
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    align-items: center;
+    width: 500px;        /* o 70px para pantallas muy pequeñas */
+    height: 500px;       /* asegúrate de que el valor sea igual al width */
+    border-radius: 50%;  /* círculo perfecto */
+    object-fit: cover;   /* recorta la imagen si no es cuadrada */
+    border: 2px solid #EEE62C; /* borde decorativo, opcional */
+    background: #222;    /* fondo de relleno */
+    display: block;
+    margin: 0 auto;
+    }
 
 .profile-info h2 {
     font-size: 1.5rem;
@@ -396,7 +407,7 @@ body {
 }
 
 .reddit-media {
-    max-width: 30%;
+    width: 30vw;
 }
 
 /* =========================
@@ -411,6 +422,17 @@ body {
         max-width: 100vw;
     }
     .profile-section {
+    display: flex;                /* activa flexbox */
+    flex-direction: column;   
+    background-color: rgba(50, 50, 50, 0.8);
+    padding: 0;
+    padding-bottom: 0px;
+    border: 3px solid #EEE62C;
+    color: #fff;
+    width: 100%;
+}
+    .profile-section img{
+    display: flex;                /* activa flexbox */
     flex-direction: column;
     gap: 8px;
     padding: 10px;
@@ -455,6 +477,9 @@ body {
     .nav {
         font-size: 1rem;
     }
+    .reddit-media {
+    width: 60vw;
+    }
 }
 
 /* MOBILE */
@@ -462,22 +487,26 @@ body {
     body {
         font-size: 1rem;
     }
+    
     .main-container {
         width: 100%;
         max-width: 100vw;
         padding: 4px;
     }
+    
     .ads-section {
         flex-direction: column;
         justify-content: center;
         height: auto;
     }
+    
     .profile-section {
         flex-direction: column;
         gap: 8px;
         padding: 6px;
         align-items: center;
     }
+    
     .profile-image img {
     width: 100px;        /* o 70px para pantallas muy pequeñas */
     height: 100px;       /* asegúrate de que el valor sea igual al width */
@@ -488,12 +517,15 @@ body {
     display: block;
     margin: 0 auto;
     }
+    
     .gallery img {
         width: 100vw;
     }
+    
     .gallery {
         gap: 4px;
     }
+    
     .interests-section,
     .financial-section,
     .science-section,
@@ -504,6 +536,7 @@ body {
         padding: 6px;
         font-size: 0.95rem;
     }
+    
     .financial-section iframe,
     .science-section iframe,
     .music-section iframe,
@@ -514,9 +547,11 @@ body {
         max-width: 100vw;
         height: 160px;
     }
+    
     .logo h1 {
         font-size: 1.2rem;
     }
+    
     .gallery-section h2,
     .interests-section h2,
     .financial-section h2,
@@ -528,6 +563,7 @@ body {
         font-size: 1.1rem;
         letter-spacing: 2px;
     }
+    
     .search-bar input,
     .search-bar button {
         width: 100%;
@@ -536,15 +572,21 @@ body {
         font-size: 1rem;
         box-sizing: border-box;
     }
+    
     .nav {
         flex-wrap: wrap;
         font-size: 0.9rem;
         justify-content: center;
         margin: 0 2px;
     }
+    
     .header-section {
         padding: 6px;
         font-size: 0.55rem;
+    }
+    
+    .reddit-media {
+    width: 60vw;
     }
 }
 
@@ -555,19 +597,23 @@ body {
     }
     
     .profile-image img {
-        width: 70px;
-        height: 70px;
+    width: 70px;
+    height: 70px;
     }
+    
     .financial-section iframe,
     .science-section iframe,
     .music-section iframe,
     .LARVAE-section iframe,
     .video-section iframe {
-        height: 110px;
+    height: 200px;
+    width: 100%;
     }
+    
     .logo h1 {
         font-size: 0.85rem;
     }
+    
     .gallery-section h2,
     .interests-section h2,
     .financial-section h2,
@@ -577,6 +623,10 @@ body {
     .bitches-section h2,
     .video-section h2 {
         font-size: 0.85rem;
+    }
+    
+    .reddit-media {
+    width: 100vw;
     }
 }
 
