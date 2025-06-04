@@ -279,19 +279,6 @@ body {
     display: inline-block;
 }
 
-.science-section iframe {
-    padding: 20px;
-    max-width: 100%;
-    max-height: none;
-    background-color: rgba(50, 50, 50, 0.8);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 98%;
-}
-
 .music-section {
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8);
@@ -366,19 +353,6 @@ body {
             1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.financial-section iframe {
-    display: flex;
-    max-width: 100%;
-    max-height: none;
-    background-color: rgba(50, 50, 50, 0.8);
-    flex-direction: column;
-    text-align: center;
-    width: 98%;
-    height: auto;
-    align-items: center;
-    justify-content: center;
-}
-
 .LARVAE-section {
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8);
@@ -421,7 +395,7 @@ body {
         0px 2px 8px rgba(0,0,0,0.09); /* sombra suave global */
 }
 
-.instagram-media {
+.reddit-media {
     max-width: 30%;
 }
 
