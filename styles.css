@@ -10,7 +10,8 @@
 body {
     font-family: Helvetica, sans-serif;
     line-height: 1.6;
-    background: #181818;
+    background: #181818 url("pattern_background.webp");
+    background-repeat: repeat;
     color: #fff;
 }
 
