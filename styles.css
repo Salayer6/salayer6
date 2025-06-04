@@ -21,14 +21,12 @@ body {
 
 .main-container {
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 95%;
     max-width: 1440px;
     padding: 0;
     text-align: center;
     background: none;
+    /* display: block es el valor por defecto, puedes omitirlo */
 }
 
 /* =========================
@@ -86,33 +84,53 @@ body {
 }
 
 .header-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background: linear-gradient(to top, #EEE62C, #ffffff 120%);
-    padding: 10px;
-    font-size: 0.6rem;
-    margin: 0;
+    justify-content: space-between; /* o space-evenly si quieres espacio entre ellos */
     width: 100%;
+    padding: 10px;
+    background: linear-gradient(to top, #EEE62C, #ffffff 120%);
+    margin-bottom: 20px;
 }
 
-.logo h1 {
+.title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.title h1 {
     font-size: 4rem;
     color: #000;
 }
 
-.logo p {
-    font-style: italic;
-    color: #000;
-    font-size: 0.6rem;
-    margin: 0;
+.banner-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* separa a los extremos */
+    width: 95%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.h2,
+#say-something {
+    flex: 1 1 1;
+}
+
+.h2 {
+    text-align: center;
+    padding-right: 20px;
+}
+
+#say-something {
+    text-align: right;
+    padding-left: 20px;
+    align-content: center;
 }
 
 .nav {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     font-size: 1.5rem;
     color: #000;
     margin: 0 10px;
@@ -121,7 +139,6 @@ body {
 .nav a {
     color: #000;
     font-size: 0.65rem;
-    text-decoration: none;
 }
 
 .nav p {
@@ -132,7 +149,7 @@ body {
 .search-bar {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     font-size: 0.9rem;
     margin: 0;
 }
@@ -156,30 +173,29 @@ body {
     border-radius: 12px;
 }
 
+.disclaimer p {
+    font-style: italic;
+    color: #000;
+    font-size: 0.6rem;
+    margin: 0;
+}
+
 /* =========================
    PROFILE & GALLERY
    ========================= */
-
 .profile-section {
-    display: flex;
-    gap: 16px;
+    display: flex;                /* activa flexbox */
+    flex-direction: row;   
     background-color: rgba(50, 50, 50, 0.8);
-    padding: 16px;
+    padding: 0;
+    padding-bottom: 0px;
     border: 3px solid #EEE62C;
     color: #fff;
     width: 100%;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
 }
 
 .profile-image img {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #EEE62C;
-    background: #222;
+    width: 100%;
 }
 
 .profile-info h2 {
@@ -202,37 +218,103 @@ body {
     font-size: 2.8rem;
     color: #fff;
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: auto;
     transform: rotate(350deg);
 }
 
 .gallery {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
 }
 
 .gallery img {
-    width: 220px;
-    max-width: 100%;
+    width: auto;
     height: auto;
-    border-radius: 12px;
-    border: 2px solid #EEE62C;
-    margin: 0 auto;
-    object-fit: cover;
 }
 
 /* =========================
    SECTIONS (INTERESTS, MUSIC, ETC.)
    ========================= */
 
-.interests-section,
-.financial-section,
-.science-section,
-.music-section,
-.LARVAE-section,
-.bitches-section,
+.interests-section {
+    font-size: 1.2rem;
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    color: #fff;
+    border: 3px solid yellow;
+}
+
+.interests-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.interests-section p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.science-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.science-section h2 {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 20px;
+    transform: rotate(357.5deg);
+    display: inline-block;
+}
+
+.science-section iframe {
+    padding: 20px;
+    max-width: 100%;
+    max-height: none;
+    background-color: rgba(50, 50, 50, 0.8);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 98%;
+}
+
+.music-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.music-section h2 {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 20px;
+    transform: rotate(357.5deg);
+    display: inline-block;
+}
+
 .video-section {
     padding: 20px;
     background-color: rgba(50, 50, 50, 0.8);
@@ -244,63 +326,103 @@ body {
     align-items: center;
     width: 100%;
     max-width: 100%;
-    margin: 0 auto 20px auto;
-    box-sizing: border-box;
+    margin: 0 auto;
+    height: 100%;
 }
 
-.interests-section {
-    border: 3px solid yellow;
+.video-section h2 {
+    font-size: 4rem;
+    color: #fff;
     margin-bottom: 20px;
-}
-
-.interests-section h2,
-.financial-section h2,
-.science-section h2,
-.music-section h2,
-.LARVAE-section h2,
-.bitches-section h2,
-.video-section h2 {
-    font-size: 2rem;
-    color: #fff;
-    margin-bottom: 14px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-}
-
-.financial-section h2,
-.LARVAE-section h2 {
-    color: #000;
-    background-image: linear-gradient(145deg, #e4e0d7, #d4cfc0);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: -1px -1px 0 #e4e0d7, 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-.science-section h2,
-.music-section h2,
-.bitches-section h2,
-.video-section h2 {
-    color: #fff;
     transform: rotate(357.5deg);
     display: inline-block;
 }
 
-.financial-section iframe,
-.science-section iframe,
-.music-section iframe,
-.LARVAE-section iframe,
-.video-section iframe {
-    width: 90%;
-    max-width: 800px;
-    min-width: 0;
-    height: 360px;
+.financial-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
-    border-radius: 12px;
-    background: #222;
-    border: none;
-    display: block;
+    height: 100%;
+}
+
+.financial-section h2 {
+    font-size: 4rem;
+    max-width: 100%;
+    color: #000000;
+    margin-bottom: 20px;
+    font-family: "Times New Roman", serif;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    text-shadow:
+            -1px -1px 0 #e4e0d7,
+            1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.financial-section iframe {
+    display: flex;
+    max-width: 100%;
+    max-height: none;
+    background-color: rgba(50, 50, 50, 0.8);
+    flex-direction: column;
+    text-align: center;
+    width: 98%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.LARVAE-section {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    text-align: center;
+    border: 3px solid #EEE62C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.LARVAE-section h2 {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #e6e6e6;
+    background: linear-gradient(120deg, #f9f6f2 60%, #d6d6d6 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Mármol veteado simulando textura */
+    background-image:
+        linear-gradient(120deg, #f9f6f2 60%, #d6d6d6 100%),
+        url('https://www.transparenttextures.com/patterns/marble.png');
+    background-size: cover;
+    background-repeat: repeat;
+    background-blend-mode: lighten;
+
+    /* Efecto tallado/grabado (chiseled) */
+    text-shadow:
+        2px 2px 4px #b0b0b0,    /* sombra inferior derecha (profundidad) */
+        -2px -2px 1px #ffffff,   /* brillo superior izquierdo (relieve) */
+        0px 1px 0px #a9a9a9,     /* sombreado adicional */
+        0px 2px 8px rgba(0,0,0,0.09); /* sombra suave global */
+}
+
+.instagram-media {
+    max-width: 30%;
 }
 
 /* =========================

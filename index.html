@@ -24,7 +24,7 @@ j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 
     <!-- Install this snippet AFTER the Tracking code. -->
-    <script>
+<script>
         var userId = your_user_id || null; // Replace your_user_id with your own if available.
         window.hj('identify', userId, {
             // Add your own custom attributes here. Some EXAMPLES:
@@ -34,7 +34,7 @@ j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src=
             // 'Last purchase date': '2019-06-20Z', // Send dates in ISO-8601 format.
             // 'Last refund date': null, // Send null when no value exists for a user.
         });
-    </script>
+</script>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
@@ -50,6 +50,7 @@ j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
 <style>
     body {
         display: flex;
@@ -140,13 +141,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <!-- Encabezado Superior -->
+
     <header class="header-section">
-        <div class="logo">
+        <div class=title>
             <h1>mySHOUT.US<i class="fa fa-bullhorn"></i>
             </h1>
+        </div>
+        <div class="banner-row">
+        <div class="h2">
             <h2>Get your shout on the web!</h2>
-        <!--    <p>Your data and privacy is completely secure and will be processed accordingly to the Google Workspace and Cloud excellence, ensuring compliance to the European GDPR norm.
-                (General Data Protection Regulation).</p> -->
+          
         </div>
         <form id="say-something">
             <div class="search-bar">
@@ -159,16 +163,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </nav>
 
                 <label>
-                    <input type="text" placeholder="Say Something, YO!"></label>
+                    <input type="text" placeholder="Say Something, YO!">
+                </label>
             </div>
-            <button>SEND</button>
+            <button>SEND
+            </button>
         </form>
+        </div>
+        <div class=disclaimer>
+        <p>Your data and privacy is completely secure and will be processed accordingly to the Google Workspace and Cloud excellence, ensuring compliance to the European GDPR norm.
+                (General Data Protection Regulation).
+        </p>
+        </div>
     </header>
 <div class="main-container">
     <!-- Sección de Perfil -->
     <section class="profile-section">
         <div class="profile-image">
-            <img src="yo.webp" alt="Perfil de Cap'n Cooks" style="align-items: center">
+            <img src="yo.webp" alt="Perfil de Naxhito" style="align-items: center">
         </div>
         <div class="profile-info">
             <h2>KRYSTAL SHIP</h2>
@@ -226,7 +238,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
    <!-- <br>
     
-     Yanquis doing stupid shit so you don't have to 
+     Yanquis doing stupid shit so you don't have to section
+
     <section class="instagram-media">
      <h2>Yankees doing stupid shit<span style="background-color: #fff; color: #000; font-weight: bold;"> so you don't have to.</span>
      </h2>
@@ -236,7 +249,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <br>-->
 
 <!-- PSYcology and Self Improvement! -->
-    <section class="science-section">
+    <section class="video-section">
     <h2>Psycology and <span style="background-color: #fff; color: #000; font-weight: bold;">Self</span>-Improvement!
     </h2>
     <div>
@@ -247,8 +260,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
     <br>
 
+<!-- PSYcology and Self Improvement! CDT -->
 
-<section class="video-section" id="PsycologyandSelfCDT">
+    <section class="video-section" id="PsycologyandSelfCDT">
     <h2>Psycology and <span style="background-color: #fff; color: #000; font-weight: bold;">Self</span>-Improvement! CDT</h2>
         <div class="video-container">
         <div class="column">
@@ -256,7 +270,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </iframe>
         </div>
     </div>
-</section>
+    </section>
 
 <br>
 
@@ -275,8 +289,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!--LARVAE CONNECTION-->
     <section class="LARVAE-section">
     <h2>LARVAE CONNECTION</h2>
-    <div id="twitch-embed"></div>
-    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <div id="twitch-embed">
+    </div>
+    <script src="https://embed.twitch.tv/embed/v1.js">
+    </script>
     <script type="text/javascript">
       new Twitch.Embed("twitch-embed", {
         width: 854,
@@ -286,17 +302,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         parent: ["embed.example.com", "othersite.example.com"]
       });
     </script>
-    <iframe src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true">
-      height="720"
-      width="1280"
-      frameborder="0"
-      scrolling="no"
+    <iframe
+    src="https://player.kick.com/guzzyk?muted=true&allowfullscreen=true">
+      height="675"
+      width="1200"
+        frameborder="0"
+        scrolling="no"
     </iframe>
         <br>
     <iframe
-      src="https://player.kick.com/westcol?muted=true&allowfullscreen=true">
-      height="720"
-      width="1280"
+    src="https://player.kick.com/westcol?muted=true&allowfullscreen=true">
+      height="675"
+      width="1200"
       frameborder="0"
       scrolling="no"
     </iframe>
