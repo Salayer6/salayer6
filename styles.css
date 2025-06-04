@@ -400,32 +400,6 @@ body {
 }
 
 /* =========================
-   FOOTER
-   ========================= */
-
-footer {
-    background: linear-gradient(145deg, #0a0a0a, #121212);
-    color: rgba(255, 255, 255, 0.3);
-    padding: 20px;
-    text-align: center;
-    font-family: 'Orbitron', sans-serif;
-    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    height: 120px;
-    width: 100%;
-    font-size: 0.85rem;
-}
-
-footer a {
-    color: #4a6ff5;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-/* =========================
    MEDIA QUERIES
    ========================= */
 
@@ -437,16 +411,24 @@ footer a {
         max-width: 100vw;
     }
     .profile-section {
-        flex-direction: column;
-        gap: 8px;
-        padding: 10px;
-        align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    align-items: center;
+    width: 500px;        /* o 70px para pantallas muy pequeñas */
+    height: 500px;       /* asegúrate de que el valor sea igual al width */
+    border-radius: 50%;  /* círculo perfecto */
+    object-fit: cover;   /* recorta la imagen si no es cuadrada */
+    border: 2px solid #EEE62C; /* borde decorativo, opcional */
+    background: #222;    /* fondo de relleno */
+    display: block;
+    margin: 0 auto;
     }
     .gallery-section h2 {
         font-size: 2rem;
     }
     .gallery img {
-        width: 160px;
+        width: 100vw;
     }
     .interests-section,
     .financial-section,
@@ -497,11 +479,17 @@ footer a {
         align-items: center;
     }
     .profile-image img {
-        width: 100px;
-        height: 100px;
+    width: 100px;        /* o 70px para pantallas muy pequeñas */
+    height: 100px;       /* asegúrate de que el valor sea igual al width */
+    border-radius: 50%;  /* círculo perfecto */
+    object-fit: cover;   /* recorta la imagen si no es cuadrada */
+    border: 2px solid #EEE62C; /* borde decorativo, opcional */
+    background: #222;    /* fondo de relleno */
+    display: block;
+    margin: 0 auto;
     }
     .gallery img {
-        width: 100px;
+        width: 100vw;
     }
     .gallery {
         gap: 4px;
@@ -562,7 +550,10 @@ footer a {
 
 /* EXTRA SMALL (phones) */
 @media (max-width: 480px) {
-    .gallery img,
+    .gallery img{
+    width: 100vw;
+    }
+    
     .profile-image img {
         width: 70px;
         height: 70px;
