@@ -1,3 +1,3 @@
 # Salayer6 ► Salayer7
 Salayer7 Requirements:
-Plan, Execute and Document a real-world data science task completed using Python.
+Plan, Execute and Document a real-world data science task completed using PySpark.
