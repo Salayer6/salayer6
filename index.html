@@ -544,6 +544,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>Utilizamos cookies para mejorar tu experiencia en nuestro sitio. Al continuar, aceptas nuestro uso de cookies.</p>
     <button id="accept-cookies" class="cookie-consent-button">Aceptar</button>
 </div>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     const consentBanner = document.getElementById('cookie-consent-banner');
     const acceptButton = document.getElementById('accept-cookies');
@@ -562,5 +563,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('cookies-accepted', 'true');
     });
 });
+</script>
 </body>
 </html>
