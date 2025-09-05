@@ -544,5 +544,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>Utilizamos cookies para mejorar tu experiencia en nuestro sitio. Al continuar, aceptas nuestro uso de cookies.</p>
     <button id="accept-cookies" class="cookie-consent-button">Aceptar</button>
 </div>
+document.addEventListener('DOMContentLoaded', function() {
+    const consentBanner = document.getElementById('cookie-consent-banner');
+    const acceptButton = document.getElementById('accept-cookies');
+
+    // Revisa si el usuario ya aceptó las cookies
+    if (!localStorage.getItem('cookies-accepted')) {
+        consentBanner.style.display = 'block';
+    }
+
+    // Cuando el usuario hace clic en "Aceptar"
+    acceptButton.addEventListener('click', function() {
+        // Oculta el banner
+        consentBanner.style.display = 'none';
+        
+        // Guarda la preferencia en el almacenamiento local del navegador
+        localStorage.setItem('cookies-accepted', 'true');
+    });
+});
 </body>
 </html>
