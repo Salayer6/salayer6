@@ -1,0 +1,300 @@
+:root {
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --primary-color: #6a5acd;
+  --primary-hover-color: #7b68ee;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: #333333;
+  --success-color: #2e7d32;
+  --error-color: #d32f2f;
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* --- Login Screen & API Key Screen --- */
+.login-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  height: 100%;
+  padding: 1rem;
+}
+
+.login-container h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.login-container p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.api-key-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.api-key-input {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-family);
+}
+
+.api-key-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(106, 90, 205, 0.5);
+}
+
+.api-key-note {
+    font-size: 0.9rem !important;
+    color: var(--text-secondary);
+}
+
+.api-key-note a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.api-key-note a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover-color);
+}
+
+/* --- Dashboard --- */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.wallet-info {
+  background-color: var(--surface-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: monospace;
+  border: 1px solid var(--border-color);
+  word-break: break-all;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-secondary {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+  background-color: #2c2c2c;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background-color: var(--surface-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.card-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* --- Tables --- */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th, td {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+td {
+  font-size: 1rem;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.address-cell {
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.tx-type {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.tx-type-in {
+  background-color: rgba(46, 125, 50, 0.2);
+  color: #66bb6a;
+}
+
+.tx-type-out {
+  background-color: rgba(211, 47, 47, 0.2);
+  color: #ef5350;
+}
+
+/* --- Loader & Error --- */
+.loading-container, .error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-left-color: var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: var(--error-color);
+  background-color: rgba(211, 47, 47, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  .login-container h1 {
+    font-size: 2rem;
+  }
+  .wallet-info {
+    font-size: 0.8rem;
+  }
+  .dashboard-header {
+      flex-direction: column;
+      align-items: stretch;
+  }
+  .header-actions {
+      justify-content: space-between;
+  }
+}
