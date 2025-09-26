@@ -56,6 +56,18 @@ body {
   color: var(--text-secondary-color);
 }
 
+.login-box .form-group {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.login-box .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary-color);
+}
+
 .login-box input {
   width: 100%;
   padding: 0.75rem 1rem;

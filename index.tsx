@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom/client';
 
-const ETHERSCAN_API_KEY = "YourApiKeyToken"; // Replace with your actual key if needed, but the prompt implies a single key source.
-
 const chains = [
     { id: 1, name: 'Ethereum', symbol: 'ETH', apiUrl: 'https://api.etherscan.io/api' },
     { id: 42161, name: 'Arbitrum', symbol: 'ARBETH', apiUrl: 'https://api.arbiscan.io/api' },
@@ -86,11 +84,12 @@ const TransactionsList = ({ transactions, chain }) => (
 
 const LoginScreen = ({ onLogin }) => {
     const [address, setAddress] = useState('');
+    const [apiKey, setApiKey] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (address.trim()) {
-            onLogin(address.trim());
+        if (address.trim() && apiKey.trim()) {
+            onLogin(address.trim(), apiKey.trim());
         }
     };
 
@@ -98,15 +97,32 @@ const LoginScreen = ({ onLogin }) => {
         <div className="login-container">
             <div className="login-box">
                 <h1>CryptoDash</h1>
-                <p>Enter your wallet address to begin.</p>
+                <p>Enter your wallet and Etherscan API key.</p>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        placeholder="0x..."
-                        aria-label="Wallet Address"
-                    />
+                    <div className="form-group">
+                         <label htmlFor="wallet-address">Wallet Address</label>
+                        <input
+                            id="wallet-address"
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            placeholder="0x..."
+                            aria-label="Wallet Address"
+                            required
+                        />
+                    </div>
+                   <div className="form-group">
+                        <label htmlFor="api-key">Etherscan API Key</label>
+                        <input
+                            id="api-key"
+                            type="password"
+                            value={apiKey}
+                            onChange={(e) => setApiKey(e.target.value)}
+                            placeholder="YourApiKeyToken"
+                            aria-label="Etherscan API Key"
+                            required
+                        />
+                   </div>
                     <button type="submit">Connect</button>
                 </form>
             </div>
@@ -114,24 +130,28 @@ const LoginScreen = ({ onLogin }) => {
     );
 };
 
-const Dashboard = ({ walletAddress, onLogout }) => {
+const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
     const [selectedChain, setSelectedChain] = useState(chains[0]);
     const [balance, setBalance] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchData = useCallback(async (address, chain) => {
+    const fetchData = useCallback(async (address, chain, key) => {
+        if (!key) {
+            setError("API Key is missing.");
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         setError('');
         setBalance(null);
         setTransactions([]);
 
         try {
-            const V2_BASE_URL = 'https://api.etherscan.io/v2/api';
-
-            const balanceUrl = `${V2_BASE_URL}?chainid=${chain.id}&module=account&action=balance&address=${address}&tag=latest&apikey=${ETHERSCAN_API_KEY}`;
-            const txUrl = `${V2_BASE_URL}?chainid=${chain.id}&module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${ETHERSCAN_API_KEY}`;
+            const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
+            const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
             
             const [balanceResponse, txResponse] = await Promise.all([
                 fetch(balanceUrl),
@@ -152,7 +172,7 @@ const Dashboard = ({ walletAddress, onLogout }) => {
                 let errorMessage = '';
                 if(balanceData.message !== 'OK') errorMessage += `Balance: ${balanceData.result || balanceData.message}. `;
                 if(txData.message !== 'OK') errorMessage += `Transactions: ${txData.result || txData.message}.`;
-                throw new Error(errorMessage || 'Failed to fetch data from Etherscan API.');
+                throw new Error(errorMessage.trim() || 'Failed to fetch data from API. Check your API Key.');
             }
 
         } catch (e) {
@@ -164,10 +184,10 @@ const Dashboard = ({ walletAddress, onLogout }) => {
     }, []);
 
     useEffect(() => {
-        if (walletAddress) {
-            fetchData(walletAddress, selectedChain);
+        if (walletAddress && apiKey) {
+            fetchData(walletAddress, selectedChain, apiKey);
         }
-    }, [walletAddress, selectedChain, fetchData]);
+    }, [walletAddress, selectedChain, apiKey, fetchData]);
 
     return (
         <div className="dashboard-container">
@@ -195,33 +215,40 @@ const Dashboard = ({ walletAddress, onLogout }) => {
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [walletAddress, setWalletAddress] = useState('');
+    const [apiKey, setApiKey] = useState('');
     
     // Restore session from localStorage if possible
     useEffect(() => {
         const storedAddress = localStorage.getItem('walletAddress');
-        if (storedAddress) {
+        const storedApiKey = localStorage.getItem('apiKey');
+        if (storedAddress && storedApiKey) {
             setWalletAddress(storedAddress);
+            setApiKey(storedApiKey);
             setIsAuthenticated(true);
         }
     }, []);
 
 
-    const handleLogin = (address) => {
+    const handleLogin = (address, key) => {
         setWalletAddress(address);
+        setApiKey(key);
         setIsAuthenticated(true);
         localStorage.setItem('walletAddress', address);
+        localStorage.setItem('apiKey', key);
     };
 
     const handleLogout = () => {
         setWalletAddress('');
+        setApiKey('');
         setIsAuthenticated(false);
         localStorage.removeItem('walletAddress');
+        localStorage.removeItem('apiKey');
     };
 
     return (
         <>
             {isAuthenticated ? (
-                <Dashboard walletAddress={walletAddress} onLogout={handleLogout} />
+                <Dashboard walletAddress={walletAddress} apiKey={apiKey} onLogout={handleLogout} />
             ) : (
                 <LoginScreen onLogin={handleLogin} />
             )}
