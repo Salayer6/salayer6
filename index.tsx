@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -151,7 +152,7 @@ const App = () => {
         if (balanceData.status === '1') {
             setBalance(formatBalance(balanceData.result));
         } else {
-            throw new Error(balanceData.message || 'No se pudo obtener el saldo.');
+            throw new Error(balanceData.result || balanceData.message || 'No se pudo obtener el saldo.');
         }
 
         const txResponse = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`);
@@ -162,7 +163,7 @@ const App = () => {
             if (txData.message === 'No transactions found') {
                 setTransactions([]);
             } else {
-                throw new Error(txData.message || 'No se pudieron obtener las transacciones.');
+                throw new Error(txData.result || txData.message || 'No se pudieron obtener las transacciones.');
             }
         }
     } catch (err: any) {
