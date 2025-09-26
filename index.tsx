@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
 
-// --- Tipos de Datos ---
+// --- Tipos de Datos y Constantes ---
 interface Token {
   symbol: string;
   name: string;
@@ -17,6 +16,19 @@ interface Transaction {
   value: string;
   timeStamp: string;
 }
+
+interface Chain {
+    id: number;
+    name: string;
+    nativeCurrency: string;
+}
+
+const SUPPORTED_CHAINS: Chain[] = [
+    { id: 1, name: 'Ethereum Mainnet', nativeCurrency: 'ETH' },
+    { id: 42161, name: 'Arbitrum One', nativeCurrency: 'ARBETH' },
+    { id: 10, name: 'Optimism', nativeCurrency: 'OPETH' },
+    { id: 8453, name: 'Base', nativeCurrency: 'BASEETH' },
+];
 
 declare global {
     interface Window {
@@ -66,7 +78,7 @@ const ApiKeyInputScreen = ({ onSave, currentKey }: { onSave: (key: string) => vo
     return (
         <div className="login-container">
             <h1>Configuración Requerida</h1>
-            <p>Por favor, proporciona tu clave API de Etherscan para obtener los datos de la blockchain.</p>
+            <p>Por favor, proporciona tu clave API V2 de Etherscan para obtener los datos de la blockchain.</p>
             <form onSubmit={handleSubmit} className="api-key-form">
                 <input
                     type="password"
@@ -84,13 +96,27 @@ const ApiKeyInputScreen = ({ onSave, currentKey }: { onSave: (key: string) => vo
     );
 };
 
+const NetworkSelector = ({ chains, selectedChainId, onChange }: { chains: Chain[], selectedChainId: number, onChange: (chainId: number) => void }) => (
+    <select
+        className="network-selector"
+        value={selectedChainId}
+        onChange={(e) => onChange(parseInt(e.target.value))}
+        aria-label="Seleccionar red"
+    >
+        {chains.map(chain => (
+            <option key={chain.id} value={chain.id}>{chain.name}</option>
+        ))}
+    </select>
+);
 
-const DashboardHeader = ({ account, onDisconnect, onChangeApiKey }: { account: string; onDisconnect: () => void; onChangeApiKey: () => void; }) => {
+
+const DashboardHeader = ({ account, onDisconnect, onChangeApiKey, selectedChainId, onChainChange }: { account: string; onDisconnect: () => void; onChangeApiKey: () => void; selectedChainId: number; onChainChange: (chainId: number) => void; }) => {
     const formattedAccount = `${account.substring(0, 6)}...${account.substring(account.length - 4)}`;
     return (
         <header className="dashboard-header">
             <div className="wallet-info" aria-label={`Cuenta conectada: ${account}`}>{formattedAccount}</div>
             <div className="header-actions">
+              <NetworkSelector chains={SUPPORTED_CHAINS} selectedChainId={selectedChainId} onChange={onChainChange} />
               <button onClick={onChangeApiKey} className="btn btn-secondary">Cambiar Clave API</button>
               <button onClick={onDisconnect} className="btn btn-secondary">Desconectar</button>
             </div>
@@ -126,6 +152,7 @@ const App = () => {
   const [balance, setBalance] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [selectedChainId, setSelectedChainId] = useState<number>(SUPPORTED_CHAINS[0].id);
 
   // Datos simulados para tokens
   const mockTokens: Token[] = [
@@ -134,7 +161,7 @@ const App = () => {
     { symbol: 'UNI', name: 'Uniswap', balance: 35.20, usdValue: 352.00 },
   ];
 
-  const fetchData = useCallback(async (walletAddress: string, key: string) => {
+  const fetchData = useCallback(async (walletAddress: string, key: string, chainId: number) => {
     if (!key) {
         setError("La clave API de Etherscan no está configurada.");
         setIsLoading(false);
@@ -142,12 +169,15 @@ const App = () => {
     }
     
     setIsLoading(true);
+    setBalance(null);
+    setTransactions([]);
     setError(null);
+
     try {
-        setLoadingMessage('Obteniendo datos de la blockchain...');
-        const network = 'mainnet';
+        setLoadingMessage(`Obteniendo datos de ${SUPPORTED_CHAINS.find(c => c.id === chainId)?.name || 'la blockchain'}...`);
+        const BASE_URL = 'https://api.etherscan.io/v2/api';
         
-        const balanceResponse = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${walletAddress}&tag=latest&apikey=${key}`);
+        const balanceResponse = await fetch(`${BASE_URL}?chainid=${chainId}&module=account&action=balance&address=${walletAddress}&tag=latest&apikey=${key}`);
         const balanceData = await balanceResponse.json();
         if (balanceData.status === '1') {
             setBalance(formatBalance(balanceData.result));
@@ -155,7 +185,7 @@ const App = () => {
             throw new Error(balanceData.result || balanceData.message || 'No se pudo obtener el saldo.');
         }
 
-        const txResponse = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`);
+        const txResponse = await fetch(`${BASE_URL}?chainid=${chainId}&module=account&action=txlist&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`);
         const txData = await txResponse.json();
          if (txData.status === '1') {
             setTransactions(txData.result);
@@ -186,10 +216,10 @@ const App = () => {
           const newAccount = accounts[0];
           setAccount(newAccount);
           if (apiKey) {
-            fetchData(newAccount, apiKey);
+            fetchData(newAccount, apiKey, selectedChainId);
           }
       }
-  }, [account, apiKey, fetchData]);
+  }, [account, apiKey, selectedChainId, fetchData]);
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('etherscanApiKey');
@@ -207,7 +237,7 @@ const App = () => {
                     const userAccount = accounts[0];
                     setAccount(userAccount);
                     if (savedApiKey) {
-                        fetchData(userAccount, savedApiKey);
+                        fetchData(userAccount, savedApiKey, selectedChainId);
                     } else {
                         setIsLoading(false);
                     }
@@ -227,7 +257,7 @@ const App = () => {
     } else {
         setIsLoading(false);
     }
-  }, [fetchData, handleAccountsChanged]);
+  }, [fetchData, handleAccountsChanged, selectedChainId]);
 
 
   const connectWallet = async () => {
@@ -242,7 +272,7 @@ const App = () => {
       const userAccount = accounts[0];
       setAccount(userAccount);
       if (apiKey) {
-        fetchData(userAccount, apiKey);
+        fetchData(userAccount, apiKey, selectedChainId);
       }
     } catch (err: any) {
       console.error("Error al conectar la billetera:", err);
@@ -255,9 +285,6 @@ const App = () => {
       setBalance(null);
       setTransactions([]);
       setError(null);
-      // Opcional: limpiar la clave API al desconectar
-      // localStorage.removeItem('etherscanApiKey');
-      // setApiKey(null);
   };
 
   const handleSaveApiKey = (key: string) => {
@@ -265,13 +292,20 @@ const App = () => {
     setApiKey(key);
     setShowApiKeyScreen(false);
     if (account) {
-      fetchData(account, key);
+      fetchData(account, key, selectedChainId);
     }
   };
 
   const handleChangeApiKey = () => {
     setShowApiKeyScreen(true);
   };
+  
+  const handleChainChange = (chainId: number) => {
+    setSelectedChainId(chainId);
+    if(account && apiKey) {
+        fetchData(account, apiKey, chainId);
+    }
+  }
 
   if (isLoading) {
     return <LoadingScreen message={loadingMessage} />;
@@ -285,13 +319,21 @@ const App = () => {
       return <ApiKeyInputScreen onSave={handleSaveApiKey} currentKey={apiKey} />;
   }
 
+  const currentChain = SUPPORTED_CHAINS.find(c => c.id === selectedChainId);
+
   return (
     <div className="container">
-      <DashboardHeader account={account} onDisconnect={disconnectWallet} onChangeApiKey={handleChangeApiKey} />
+      <DashboardHeader 
+        account={account} 
+        onDisconnect={disconnectWallet} 
+        onChangeApiKey={handleChangeApiKey}
+        selectedChainId={selectedChainId}
+        onChainChange={handleChainChange} 
+      />
       {error && <ErrorDisplay message={error} />}
 
       <section className="dashboard-grid">
-        <SummaryCard title="Saldo de ETH" value={balance ?? '...'} />
+        <SummaryCard title={`Saldo de ${currentChain?.nativeCurrency || 'ETH'}`} value={balance ?? '...'} />
         <SummaryCard title="Transacciones Recientes" value={transactions.length >= 10 ? '10' : transactions.length} />
         <SummaryCard title="Valor Total del Portfolio (Simulado)" value={`$${mockTokens.reduce((sum, t) => sum + t.usdValue, 0).toFixed(2)}`} />
       </section>
@@ -329,7 +371,7 @@ const App = () => {
                         <th>Tipo</th>
                         <th>Desde</th>
                         <th>Hasta</th>
-                        <th>Valor (ETH)</th>
+                        <th>Valor ({currentChain?.nativeCurrency || 'ETH'})</th>
                         <th>Fecha</th>
                     </tr>
                 </thead>
