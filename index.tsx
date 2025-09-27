@@ -15,6 +15,20 @@ const chains = [
     { id: 8453, name: 'Base', symbol: 'BASEETH', apiUrl: 'https://api-base.etherscan.io/api', explorerUrl: 'https://basescan.org', chainIdHex: '0x2105', apiKeyName: 'base' },
 ];
 
+// --- HELPERS ---
+const isMobileDevice = () => {
+    // Standard check for most mobile devices
+    if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return true;
+    }
+    // Special check for iPad on iOS 13+ which reports as a Mac
+    if (/Macintosh/i.test(navigator.userAgent) && 'ontouchend' in document) {
+        return true;
+    }
+    return false;
+};
+
+
 // --- COMPONENTS ---
 
 const NetworkSelector = ({ selectedChain, onChainChange }) => (
@@ -155,18 +169,18 @@ const LoginScreen = ({ onLogin }) => {
                 }
             } catch (error) {
                 console.error("User rejected the connection request:", error);
-                alert("You rejected the connection request. Please try again.");
             }
         } else {
-            const isMobile = /Mobi/i.test(window.navigator.userAgent);
-            if (isMobile) {
-                // On mobile, redirect to MetaMask app via deep link
+            if (isMobileDevice()) {
+                // On mobile/tablet, user is likely in a standard browser.
+                // Guide them to open the dApp in their wallet's browser via deep link.
+                alert("Wallet not detected. Please open this page in the MetaMask app's browser. Tapping 'OK' will attempt to redirect you.");
                 const dappUrl = window.location.href.replace(/https?:\/\//, '');
                 const metamaskDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
                 window.location.href = metamaskDeepLink;
             } else {
-                // On desktop, show the install alert
-                alert('Please install MetaMask to use this app.');
+                // On desktop, the user needs to install a wallet extension.
+                alert('MetaMask extension not detected. Please install MetaMask to use this app.');
             }
         }
     };
