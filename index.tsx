@@ -55,39 +55,47 @@ const DashboardHeader = ({ walletAddress, onLogout, selectedChain, setSelectedCh
     </header>
 );
 
-const BalanceCard = ({ balance, symbol }) => (
+const BalanceCard = ({ balance, symbol, error }) => (
     <div className="card balance-card">
         <h3>Balance ({symbol})</h3>
-        <p>{balance !== null ? `${parseFloat(balance).toFixed(6)} ${symbol}` : 'Loading...'}</p>
+        {error ? (
+            <p className="component-error-message">{error}</p>
+        ) : (
+            <p>{balance !== null ? `${parseFloat(balance).toFixed(6)} ${symbol}` : '...'}</p>
+        )}
     </div>
 );
 
-const TransactionsList = ({ transactions, chain }) => (
+const TransactionsList = ({ transactions, chain, error }) => (
     <div className="card transactions-card">
         <h3>Recent Transactions</h3>
-        <div className="transaction-list">
-            {transactions.length > 0 ? (
-                transactions.map(tx => (
-                    <div key={tx.hash} className="transaction-item">
-                        <div className="tx-hash">
-                            <span>Hash:</span>
-                            <a href={`${chain.explorerUrl}/tx/${tx.hash}`} target="_blank" rel="noopener noreferrer">
-                                {`${tx.hash.substring(0, 10)}...`}
-                            </a>
+        {error ? (
+            <p className="component-error-message">{error}</p>
+        ) : (
+            <div className="transaction-list">
+                {transactions.length > 0 ? (
+                    transactions.map(tx => (
+                        <div key={tx.hash} className="transaction-item">
+                            <div className="tx-hash">
+                                <span>Hash:</span>
+                                <a href={`${chain.explorerUrl}/tx/${tx.hash}`} target="_blank" rel="noopener noreferrer">
+                                    {`${tx.hash.substring(0, 10)}...`}
+                                </a>
+                            </div>
+                            <div className="tx-details">
+                                <span>From: {`${tx.from.substring(0, 8)}...`}</span>
+                                <span>To: {`${tx.to.substring(0, 8)}...`}</span>
+                            </div>
+                            <div className="tx-value">
+                                {(parseFloat(tx.value) / 1e18).toFixed(4)} {chain.symbol}
+                            </div>
                         </div>
-                        <div className="tx-details">
-                            <span>From: {`${tx.from.substring(0, 8)}...`}</span>
-                            <span>To: {`${tx.to.substring(0, 8)}...`}</span>
-                        </div>
-                        <div className="tx-value">
-                            {(parseFloat(tx.value) / 1e18).toFixed(4)} {chain.symbol}
-                        </div>
-                    </div>
-                ))
-            ) : (
-                <p>No recent transactions found.</p>
-            )}
-        </div>
+                    ))
+                ) : (
+                    <p>No recent transactions found.</p>
+                )}
+            </div>
+        )}
     </div>
 );
 
@@ -172,62 +180,68 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
     const [balance, setBalance] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [globalError, setGlobalError] = useState('');
+    const [componentErrors, setComponentErrors] = useState({ balance: '', transactions: '' });
 
     const fetchData = useCallback(async (address, chain, key) => {
         setLoading(true);
-        setError('');
+        setGlobalError('');
+        setComponentErrors({ balance: '', transactions: '' });
         setBalance(null);
         setTransactions([]);
-    
+
         if (!key) {
-            setError('API Key is missing. Please log out and reconnect.');
+            setGlobalError('API Key is missing. Please log out and reconnect.');
             setLoading(false);
             return;
         }
-    
+
         try {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
+
+            const [balanceResult, txResult] = await Promise.allSettled([
+                fetch(balanceUrl),
+                fetch(txUrl)
+            ]);
             
-            const balanceResponse = await fetch(balanceUrl);
-            await new Promise(resolve => setTimeout(resolve, 250)); // Avoid rate limiting
-            const txResponse = await fetch(txUrl);
-    
-            if (!balanceResponse.ok) throw new Error(`Network error fetching balance`);
-            if (!txResponse.ok) throw new Error(`Network error fetching transactions`);
-    
-            const balanceData = await balanceResponse.json();
-            const txData = await txResponse.json();
-    
-            const balanceApiError = balanceData.status === '0' ? (balanceData.result || balanceData.message) : null;
-            const txApiError = txData.status === '0' ? (txData.result || txData.message) : null;
-    
-            if (balanceApiError !== null || txApiError !== null) {
-                // Preferentially show invalid API key error as it's the most common cause
-                if ((balanceApiError && balanceApiError.includes('Invalid API Key')) || (txApiError && txApiError.includes('Invalid API Key'))) {
-                    setError('Invalid API Key provided. Please log out and enter a valid key.');
+            let newErrors = { balance: '', transactions: '' };
+
+            // Process Balance
+            if (balanceResult.status === 'fulfilled' && balanceResult.value.ok) {
+                const data = await balanceResult.value.json();
+                if (data.status === '1') {
+                    setBalance(data.result / 1e18);
                 } else {
-                    let errorSources = [];
-                    if (balanceApiError !== null) {
-                        console.error("Etherscan API Error (Balance):", balanceData);
-                        errorSources.push('balance');
-                    }
-                    if (txApiError !== null) {
-                        console.error("Etherscan API Error (Transactions):", txData);
-                        errorSources.push('transactions');
-                    }
-                    // This message is more helpful, pointing to the key as a likely cause.
-                    setError(`The API returned an error for ${errorSources.join(' and ')}. This is often caused by an invalid API key or reaching rate limits.`);
+                    newErrors.balance = data.result || data.message || 'API error fetching balance';
                 }
             } else {
-                setBalance(balanceData.result / 1e18);
-                setTransactions(txData.result || []);
+                newErrors.balance = 'Network error. Could not fetch balance.';
             }
-    
-        } catch (e) {
-            console.error("Error fetching data:", e);
-            setError(`Failed to fetch data: ${e.message}. Check your network connection.`);
+
+            // Process Transactions
+            if (txResult.status === 'fulfilled' && txResult.value.ok) {
+                const data = await txResult.value.json();
+                if (data.status === '1') {
+                    setTransactions(data.result || []);
+                } else if (data.message?.includes('No transactions found')) {
+                    setTransactions([]);
+                } else {
+                    newErrors.transactions = data.result || data.message || 'API error fetching transactions';
+                }
+            } else {
+                newErrors.transactions = 'Network error. Could not fetch transactions.';
+            }
+            
+            // Set global error for critical issues, otherwise set component-level errors
+            if (newErrors.balance.includes('Invalid API Key') || newErrors.transactions.includes('Invalid API Key')) {
+                setGlobalError('Invalid API Key provided. Please log out and enter a valid key.');
+            } else {
+                setComponentErrors(newErrors);
+                if (newErrors.balance) console.error("API Error (Balance):", newErrors.balance);
+                if (newErrors.transactions) console.error("API Error (Transactions):", newErrors.transactions);
+            }
+
         } finally {
             setLoading(false);
         }
@@ -253,12 +267,12 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                         <BalanceCardSkeleton />
                         <TransactionsListSkeleton />
                     </>
-                ) : error ? (
-                    <p className="error-message">Error: {error}</p>
+                ) : globalError ? (
+                    <p className="error-message">Error: {globalError}</p>
                 ) : (
                     <>
-                        <BalanceCard balance={balance} symbol={selectedChain.symbol} />
-                        <TransactionsList transactions={transactions} chain={selectedChain} />
+                        <BalanceCard balance={balance} symbol={selectedChain.symbol} error={componentErrors.balance} />
+                        <TransactionsList transactions={transactions} chain={selectedChain} error={componentErrors.transactions} />
                     </>
                 )}
             </main>

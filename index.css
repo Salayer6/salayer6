@@ -274,6 +274,13 @@ main {
   font-weight: 600;
 }
 
+.component-error-message {
+  color: var(--error-color);
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
 /* --- Skeleton Loader --- */
 @keyframes skeleton-pulse {
   50% {
