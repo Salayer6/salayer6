@@ -158,7 +158,16 @@ const LoginScreen = ({ onLogin }) => {
                 alert("You rejected the connection request. Please try again.");
             }
         } else {
-            alert('Please install MetaMask to use this app.');
+            const isMobile = /Mobi/i.test(window.navigator.userAgent);
+            if (isMobile) {
+                // On mobile, redirect to MetaMask app via deep link
+                const dappUrl = window.location.href.replace(/https?:\/\//, '');
+                const metamaskDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
+                window.location.href = metamaskDeepLink;
+            } else {
+                // On desktop, show the install alert
+                alert('Please install MetaMask to use this app.');
+            }
         }
     };
 
