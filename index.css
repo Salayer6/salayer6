@@ -139,6 +139,16 @@ body {
   font-family: monospace;
 }
 
+.wallet-info a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.wallet-info a:hover {
+  color: var(--primary-color);
+}
+
 .network-selector-wrapper {
   position: relative;
 }

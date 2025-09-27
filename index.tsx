@@ -45,7 +45,9 @@ const DashboardHeader = ({ walletAddress, onLogout, selectedChain, setSelectedCh
         <div className="logo">CryptoDash</div>
         <div className="header-controls">
             <div className="wallet-info">
-                <span>{`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}</span>
+                 <a href={`${selectedChain.explorerUrl}/address/${walletAddress}`} target="_blank" rel="noopener noreferrer">
+                    <span>{`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}</span>
+                </a>
             </div>
             <NetworkSelector selectedChain={selectedChain} setSelectedChain={setSelectedChain} />
             <button onClick={onLogout} className="disconnect-btn">Disconnect</button>
@@ -171,10 +173,14 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
             if (balanceData.status === '0' || txData.status === '0') {
                 let errorMessage = '';
                 if (balanceData.status === '0') {
-                    errorMessage += `Balance Error: ${balanceData.result || balanceData.message}. `;
+                    console.error("Etherscan API Error (Balance):", balanceData);
+                    const balanceApiError = balanceData.result || balanceData.message;
+                    errorMessage += `Balance Error: ${balanceApiError || 'The API returned an unspecified error.'} `;
                 }
                 if (txData.status === '0') {
-                    errorMessage += `Transactions Error: ${txData.result || txData.message}.`;
+                     console.error("Etherscan API Error (Transactions):", txData);
+                    const txApiError = txData.result || txData.message;
+                    errorMessage += `Transactions Error: ${txApiError || 'The API returned an unspecified error.'}`;
                 }
                 throw new Error(errorMessage.trim());
             }
