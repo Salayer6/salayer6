@@ -90,12 +90,18 @@ const TransactionsList = ({ transactions, chain }) => (
 );
 
 const LoginScreen = ({ onLogin }) => {
+    const [apiKey, setApiKey] = useState('');
+
     const handleConnect = async () => {
+        if (!apiKey) {
+            alert('Please enter your Etherscan API key.');
+            return;
+        }
         if (typeof window.ethereum !== 'undefined') {
             try {
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (accounts.length > 0) {
-                    onLogin(accounts[0]);
+                    onLogin(accounts[0], apiKey);
                 }
             } catch (error) {
                 console.error("User rejected the connection request:", error);
@@ -110,29 +116,45 @@ const LoginScreen = ({ onLogin }) => {
         <div className="login-container">
             <div className="login-box">
                 <h1>CryptoDash</h1>
-                <p>Connect your wallet to view your dashboard.</p>
+                <p>Connect your wallet and enter your API key to view your dashboard.</p>
+                <div className="form-group">
+                    <label htmlFor="apiKey">Etherscan API Key</label>
+                    <input
+                        id="apiKey"
+                        type="password"
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                        placeholder="Your Etherscan API Key"
+                    />
+                </div>
                 <button onClick={handleConnect}>Connect with MetaMask</button>
             </div>
         </div>
     );
 };
 
-const Dashboard = ({ walletAddress, onLogout }) => {
+const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
     const [selectedChain, setSelectedChain] = useState(chains[0]);
     const [balance, setBalance] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchData = useCallback(async (address, chain) => {
+    const fetchData = useCallback(async (address, chain, key) => {
         setLoading(true);
         setError('');
         setBalance(null);
         setTransactions([]);
 
+        if (!key) {
+            setError('API Key is missing. Please log out and reconnect.');
+            setLoading(false);
+            return;
+        }
+
         try {
-            const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest`;
-            const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc`;
+            const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
+            const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
             
             const [balanceResponse, txResponse] = await Promise.all([
                 fetch(balanceUrl),
@@ -153,7 +175,7 @@ const Dashboard = ({ walletAddress, onLogout }) => {
                 let errorMessage = '';
                 if(balanceData.message !== 'OK') errorMessage += `Balance: ${balanceData.result || balanceData.message}. `;
                 if(txData.message !== 'OK') errorMessage += `Transactions: ${txData.result || txData.message}.`;
-                throw new Error(errorMessage.trim() || 'Failed to fetch data from API. Public endpoints may be rate-limited.');
+                throw new Error(errorMessage.trim() || 'Failed to fetch data from API. Check your API Key or network.');
             }
 
         } catch (e) {
@@ -165,10 +187,10 @@ const Dashboard = ({ walletAddress, onLogout }) => {
     }, []);
 
     useEffect(() => {
-        if (walletAddress) {
-            fetchData(walletAddress, selectedChain);
+        if (walletAddress && apiKey) {
+            fetchData(walletAddress, selectedChain, apiKey);
         }
-    }, [walletAddress, selectedChain, fetchData]);
+    }, [walletAddress, selectedChain, apiKey, fetchData]);
 
     return (
         <div className="dashboard-container">
@@ -195,29 +217,36 @@ const Dashboard = ({ walletAddress, onLogout }) => {
 
 const App = () => {
     const [walletAddress, setWalletAddress] = useState('');
+    const [apiKey, setApiKey] = useState('');
     
     useEffect(() => {
         const storedAddress = localStorage.getItem('walletAddress');
-        if (storedAddress) {
+        const storedApiKey = localStorage.getItem('apiKey');
+        if (storedAddress && storedApiKey) {
             setWalletAddress(storedAddress);
+            setApiKey(storedApiKey);
         }
     }, []);
 
 
-    const handleLogin = (address) => {
+    const handleLogin = (address, key) => {
         setWalletAddress(address);
+        setApiKey(key);
         localStorage.setItem('walletAddress', address);
+        localStorage.setItem('apiKey', key);
     };
 
     const handleLogout = () => {
         setWalletAddress('');
+        setApiKey('');
         localStorage.removeItem('walletAddress');
+        localStorage.removeItem('apiKey');
     };
 
     return (
         <>
-            {walletAddress ? (
-                <Dashboard walletAddress={walletAddress} onLogout={handleLogout} />
+            {walletAddress && apiKey ? (
+                <Dashboard walletAddress={walletAddress} apiKey={apiKey} onLogout={handleLogout} />
             ) : (
                 <LoginScreen onLogin={handleLogin} />
             )}
