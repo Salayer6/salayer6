@@ -91,6 +91,38 @@ const TransactionsList = ({ transactions, chain }) => (
     </div>
 );
 
+// --- SKELETON LOADER COMPONENTS ---
+const SkeletonBlock = ({ className = '' }) => <div className={`skeleton ${className}`}></div>;
+
+const BalanceCardSkeleton = () => (
+    <div className="card balance-card">
+        <SkeletonBlock className="skeleton-h3" />
+        <SkeletonBlock className="skeleton-p" />
+    </div>
+);
+
+const TransactionsListSkeleton = () => (
+    <div className="card transactions-card">
+        <SkeletonBlock className="skeleton-h3" />
+        <div className="transaction-list">
+            {[...Array(3)].map((_, i) => (
+                <div key={i} className="transaction-item-skeleton">
+                    <div className="skeleton-group">
+                        <SkeletonBlock className="skeleton-text" />
+                        <SkeletonBlock className="skeleton-text-short" />
+                    </div>
+                     <div className="skeleton-group" style={{alignItems: 'center'}}>
+                        <SkeletonBlock className="skeleton-text" />
+                        <SkeletonBlock className="skeleton-text-short" />
+                    </div>
+                    <SkeletonBlock className="skeleton-text" />
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+
 const LoginScreen = ({ onLogin }) => {
     const [apiKey, setApiKey] = useState('');
 
@@ -147,55 +179,55 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
         setError('');
         setBalance(null);
         setTransactions([]);
-
+    
         if (!key) {
             setError('API Key is missing. Please log out and reconnect.');
             setLoading(false);
             return;
         }
-
+    
         try {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
             
-            // Fetch sequentially to avoid hitting API rate limits on free keys.
             const balanceResponse = await fetch(balanceUrl);
-            await new Promise(resolve => setTimeout(resolve, 250)); // Small delay
+            await new Promise(resolve => setTimeout(resolve, 250)); // Avoid rate limiting
             const txResponse = await fetch(txUrl);
-
-            if (!balanceResponse.ok) throw new Error(`Network error fetching balance: ${balanceResponse.statusText}`);
-            if (!txResponse.ok) throw new Error(`Network error fetching transactions: ${txResponse.statusText}`);
-
+    
+            if (!balanceResponse.ok) throw new Error(`Network error fetching balance`);
+            if (!txResponse.ok) throw new Error(`Network error fetching transactions`);
+    
             const balanceData = await balanceResponse.json();
             const txData = await txResponse.json();
-
-            // Robust error handling for API-level errors
-            if (balanceData.status === '0' || txData.status === '0') {
-                let errorMessage = '';
-                if (balanceData.status === '0') {
-                    console.error("Etherscan API Error (Balance):", balanceData);
-                    const balanceApiError = balanceData.result || balanceData.message;
-                    errorMessage += `Balance Error: ${balanceApiError || 'The API returned an unspecified error.'} `;
+    
+            const balanceApiError = balanceData.status === '0' ? (balanceData.result || balanceData.message) : null;
+            const txApiError = txData.status === '0' ? (txData.result || txData.message) : null;
+    
+            if (balanceApiError !== null || txApiError !== null) {
+                // Preferentially show invalid API key error as it's the most common cause
+                if ((balanceApiError && balanceApiError.includes('Invalid API Key')) || (txApiError && txApiError.includes('Invalid API Key'))) {
+                    setError('Invalid API Key provided. Please log out and enter a valid key.');
+                } else {
+                    let errorSources = [];
+                    if (balanceApiError !== null) {
+                        console.error("Etherscan API Error (Balance):", balanceData);
+                        errorSources.push('balance');
+                    }
+                    if (txApiError !== null) {
+                        console.error("Etherscan API Error (Transactions):", txData);
+                        errorSources.push('transactions');
+                    }
+                    // This message is more helpful, pointing to the key as a likely cause.
+                    setError(`The API returned an error for ${errorSources.join(' and ')}. This is often caused by an invalid API key or reaching rate limits.`);
                 }
-                if (txData.status === '0') {
-                     console.error("Etherscan API Error (Transactions):", txData);
-                    const txApiError = txData.result || txData.message;
-                    errorMessage += `Transactions Error: ${txApiError || 'The API returned an unspecified error.'}`;
-                }
-                throw new Error(errorMessage.trim());
+            } else {
+                setBalance(balanceData.result / 1e18);
+                setTransactions(txData.result || []);
             }
-
-            setBalance(balanceData.result / 1e18);
-            setTransactions(txData.result || []);
-
+    
         } catch (e) {
             console.error("Error fetching data:", e);
-            const errorMessage = e.message || 'An unknown error occurred';
-            if (errorMessage.toLowerCase().includes('rate limit')) {
-                setError('API rate limit reached. Please wait a moment and try again.');
-            } else {
-                 setError(`Failed to fetch data: ${errorMessage}`);
-            }
+            setError(`Failed to fetch data: ${e.message}. Check your network connection.`);
         } finally {
             setLoading(false);
         }
@@ -216,9 +248,14 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                 setSelectedChain={setSelectedChain}
             />
             <main>
-                {loading && <p className="loading-message">Loading dashboard...</p>}
-                {error && <p className="error-message">Error: {error}</p>}
-                {!loading && !error && (
+                {loading ? (
+                    <>
+                        <BalanceCardSkeleton />
+                        <TransactionsListSkeleton />
+                    </>
+                ) : error ? (
+                    <p className="error-message">Error: {error}</p>
+                ) : (
                     <>
                         <BalanceCard balance={balance} symbol={selectedChain.symbol} />
                         <TransactionsList transactions={transactions} chain={selectedChain} />

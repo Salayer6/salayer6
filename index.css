@@ -203,6 +203,9 @@ body {
 
 .error-message {
     color: var(--error-color);
+    background-color: rgba(248, 113, 113, 0.1);
+    border: 1px solid var(--error-color);
+    border-radius: 8px;
 }
 
 main {
@@ -269,4 +272,55 @@ main {
 
 .tx-value {
   font-weight: 600;
+}
+
+/* --- Skeleton Loader --- */
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: var(--border-color);
+  border-radius: 6px;
+}
+
+.skeleton-h3 {
+  height: 28px;
+  width: 40%;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-p {
+  height: 32px;
+  width: 60%;
+}
+
+.transaction-item-skeleton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  gap: 1rem;
+}
+
+.skeleton-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 90%;
+}
+
+.skeleton-text-short {
+    height: 16px;
+    width: 60%;
 }
