@@ -11,7 +11,7 @@ declare global {
 const chains = [
     { id: 1, name: 'Ethereum', symbol: 'ETH', apiUrl: 'https://api.etherscan.io/api', explorerUrl: 'https://etherscan.io' },
     { id: 42161, name: 'Arbitrum', symbol: 'ARBETH', apiUrl: 'https://api.arbiscan.io/api', explorerUrl: 'https://arbiscan.io' },
-    { id: 10, name: 'Optimism', symbol: 'OPETH', apiUrl: 'https://api.optimistic.etherscan.io/api', explorerUrl: 'https://optimistic.etherscan.io' },
+    { id: 10, name: 'Optimism', symbol: 'OPETH', apiUrl: 'https://api-optimistic.etherscan.io/api', explorerUrl: 'https://optimistic.etherscan.io' },
     { id: 8453, name: 'Base', symbol: 'BASEETH', apiUrl: 'https://api.basescan.org/api', explorerUrl: 'https://basescan.org' },
 ];
 
