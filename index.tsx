@@ -57,15 +57,20 @@ const NetworkSelector = ({ selectedChain, onChainChange }) => (
 const DashboardHeader = ({ walletAddress, onLogout, selectedChain, onChainChange }) => (
     <header className="dashboard-header">
         <div className="logo">CryptoDash</div>
-        <div className="header-controls">
+        <div className="wallet-network-group">
             <div className="wallet-info">
-                 <a href={`${selectedChain.explorerUrl}/address/${walletAddress}`} target="_blank" rel="noopener noreferrer">
+                <a href={`${selectedChain.explorerUrl}/address/${walletAddress}`} target="_blank" rel="noopener noreferrer" aria-label="View address on explorer">
                     <span>{`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}</span>
                 </a>
             </div>
             <NetworkSelector selectedChain={selectedChain} onChainChange={onChainChange} />
-            <button onClick={onLogout} className="disconnect-btn">Disconnect</button>
         </div>
+        <button onClick={onLogout} className="disconnect-btn" aria-label="Disconnect wallet">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+            </svg>
+            <span className="disconnect-btn-text">Disconnect</span>
+        </button>
     </header>
 );
 
