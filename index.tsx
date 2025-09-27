@@ -196,15 +196,14 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
             return;
         }
         
-        // Use a more robust, transparent CORS proxy
         const PROXY_URL = 'https://corsproxy.io/?';
 
         try {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
 
-            const proxiedBalanceUrl = `${PROXY_URL}${balanceUrl}`;
-            const proxiedTxUrl = `${PROXY_URL}${txUrl}`;
+            const proxiedBalanceUrl = `${PROXY_URL}${encodeURIComponent(balanceUrl)}`;
+            const proxiedTxUrl = `${PROXY_URL}${encodeURIComponent(txUrl)}`;
 
             const [balanceResult, txResult] = await Promise.allSettled([
                 fetch(proxiedBalanceUrl),
