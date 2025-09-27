@@ -196,13 +196,21 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
             return;
         }
 
+        const fetchOptions = {
+            method: 'GET',
+            mode: 'cors' as RequestMode,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
         try {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
 
             const [balanceResult, txResult] = await Promise.allSettled([
-                fetch(balanceUrl),
-                fetch(txUrl)
+                fetch(balanceUrl, fetchOptions),
+                fetch(txUrl, fetchOptions)
             ]);
             
             let newErrors = { balance: '', transactions: '' };
