@@ -195,33 +195,36 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
             setLoading(false);
             return;
         }
-
-        const fetchOptions = {
-            method: 'GET',
-            mode: 'cors' as RequestMode,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
+        
+        // Use a CORS proxy to bypass browser restrictions
+        const PROXY_URL = 'https://api.allorigins.win/get?url=';
 
         try {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
 
+            const proxiedBalanceUrl = `${PROXY_URL}${encodeURIComponent(balanceUrl)}`;
+            const proxiedTxUrl = `${PROXY_URL}${encodeURIComponent(txUrl)}`;
+
             const [balanceResult, txResult] = await Promise.allSettled([
-                fetch(balanceUrl, fetchOptions),
-                fetch(txUrl, fetchOptions)
+                fetch(proxiedBalanceUrl),
+                fetch(proxiedTxUrl)
             ]);
             
             let newErrors = { balance: '', transactions: '' };
 
             // Process Balance
             if (balanceResult.status === 'fulfilled' && balanceResult.value.ok) {
-                const data = await balanceResult.value.json();
-                if (data.status === '1') {
-                    setBalance(data.result / 1e18);
+                const proxyData = await balanceResult.value.json();
+                if (proxyData.contents) {
+                    const data = JSON.parse(proxyData.contents);
+                    if (data.status === '1') {
+                        setBalance(data.result / 1e18);
+                    } else {
+                        newErrors.balance = data.result || data.message || 'API error fetching balance';
+                    }
                 } else {
-                    newErrors.balance = data.result || data.message || 'API error fetching balance';
+                    newErrors.balance = 'Proxy error. The API might be blocking the request.';
                 }
             } else {
                 newErrors.balance = 'Network error. Could not fetch balance.';
@@ -229,13 +232,18 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
 
             // Process Transactions
             if (txResult.status === 'fulfilled' && txResult.value.ok) {
-                const data = await txResult.value.json();
-                if (data.status === '1') {
-                    setTransactions(data.result || []);
-                } else if (data.message?.includes('No transactions found')) {
-                    setTransactions([]);
+                 const proxyData = await txResult.value.json();
+                if (proxyData.contents) {
+                    const data = JSON.parse(proxyData.contents);
+                    if (data.status === '1') {
+                        setTransactions(data.result || []);
+                    } else if (data.message?.includes('No transactions found')) {
+                        setTransactions([]);
+                    } else {
+                        newErrors.transactions = data.result || data.message || 'API error fetching transactions';
+                    }
                 } else {
-                    newErrors.transactions = data.result || data.message || 'API error fetching transactions';
+                    newErrors.transactions = 'Proxy error. The API might be blocking the request.';
                 }
             } else {
                 newErrors.transactions = 'Network error. Could not fetch transactions.';
@@ -250,7 +258,11 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                 if (newErrors.transactions) console.error("API Error (Transactions):", newErrors.transactions);
             }
 
-        } finally {
+        } catch (error) {
+            console.error("An unexpected error occurred during fetch:", error);
+            setGlobalError('An unexpected error occurred. Please check the console.');
+        }
+        finally {
             setLoading(false);
         }
     }, []);
