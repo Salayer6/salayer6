@@ -9,15 +9,15 @@ declare global {
 }
 
 const chains = [
-    { id: 1, name: 'Ethereum', symbol: 'ETH', apiUrl: 'https://api.etherscan.io/api', explorerUrl: 'https://etherscan.io' },
-    { id: 42161, name: 'Arbitrum', symbol: 'ARBETH', apiUrl: 'https://api-arbitrum.etherscan.io/api', explorerUrl: 'https://arbiscan.io' },
-    { id: 10, name: 'Optimism', symbol: 'OPETH', apiUrl: 'https://api-optimism.etherscan.io/api', explorerUrl: 'https://optimistic.etherscan.io' },
-    { id: 8453, name: 'Base', symbol: 'BASEETH', apiUrl: 'https://api-base.etherscan.io/api', explorerUrl: 'https://basescan.org' },
+    { id: 1, name: 'Ethereum', symbol: 'ETH', apiUrl: 'https://api.etherscan.io/api', explorerUrl: 'https://etherscan.io', chainIdHex: '0x1', apiKeyName: 'ethereum' },
+    { id: 42161, name: 'Arbitrum', symbol: 'ARBETH', apiUrl: 'https://api-arbitrum.etherscan.io/api', explorerUrl: 'https://arbiscan.io', chainIdHex: '0xa4b1', apiKeyName: 'arbitrum' },
+    { id: 10, name: 'Optimism', symbol: 'OPETH', apiUrl: 'https://api-optimism.etherscan.io/api', explorerUrl: 'https://optimistic.etherscan.io', chainIdHex: '0xa', apiKeyName: 'optimism' },
+    { id: 8453, name: 'Base', symbol: 'BASEETH', apiUrl: 'https://api-base.etherscan.io/api', explorerUrl: 'https://basescan.org', chainIdHex: '0x2105', apiKeyName: 'base' },
 ];
 
 // --- COMPONENTS ---
 
-const NetworkSelector = ({ selectedChain, setSelectedChain }) => (
+const NetworkSelector = ({ selectedChain, onChainChange }) => (
     <div className="network-selector-wrapper">
         <select
             className="network-selector"
@@ -25,7 +25,7 @@ const NetworkSelector = ({ selectedChain, setSelectedChain }) => (
             onChange={(e) => {
                 const newChain = chains.find(c => c.id === parseInt(e.target.value));
                 if (newChain) {
-                    setSelectedChain(newChain);
+                    onChainChange(newChain);
                 }
             }}
             aria-label="Select blockchain network"
@@ -40,7 +40,7 @@ const NetworkSelector = ({ selectedChain, setSelectedChain }) => (
 );
 
 
-const DashboardHeader = ({ walletAddress, onLogout, selectedChain, setSelectedChain }) => (
+const DashboardHeader = ({ walletAddress, onLogout, selectedChain, onChainChange }) => (
     <header className="dashboard-header">
         <div className="logo">CryptoDash</div>
         <div className="header-controls">
@@ -49,7 +49,7 @@ const DashboardHeader = ({ walletAddress, onLogout, selectedChain, setSelectedCh
                     <span>{`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}</span>
                 </a>
             </div>
-            <NetworkSelector selectedChain={selectedChain} setSelectedChain={setSelectedChain} />
+            <NetworkSelector selectedChain={selectedChain} onChainChange={onChainChange} />
             <button onClick={onLogout} className="disconnect-btn">Disconnect</button>
         </div>
     </header>
@@ -57,11 +57,11 @@ const DashboardHeader = ({ walletAddress, onLogout, selectedChain, setSelectedCh
 
 const BalanceCard = ({ balance, symbol, error }) => (
     <div className="card balance-card">
-        <h3>Balance ({symbol})</h3>
+        <h3>Balance ({symbol.replace('ETH', '')})</h3>
         {error ? (
             <p className="component-error-message">{error}</p>
         ) : (
-            <p>{balance !== null ? `${parseFloat(balance).toFixed(6)} ${symbol}` : '...'}</p>
+            <p>{balance !== null ? `${parseFloat(balance).toFixed(6)} ${symbol.replace('ETH', '')}` : '...'}</p>
         )}
     </div>
 );
@@ -84,10 +84,10 @@ const TransactionsList = ({ transactions, chain, error }) => (
                             </div>
                             <div className="tx-details">
                                 <span>From: {`${tx.from.substring(0, 8)}...`}</span>
-                                <span>To: {`${tx.to.substring(0, 8)}...`}</span>
+                                <span>To: {`${tx.to ? tx.to.substring(0, 8) : 'Contract Creation'}...`}</span>
                             </div>
                             <div className="tx-value">
-                                {(parseFloat(tx.value) / 1e18).toFixed(4)} {chain.symbol}
+                                {(parseFloat(tx.value) / 1e18).toFixed(4)} {chain.symbol.replace('ETH', '')}
                             </div>
                         </div>
                     ))
@@ -130,20 +130,28 @@ const TransactionsListSkeleton = () => (
     </div>
 );
 
-
 const LoginScreen = ({ onLogin }) => {
-    const [apiKey, setApiKey] = useState('');
+    const [apiKeys, setApiKeys] = useState({
+        ethereum: '',
+        arbitrum: '',
+        optimism: '',
+        base: ''
+    });
+
+    const handleInputChange = (chainName, value) => {
+        setApiKeys(prev => ({ ...prev, [chainName]: value }));
+    };
 
     const handleConnect = async () => {
-        if (!apiKey) {
-            alert('Please enter your Etherscan API key.');
+        if (!apiKeys.ethereum) {
+            alert('Please enter your Etherscan API key for Ethereum.');
             return;
         }
         if (typeof window.ethereum !== 'undefined') {
             try {
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (accounts.length > 0) {
-                    onLogin(accounts[0], apiKey);
+                    onLogin(accounts[0], apiKeys);
                 }
             } catch (error) {
                 console.error("User rejected the connection request:", error);
@@ -158,111 +166,139 @@ const LoginScreen = ({ onLogin }) => {
         <div className="login-container">
             <div className="login-box">
                 <h1>CryptoDash</h1>
-                <p>Connect your wallet and enter your API key to view your dashboard.</p>
-                <div className="form-group">
-                    <label htmlFor="apiKey">Etherscan API Key</label>
-                    <input
-                        id="apiKey"
-                        type="password"
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                        placeholder="Your Etherscan API Key"
-                    />
-                </div>
+                <p>Connect your wallet and enter your API keys to view your dashboard.</p>
+                {chains.map(chain => (
+                    <div className="form-group" key={chain.id}>
+                        <label htmlFor={`apiKey-${chain.apiKeyName}`}>
+                            {chain.name} API Key {chain.name === 'Ethereum' ? '' : '(Optional)'}
+                        </label>
+                        <input
+                            id={`apiKey-${chain.apiKeyName}`}
+                            type="password"
+                            value={apiKeys[chain.apiKeyName]}
+                            onChange={(e) => handleInputChange(chain.apiKeyName, e.target.value)}
+                            placeholder={`Your ${chain.name} API Key`}
+                        />
+                    </div>
+                ))}
                 <button onClick={handleConnect}>Connect with MetaMask</button>
             </div>
         </div>
     );
 };
 
-const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
+const Dashboard = ({ walletAddress, apiKeys, onLogout }) => {
     const [selectedChain, setSelectedChain] = useState(chains[0]);
     const [balance, setBalance] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [globalError, setGlobalError] = useState('');
     const [componentErrors, setComponentErrors] = useState({ balance: '', transactions: '' });
 
-    const fetchData = useCallback(async (address, chain, key) => {
+    const switchNetwork = useCallback(async (chain) => {
+        if (!window.ethereum) return false;
+        try {
+            await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: chain.chainIdHex }],
+            });
+            return true;
+        } catch (switchError) {
+            console.error("Could not switch network:", switchError);
+            alert(`Could not switch to ${chain.name}. Please make sure the network is added to your MetaMask wallet.`);
+            return false;
+        }
+    }, []);
+
+    const handleNetworkChange = useCallback(async (newChain) => {
+        const success = await switchNetwork(newChain);
+        if (success) {
+            setSelectedChain(newChain);
+        }
+    }, [switchNetwork]);
+
+    const fetchData = useCallback(async (address, chain, keys) => {
         setLoading(true);
-        setGlobalError('');
         setComponentErrors({ balance: '', transactions: '' });
         setBalance(null);
         setTransactions([]);
-
-        if (!key) {
-            setGlobalError('API Key is missing. Please log out and reconnect.');
-            setLoading(false);
-            return;
-        }
         
-        const PROXY_URL = 'https://corsproxy.io/?';
+        let newErrors = { balance: '', transactions: '' };
 
+        // 1. Fetch Balance using MetaMask RPC (more reliable)
         try {
-            const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
-            const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
+            const hexBalance = await window.ethereum.request({
+                method: 'eth_getBalance',
+                params: [address, 'latest'],
+            });
+            const weiBalance = parseInt(hexBalance, 16);
+            setBalance(weiBalance / 1e18);
+        } catch (error) {
+            console.error("Failed to fetch balance via RPC:", error);
+            newErrors.balance = 'Could not fetch balance from wallet.';
+        }
 
-            const proxiedBalanceUrl = `${PROXY_URL}${encodeURIComponent(balanceUrl)}`;
-            const proxiedTxUrl = `${PROXY_URL}${encodeURIComponent(txUrl)}`;
+        // 2. Fetch Transactions using Etherscan API via Proxy
+        const chainApiKey = keys[chain.apiKeyName];
+        if (!chainApiKey) {
+             newErrors.transactions = `Please provide an API Key for ${chain.name} to see transactions.`;
+        } else {
+            try {
+                const PROXY_URL = 'https://corsproxy.io/?';
+                const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${chainApiKey}`;
+                const proxiedTxUrl = `${PROXY_URL}${encodeURIComponent(txUrl)}`;
 
-            const [balanceResult, txResult] = await Promise.allSettled([
-                fetch(proxiedBalanceUrl),
-                fetch(proxiedTxUrl)
-            ]);
-            
-            let newErrors = { balance: '', transactions: '' };
-
-            // Process Balance
-            if (balanceResult.status === 'fulfilled' && balanceResult.value.ok) {
-                const data = await balanceResult.value.json();
-                if (data.status === '1') {
-                    setBalance(data.result / 1e18);
-                } else {
-                    newErrors.balance = data.result || data.message || 'API error fetching balance';
+                const response = await fetch(proxiedTxUrl);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
-            } else {
-                newErrors.balance = 'Network error. Could not fetch balance.';
-                console.error("Balance fetch failed:", balanceResult.status === 'rejected' ? balanceResult.reason : await balanceResult.value.text());
-            }
-
-            // Process Transactions
-            if (txResult.status === 'fulfilled' && txResult.value.ok) {
-                const data = await txResult.value.json();
+                
+                const data = await response.json();
                 if (data.status === '1') {
                     setTransactions(data.result || []);
                 } else if (data.message?.includes('No transactions found')) {
                     setTransactions([]);
                 } else {
-                    newErrors.transactions = data.result || data.message || 'API error fetching transactions';
+                    if (data.result?.includes('Invalid API Key') || data.message?.includes('Invalid API Key')) {
+                        newErrors.transactions = `Invalid API Key for ${chain.name}. Please check your key.`;
+                    } else {
+                        newErrors.transactions = data.result || data.message || `API error fetching ${chain.name} transactions.`;
+                    }
                 }
-            } else {
+            } catch (error) {
+                console.error("Transactions fetch failed:", error);
                 newErrors.transactions = 'Network error. Could not fetch transactions.';
-                console.error("Transactions fetch failed:", txResult.status === 'rejected' ? txResult.reason : await txResult.value.text());
             }
-            
-            // Set global error for critical issues, otherwise set component-level errors
-            if (newErrors.balance.includes('Invalid API Key') || newErrors.transactions.includes('Invalid API Key')) {
-                setGlobalError('Invalid API Key provided. Please log out and enter a valid key.');
-            } else {
-                setComponentErrors(newErrors);
-                if (newErrors.balance && !newErrors.balance.includes('Network error')) console.error("API Error (Balance):", newErrors.balance);
-                if (newErrors.transactions && !newErrors.transactions.includes('Network error')) console.error("API Error (Transactions):", newErrors.transactions);
-            }
+        }
+        
+        setComponentErrors(newErrors);
+        setLoading(false);
 
-        } catch (error) {
-            console.error("An unexpected error occurred during fetch:", error);
-            setGlobalError('An unexpected error occurred. Please check the console.');
-        }
-        finally {
-            setLoading(false);
-        }
     }, []);
 
     useEffect(() => {
-        if (walletAddress && apiKey) {
-            fetchData(walletAddress, selectedChain, apiKey);
+        if (walletAddress) {
+            fetchData(walletAddress, selectedChain, apiKeys);
         }
-    }, [walletAddress, selectedChain, apiKey, fetchData]);
+    }, [walletAddress, selectedChain, apiKeys, fetchData]);
+    
+    useEffect(() => {
+        const handleChainChanged = (chainId) => {
+            const newChain = chains.find(c => c.chainIdHex.toLowerCase() === chainId.toLowerCase());
+            if (newChain && newChain.id !== selectedChain.id) {
+                setSelectedChain(newChain);
+            }
+        };
+        
+        if (window.ethereum) {
+            window.ethereum.on('chainChanged', handleChainChanged);
+        }
+
+        return () => {
+            if (window.ethereum) {
+                window.ethereum.removeListener('chainChanged', handleChainChanged);
+            }
+        };
+    }, [selectedChain.id]);
 
     return (
         <div className="dashboard-container">
@@ -270,7 +306,7 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                 walletAddress={walletAddress}
                 onLogout={onLogout}
                 selectedChain={selectedChain}
-                setSelectedChain={setSelectedChain}
+                onChainChange={handleNetworkChange}
             />
             <main>
                 {loading ? (
@@ -278,8 +314,6 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                         <BalanceCardSkeleton />
                         <TransactionsListSkeleton />
                     </>
-                ) : globalError ? (
-                    <p className="error-message">Error: {globalError}</p>
                 ) : (
                     <>
                         <BalanceCard balance={balance} symbol={selectedChain.symbol} error={componentErrors.balance} />
@@ -291,39 +325,37 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
     );
 };
 
-
 const App = () => {
     const [walletAddress, setWalletAddress] = useState('');
-    const [apiKey, setApiKey] = useState('');
+    const [apiKeys, setApiKeys] = useState(null);
     
     useEffect(() => {
         const storedAddress = localStorage.getItem('walletAddress');
-        const storedApiKey = localStorage.getItem('apiKey');
-        if (storedAddress && storedApiKey) {
+        const storedApiKeys = localStorage.getItem('apiKeys');
+        if (storedAddress && storedApiKeys) {
             setWalletAddress(storedAddress);
-            setApiKey(storedApiKey);
+            setApiKeys(JSON.parse(storedApiKeys));
         }
     }, []);
 
-
-    const handleLogin = (address, key) => {
+    const handleLogin = (address, keys) => {
         setWalletAddress(address);
-        setApiKey(key);
+        setApiKeys(keys);
         localStorage.setItem('walletAddress', address);
-        localStorage.setItem('apiKey', key);
+        localStorage.setItem('apiKeys', JSON.stringify(keys));
     };
 
     const handleLogout = () => {
         setWalletAddress('');
-        setApiKey('');
+        setApiKeys(null);
         localStorage.removeItem('walletAddress');
-        localStorage.removeItem('apiKey');
+        localStorage.removeItem('apiKeys');
     };
 
     return (
         <>
-            {walletAddress && apiKey ? (
-                <Dashboard walletAddress={walletAddress} apiKey={apiKey} onLogout={handleLogout} />
+            {walletAddress && apiKeys ? (
+                <Dashboard walletAddress={walletAddress} apiKeys={apiKeys} onLogout={handleLogout} />
             ) : (
                 <LoginScreen onLogin={handleLogin} />
             )}
