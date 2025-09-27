@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom/client';
 
+// FIX: Add ethereum to the window object type for MetaMask compatibility
+declare global {
+    interface Window {
+        ethereum?: any;
+    }
+}
+
 const chains = [
-    { id: 1, name: 'Ethereum', symbol: 'ETH', apiUrl: 'https://api.etherscan.io/api' },
-    { id: 42161, name: 'Arbitrum', symbol: 'ARBETH', apiUrl: 'https://api.arbiscan.io/api' },
-    { id: 10, name: 'Optimism', symbol: 'OPETH', apiUrl: 'https://api-optimistic.etherscan.io/api' },
-    { id: 8453, name: 'Base', symbol: 'BASEETH', apiUrl: 'https://api.basescan.org/api' },
+    { id: 1, name: 'Ethereum', symbol: 'ETH', apiUrl: 'https://api.etherscan.io/api', explorerUrl: 'https://etherscan.io' },
+    { id: 42161, name: 'Arbitrum', symbol: 'ARBETH', apiUrl: 'https://api.arbiscan.io/api', explorerUrl: 'https://arbiscan.io' },
+    { id: 10, name: 'Optimism', symbol: 'OPETH', apiUrl: 'https://api-optimistic.etherscan.io/api', explorerUrl: 'https://optimistic.etherscan.io' },
+    { id: 8453, name: 'Base', symbol: 'BASEETH', apiUrl: 'https://api.basescan.org/api', explorerUrl: 'https://basescan.org' },
 ];
 
 // --- COMPONENTS ---
@@ -62,7 +69,7 @@ const TransactionsList = ({ transactions, chain }) => (
                     <div key={tx.hash} className="transaction-item">
                         <div className="tx-hash">
                             <span>Hash:</span>
-                            <a href={`https://etherscan.io/tx/${tx.hash}`} target="_blank" rel="noopener noreferrer">
+                            <a href={`${chain.explorerUrl}/tx/${tx.hash}`} target="_blank" rel="noopener noreferrer">
                                 {`${tx.hash.substring(0, 10)}...`}
                             </a>
                         </div>
@@ -83,13 +90,19 @@ const TransactionsList = ({ transactions, chain }) => (
 );
 
 const LoginScreen = ({ onLogin }) => {
-    const [address, setAddress] = useState('');
-    const [apiKey, setApiKey] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (address.trim() && apiKey.trim()) {
-            onLogin(address.trim(), apiKey.trim());
+    const handleConnect = async () => {
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    onLogin(accounts[0]);
+                }
+            } catch (error) {
+                console.error("User rejected the connection request:", error);
+                alert("You rejected the connection request. Please try again.");
+            }
+        } else {
+            alert('Please install MetaMask to use this app.');
         }
     };
 
@@ -97,61 +110,29 @@ const LoginScreen = ({ onLogin }) => {
         <div className="login-container">
             <div className="login-box">
                 <h1>CryptoDash</h1>
-                <p>Enter your wallet and Etherscan API key.</p>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                         <label htmlFor="wallet-address">Wallet Address</label>
-                        <input
-                            id="wallet-address"
-                            type="text"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            placeholder="0x..."
-                            aria-label="Wallet Address"
-                            required
-                        />
-                    </div>
-                   <div className="form-group">
-                        <label htmlFor="api-key">Etherscan API Key</label>
-                        <input
-                            id="api-key"
-                            type="password"
-                            value={apiKey}
-                            onChange={(e) => setApiKey(e.target.value)}
-                            placeholder="YourApiKeyToken"
-                            aria-label="Etherscan API Key"
-                            required
-                        />
-                   </div>
-                    <button type="submit">Connect</button>
-                </form>
+                <p>Connect your wallet to view your dashboard.</p>
+                <button onClick={handleConnect}>Connect with MetaMask</button>
             </div>
         </div>
     );
 };
 
-const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
+const Dashboard = ({ walletAddress, onLogout }) => {
     const [selectedChain, setSelectedChain] = useState(chains[0]);
     const [balance, setBalance] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchData = useCallback(async (address, chain, key) => {
-        if (!key) {
-            setError("API Key is missing.");
-            setLoading(false);
-            return;
-        }
-
+    const fetchData = useCallback(async (address, chain) => {
         setLoading(true);
         setError('');
         setBalance(null);
         setTransactions([]);
 
         try {
-            const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
-            const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
+            const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest`;
+            const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc`;
             
             const [balanceResponse, txResponse] = await Promise.all([
                 fetch(balanceUrl),
@@ -172,7 +153,7 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                 let errorMessage = '';
                 if(balanceData.message !== 'OK') errorMessage += `Balance: ${balanceData.result || balanceData.message}. `;
                 if(txData.message !== 'OK') errorMessage += `Transactions: ${txData.result || txData.message}.`;
-                throw new Error(errorMessage.trim() || 'Failed to fetch data from API. Check your API Key.');
+                throw new Error(errorMessage.trim() || 'Failed to fetch data from API. Public endpoints may be rate-limited.');
             }
 
         } catch (e) {
@@ -184,10 +165,10 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
     }, []);
 
     useEffect(() => {
-        if (walletAddress && apiKey) {
-            fetchData(walletAddress, selectedChain, apiKey);
+        if (walletAddress) {
+            fetchData(walletAddress, selectedChain);
         }
-    }, [walletAddress, selectedChain, apiKey, fetchData]);
+    }, [walletAddress, selectedChain, fetchData]);
 
     return (
         <div className="dashboard-container">
@@ -213,42 +194,30 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
 
 
 const App = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [walletAddress, setWalletAddress] = useState('');
-    const [apiKey, setApiKey] = useState('');
     
-    // Restore session from localStorage if possible
     useEffect(() => {
         const storedAddress = localStorage.getItem('walletAddress');
-        const storedApiKey = localStorage.getItem('apiKey');
-        if (storedAddress && storedApiKey) {
+        if (storedAddress) {
             setWalletAddress(storedAddress);
-            setApiKey(storedApiKey);
-            setIsAuthenticated(true);
         }
     }, []);
 
 
-    const handleLogin = (address, key) => {
+    const handleLogin = (address) => {
         setWalletAddress(address);
-        setApiKey(key);
-        setIsAuthenticated(true);
         localStorage.setItem('walletAddress', address);
-        localStorage.setItem('apiKey', key);
     };
 
     const handleLogout = () => {
         setWalletAddress('');
-        setApiKey('');
-        setIsAuthenticated(false);
         localStorage.removeItem('walletAddress');
-        localStorage.removeItem('apiKey');
     };
 
     return (
         <>
-            {isAuthenticated ? (
-                <Dashboard walletAddress={walletAddress} apiKey={apiKey} onLogout={handleLogout} />
+            {walletAddress ? (
+                <Dashboard walletAddress={walletAddress} onLogout={handleLogout} />
             ) : (
                 <LoginScreen onLogin={handleLogin} />
             )}
