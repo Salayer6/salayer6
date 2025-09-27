@@ -156,31 +156,40 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
             
-            const [balanceResponse, txResponse] = await Promise.all([
-                fetch(balanceUrl),
-                fetch(txUrl)
-            ]);
+            // Fetch sequentially to avoid hitting API rate limits on free keys.
+            const balanceResponse = await fetch(balanceUrl);
+            await new Promise(resolve => setTimeout(resolve, 250)); // Small delay
+            const txResponse = await fetch(txUrl);
 
-            if (!balanceResponse.ok || !txResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!balanceResponse.ok) throw new Error(`Network error fetching balance: ${balanceResponse.statusText}`);
+            if (!txResponse.ok) throw new Error(`Network error fetching transactions: ${txResponse.statusText}`);
 
             const balanceData = await balanceResponse.json();
             const txData = await txResponse.json();
 
-            if (balanceData.status === '1' && txData.status === '1') {
-                setBalance(balanceData.result / 1e18);
-                setTransactions(txData.result);
-            } else {
+            // Robust error handling for API-level errors
+            if (balanceData.status === '0' || txData.status === '0') {
                 let errorMessage = '';
-                if(balanceData.message !== 'OK') errorMessage += `Balance: ${balanceData.result || balanceData.message}. `;
-                if(txData.message !== 'OK') errorMessage += `Transactions: ${txData.result || txData.message}.`;
-                throw new Error(errorMessage.trim() || 'Failed to fetch data from API. Check your API Key or network.');
+                if (balanceData.status === '0') {
+                    errorMessage += `Balance Error: ${balanceData.result || balanceData.message}. `;
+                }
+                if (txData.status === '0') {
+                    errorMessage += `Transactions Error: ${txData.result || txData.message}.`;
+                }
+                throw new Error(errorMessage.trim());
             }
+
+            setBalance(balanceData.result / 1e18);
+            setTransactions(txData.result || []);
 
         } catch (e) {
             console.error("Error fetching data:", e);
-            setError(e.message.includes('rate limit') ? 'API rate limit reached. Please wait a moment and try again.' : `Failed to fetch data: ${e.message}`);
+            const errorMessage = e.message || 'An unknown error occurred';
+            if (errorMessage.toLowerCase().includes('rate limit')) {
+                setError('API rate limit reached. Please wait a moment and try again.');
+            } else {
+                 setError(`Failed to fetch data: ${errorMessage}`);
+            }
         } finally {
             setLoading(false);
         }
