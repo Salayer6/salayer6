@@ -196,15 +196,15 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
             return;
         }
         
-        // Use a CORS proxy to bypass browser restrictions
-        const PROXY_URL = 'https://api.allorigins.win/get?url=';
+        // Use a more robust, transparent CORS proxy
+        const PROXY_URL = 'https://corsproxy.io/?';
 
         try {
             const balanceUrl = `${chain.apiUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`;
             const txUrl = `${chain.apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${key}`;
 
-            const proxiedBalanceUrl = `${PROXY_URL}${encodeURIComponent(balanceUrl)}`;
-            const proxiedTxUrl = `${PROXY_URL}${encodeURIComponent(txUrl)}`;
+            const proxiedBalanceUrl = `${PROXY_URL}${balanceUrl}`;
+            const proxiedTxUrl = `${PROXY_URL}${txUrl}`;
 
             const [balanceResult, txResult] = await Promise.allSettled([
                 fetch(proxiedBalanceUrl),
@@ -215,38 +215,30 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
 
             // Process Balance
             if (balanceResult.status === 'fulfilled' && balanceResult.value.ok) {
-                const proxyData = await balanceResult.value.json();
-                if (proxyData.contents) {
-                    const data = JSON.parse(proxyData.contents);
-                    if (data.status === '1') {
-                        setBalance(data.result / 1e18);
-                    } else {
-                        newErrors.balance = data.result || data.message || 'API error fetching balance';
-                    }
+                const data = await balanceResult.value.json();
+                if (data.status === '1') {
+                    setBalance(data.result / 1e18);
                 } else {
-                    newErrors.balance = 'Proxy error. The API might be blocking the request.';
+                    newErrors.balance = data.result || data.message || 'API error fetching balance';
                 }
             } else {
                 newErrors.balance = 'Network error. Could not fetch balance.';
+                console.error("Balance fetch failed:", balanceResult.status === 'rejected' ? balanceResult.reason : await balanceResult.value.text());
             }
 
             // Process Transactions
             if (txResult.status === 'fulfilled' && txResult.value.ok) {
-                 const proxyData = await txResult.value.json();
-                if (proxyData.contents) {
-                    const data = JSON.parse(proxyData.contents);
-                    if (data.status === '1') {
-                        setTransactions(data.result || []);
-                    } else if (data.message?.includes('No transactions found')) {
-                        setTransactions([]);
-                    } else {
-                        newErrors.transactions = data.result || data.message || 'API error fetching transactions';
-                    }
+                const data = await txResult.value.json();
+                if (data.status === '1') {
+                    setTransactions(data.result || []);
+                } else if (data.message?.includes('No transactions found')) {
+                    setTransactions([]);
                 } else {
-                    newErrors.transactions = 'Proxy error. The API might be blocking the request.';
+                    newErrors.transactions = data.result || data.message || 'API error fetching transactions';
                 }
             } else {
                 newErrors.transactions = 'Network error. Could not fetch transactions.';
+                console.error("Transactions fetch failed:", txResult.status === 'rejected' ? txResult.reason : await txResult.value.text());
             }
             
             // Set global error for critical issues, otherwise set component-level errors
@@ -254,8 +246,8 @@ const Dashboard = ({ walletAddress, apiKey, onLogout }) => {
                 setGlobalError('Invalid API Key provided. Please log out and enter a valid key.');
             } else {
                 setComponentErrors(newErrors);
-                if (newErrors.balance) console.error("API Error (Balance):", newErrors.balance);
-                if (newErrors.transactions) console.error("API Error (Transactions):", newErrors.transactions);
+                if (newErrors.balance && !newErrors.balance.includes('Network error')) console.error("API Error (Balance):", newErrors.balance);
+                if (newErrors.transactions && !newErrors.transactions.includes('Network error')) console.error("API Error (Transactions):", newErrors.transactions);
             }
 
         } catch (error) {
