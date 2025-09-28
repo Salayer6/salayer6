@@ -303,6 +303,9 @@ main {
 .verification-portal p {
     color: var(--text-secondary-color);
     margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .verifier-box {
@@ -316,6 +319,15 @@ main {
     font-family: var(--font-family-serif);
     margin-top: 0;
 }
+
+.verifier-box .form-group {
+    margin-bottom: 1rem;
+}
+/* Quitar margen al ultimo form-group para alinear bien el boton */
+.form-group-wrapper .form-group {
+    margin-bottom: 0;
+}
+
 
 .form-group-wrapper {
     position: relative;

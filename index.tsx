@@ -10,7 +10,7 @@ import { ethers } from "ethers";
  * Simplifica enormemente el proceso de enviar transacciones y leer datos de los contratos.
  */
 
-// 1. LA DIRECCIÓN DEL CONTRATO
+// 1. LA DIRECCIÓN DEL CONTRATO (de nuestra galería, ahora usada como default)
 const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // <--- REEMPLAZAR ESTO
 
 // 2. EL ABI (Application Binary Interface)
@@ -24,15 +24,16 @@ const CONTRACT_ABI = [
 
 /**
  * Crea una "instancia" del contrato con la que podemos interactuar.
+ * @param address La dirección del contrato a instanciar.
  * @returns Un objeto de contrato de ethers.js, o null si MetaMask no está disponible.
  */
-const getContract = () => {
-    if (typeof window.ethereum === 'undefined') {
-        console.error("MetaMask no está instalado.");
+const getContract = (address: string) => {
+    if (typeof window.ethereum === 'undefined' || !address || !ethers.isAddress(address)) {
+        console.error("MetaMask no está instalado o la dirección del contrato no es válida.");
         return null;
     }
     const provider = new ethers.BrowserProvider(window.ethereum);
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+    const contract = new ethers.Contract(address, CONTRACT_ABI, provider);
     return contract;
 };
 
@@ -58,11 +59,12 @@ const connectWallet = async (): Promise<string | null> => {
 
 /**
  * Obtiene los detalles de propiedad de un NFT específico desde la blockchain.
+ * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
  * @returns Un objeto con el propietario y el historial (simulado por ahora).
  */
-const getOwnershipDetails = async (tokenId: string) => {
-    const contract = getContract();
+const getOwnershipDetails = async (contractAddress: string, tokenId: string) => {
+    const contract = getContract(contractAddress);
     if (!contract) return null;
 
     try {
@@ -75,8 +77,8 @@ const getOwnershipDetails = async (tokenId: string) => {
         return { owner, history };
 
     } catch (error) {
-        console.error(`Error al obtener datos para el token ${tokenId}:`, error);
-        return null; // El token puede no existir
+        console.error(`Error al obtener datos para el token ${tokenId} del contrato ${contractAddress}:`, error);
+        return null; // El token o el contrato pueden no existir
     }
 };
 
@@ -85,7 +87,8 @@ const getOwnershipDetails = async (tokenId: string) => {
  * @returns El número total de tokens acuñados.
  */
 const getTotalSupply = async (): Promise<number> => {
-    const contract = getContract();
+    // Usamos la dirección de nuestro contrato para esta función específica de la galería.
+    const contract = getContract(CONTRACT_ADDRESS); 
     if (!contract) return 0;
     try {
         const totalSupply = await contract.totalSupply();
@@ -106,11 +109,6 @@ declare global {
 }
 
 // --- FUENTE DE DATOS (Catálogo de la Galería) ---
-// NOTA DIDÁCTICA: La información "visual" (título, descripción, imagen)
-// generalmente no se guarda en la blockchain por su alto costo. Se aloja
-// en un servidor o en IPFS. El smart contract solo gestiona la PROPIEDAD.
-// Por ahora, mantenemos este catálogo de forma local. Los 'tokenId' ahora
-// son secuenciales a partir de '1' para coincidir con el contador del contrato.
 const artCatalog = [
     { id: 1, tokenId: '1', title: 'Ecos Cósmicos', artist: 'Elena Valdés', priceCLP: '450.000', priceETH: '0.25', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjBwYWludGluZ3xlbnwwfHx8fDE3MTU2MzM4MTB8MA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una exploración vibrante de la creación y la destrucción en el universo, utilizando acrílicos sobre lienzo de 100x120cm.' },
     { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
@@ -132,16 +130,17 @@ const translations = {
         verifyOnChain: 'Verificar en Blockchain',
         backToGallery: '← Volver a la Galería',
         verifyTitle: 'Portal de Verificación de Autenticidad',
-        verifyDescription: 'Verifica la propiedad y el historial de una obra utilizando su ID de token único o conecta tu wallet para ver tu colección.',
-        verifyByTokenId: 'Verificar por ID de Token',
-        tokenIdPlaceholder: 'Ingresa el ID del Token (ej: 1)',
+        verifyDescription: 'La unicidad de un NFT se define por su Contrato y su ID de Token. Introduce ambos para verificar la propiedad en la blockchain.',
+        verifyByTokenId: 'Verificar un NFT',
+        tokenIdPlaceholder: 'Ingresa el ID del Token (ej: 346)',
+        contractAddressPlaceholder: 'Dirección del Contrato (ej: 0x...)',
         or: 'o',
         myCollection: 'Mi Colección',
         connectToSee: 'Conecta tu wallet para ver tu colección',
         verificationResult: 'Resultado de la Verificación',
         owner: 'Propietario Actual:',
         history: 'Historial de Propiedad:',
-        noArtFound: 'No se encontró arte para este ID o no existe en la blockchain.',
+        noArtFound: 'No se encontraron datos para esta combinación de Contrato y Token ID. Verifica que ambos sean correctos.',
         noArtInWallet: 'No posees ninguna obra de esta colección en la wallet conectada.',
         myCollectionDisabled: "La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.",
         footerText: '© 2024 Galería Abstracta Chile. Todos los derechos reservados.',
@@ -240,7 +239,7 @@ const ArtDetail = ({ art, onBack, setPage }) => {
                     <button className="buy-button" onClick={() => alert('Función de compra no implementada.')}>
                         {t.buyNow}
                     </button>
-                    <button className="verify-button" onClick={() => setPage({ name: 'verify', tokenId: art.tokenId })}>
+                    <button className="verify-button" onClick={() => setPage({ name: 'verify', tokenId: art.tokenId, contractAddress: CONTRACT_ADDRESS })}>
                         {t.verifyOnChain}
                     </button>
                 </div>
@@ -249,19 +248,20 @@ const ArtDetail = ({ art, onBack, setPage }) => {
     );
 };
 
-const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, catalog, setPage }) => {
+const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', walletAddress, onConnect, catalog, setPage }) => {
     const t = useTranslations();
     const [tokenIdInput, setTokenIdInput] = useState(initialTokenId);
+    const [contractAddressInput, setContractAddressInput] = useState(initialContractAddress);
     const [result, setResult] = useState(null);
     const [isVerifying, setIsVerifying] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
     const helpRef = useRef(null);
 
     useEffect(() => {
-        if (initialTokenId) {
+        if (initialTokenId && initialContractAddress) {
             handleVerification();
         }
-    }, [initialTokenId]);
+    }, [initialTokenId, initialContractAddress]);
 
      useEffect(() => {
         const handleClickOutside = (event) => {
@@ -276,14 +276,17 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
     }, []);
     
     const handleVerification = async () => {
-        if (!tokenIdInput) return;
+        if (!tokenIdInput || !contractAddressInput) return;
         setIsVerifying(true);
         setResult(null);
 
-        const ownership = await getOwnershipDetails(tokenIdInput);
+        const ownership = await getOwnershipDetails(contractAddressInput, tokenIdInput);
         
         if (ownership) {
-            const art = catalog.find(a => a.tokenId === tokenIdInput);
+            // Buscamos en el catálogo local solo si la dirección del contrato coincide con la nuestra
+            const art = contractAddressInput.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
+                ? catalog.find(a => a.tokenId === tokenIdInput)
+                : { title: `Token ID: ${tokenIdInput}`, artist: `Contrato: ${contractAddressInput}` }; // Datos genéricos para contratos externos
             setResult({ art, ownership });
         } else {
             setResult({ error: t.noArtFound });
@@ -298,7 +301,16 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
             
             <div className="verifier-box">
                 <h2>{t.verifyByTokenId}</h2>
-                <div className="form-group-wrapper" ref={helpRef}>
+                <div className="form-group">
+                    <input 
+                        type="text" 
+                        value={contractAddressInput}
+                        onChange={(e) => setContractAddressInput(e.target.value)}
+                        placeholder={t.contractAddressPlaceholder}
+                        disabled={isVerifying}
+                    />
+                </div>
+                 <div className="form-group-wrapper" ref={helpRef}>
                     <div className="form-group">
                         <input 
                             type="text" 
@@ -307,7 +319,7 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
                             placeholder={t.tokenIdPlaceholder}
                             disabled={isVerifying}
                         />
-                        <button onClick={handleVerification} disabled={isVerifying || !tokenIdInput}>{t.verify}</button>
+                         <button onClick={handleVerification} disabled={isVerifying || !tokenIdInput || !contractAddressInput}>{t.verify}</button>
                     </div>
                     <div className="verifier-help-trigger" onClick={() => setShowHelp(!showHelp)} title={t.howToFindTokenId}>?</div>
                     {showHelp && (
@@ -327,7 +339,8 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
                     <h3>{t.verificationResult}</h3>
                     {result.error ? <p>{result.error}</p> : (
                         <>
-                           <p><strong>{result.art.title}</strong> por {result.art.artist}</p>
+                           <p><strong>{result.art.title}</strong></p>
+                           <p className="owner-info"><em>{result.art.artist}</em></p>
                            <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
                            <h4>{t.history}</h4>
                            {result.ownership.history.map((tx, i) => (
@@ -392,7 +405,7 @@ const CyberpunkEasterEgg = ({ onClose }) => {
 
 
 const App = () => {
-    const [page, setPage] = useState<{ name: string; id?: number; tokenId?: string }>({ name: 'gallery' });
+    const [page, setPage] = useState<{ name: string; id?: number; tokenId?: string; contractAddress?: string; }>({ name: 'gallery' });
     const [walletAddress, setWalletAddress] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [catalog, setCatalog] = useState([]);
@@ -483,7 +496,8 @@ const App = () => {
                 return <ArtDetail art={art} onBack={() => setPage({ name: 'gallery' })} setPage={setPage} />;
             case 'verify':
                 return <VerificationPortal 
-                    initialTokenId={page.tokenId} 
+                    initialTokenId={page.tokenId}
+                    initialContractAddress={page.contractAddress}
                     walletAddress={walletAddress} 
                     onConnect={handleConnectWallet} 
                     catalog={catalog}
