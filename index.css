@@ -9,6 +9,8 @@
   --font-family-serif: 'Lora', serif;
   --font-family-sans: 'Inter', sans-serif;
   --font-family-mono: 'Courier New', Courier, monospace;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
 }
 
 *, *::before, *::after {
@@ -128,6 +130,12 @@ main {
   background-color: var(--primary-hover-color);
 }
 
+.wallet-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 .wallet-address {
   font-family: monospace;
   background-color: var(--surface-color);
@@ -135,6 +143,63 @@ main {
   border-radius: 6px;
   border: 1px solid var(--border-color);
 }
+
+/* Network Indicator */
+.network-indicator {
+    position: relative;
+}
+
+.network-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.network-button:hover {
+    background-color: var(--surface-color);
+}
+
+.network-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.network-button.supported .network-dot {
+    background-color: var(--success-color);
+}
+.network-button.unsupported .network-dot {
+    background-color: var(--danger-color);
+}
+
+.network-dropdown {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 20;
+    min-width: 180px;
+    animation: fadeIn 0.15s ease-out;
+}
+.network-dropdown a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.network-dropdown a:hover {
+    background-color: var(--surface-color);
+}
+
 
 /* --- Art Gallery --- */
 .art-gallery-grid {
@@ -460,7 +525,7 @@ main {
     background-color: var(--background-color);
 }
 .verification-result.error {
-    color: #c00;
+    color: var(--danger-color);
 }
 .verification-result h3 {
     font-family: var(--font-family-serif);
@@ -471,6 +536,15 @@ main {
     font-family: monospace;
     font-size: 0.9rem;
     word-break: break-all;
+}
+
+.network-info {
+    font-size: 0.9rem;
+    background-color: var(--surface-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 1rem;
 }
 
 .history-item {

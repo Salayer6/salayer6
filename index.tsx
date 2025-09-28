@@ -21,20 +21,37 @@ const CONTRACT_ABI = [
     "function totalSupply() view returns (uint256)"
 ];
 
+// 3. Redes Soportadas
+const SUPPORTED_NETWORKS = {
+    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: `https://mainnet.infura.io/v3/` }, // Usar una clave de Infura en producción
+    '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon-rpc.com/' }
+};
+const DEFAULT_NETWORK = SUPPORTED_NETWORKS['0x1'];
+
 
 /**
  * Crea una "instancia" del contrato con la que podemos interactuar.
  * @param address La dirección del contrato a instanciar.
- * @returns Un objeto de contrato de ethers.js, o null si MetaMask no está disponible.
+ * @param network Opcional. Si se provee, usa un proveedor estático para esa red.
+ * @returns Un objeto de contrato de ethers.js, o null si los parámetros no son válidos.
  */
-const getContract = (address: string) => {
-    if (typeof window.ethereum === 'undefined' || !address || !ethers.isAddress(address)) {
-        console.error("MetaMask no está instalado o la dirección del contrato no es válida.");
+const getContract = (address: string, network: { rpcUrl: string } | null = null) => {
+    if (!address || !ethers.isAddress(address)) {
+        console.error("La dirección del contrato no es válida.");
+        return null;
+    }
+    // Si se especifica una red, usamos un proveedor de solo lectura para esa red específica.
+    if (network) {
+        const provider = new ethers.JsonRpcProvider(network.rpcUrl);
+        return new ethers.Contract(address, CONTRACT_ABI, provider);
+    }
+    // Si no, usamos el proveedor de MetaMask (la red activa del usuario).
+    if (typeof window.ethereum === 'undefined') {
+        console.error("MetaMask no está instalado.");
         return null;
     }
     const provider = new ethers.BrowserProvider(window.ethereum);
-    const contract = new ethers.Contract(address, CONTRACT_ABI, provider);
-    return contract;
+    return new ethers.Contract(address, CONTRACT_ABI, provider);
 };
 
 
@@ -61,10 +78,11 @@ const connectWallet = async (): Promise<string | null> => {
  * Obtiene los detalles de propiedad de un NFT específico desde la blockchain.
  * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
+ * @param network La red específica en la que buscar.
  * @returns Un objeto con el propietario y el historial (simulado por ahora).
  */
-const getOwnershipDetails = async (contractAddress: string, tokenId: string) => {
-    const contract = getContract(contractAddress);
+const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { rpcUrl: string } | null = null) => {
+    const contract = getContract(contractAddress, network);
     if (!contract) return null;
 
     try {
@@ -77,8 +95,9 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string) => 
         return { owner, history };
 
     } catch (error) {
-        console.error(`Error al obtener datos para el token ${tokenId} del contrato ${contractAddress}:`, error);
-        return null; // El token o el contrato pueden no existir
+        // Silenciamos el error en la consola para una búsqueda secuencial más limpia
+        // console.error(`Error al obtener datos para el token ${tokenId} del contrato ${contractAddress}:`, error);
+        return null; // El token o el contrato pueden no existir en esta red
     }
 };
 
@@ -87,8 +106,8 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string) => 
  * @returns El número total de tokens acuñados.
  */
 const getTotalSupply = async (): Promise<number> => {
-    // Usamos la dirección de nuestro contrato para esta función específica de la galería.
-    const contract = getContract(CONTRACT_ADDRESS); 
+    // Usamos la dirección de nuestro contrato y la red por defecto para esta función.
+    const contract = getContract(CONTRACT_ADDRESS, DEFAULT_NETWORK); 
     if (!contract) return 0;
     try {
         const totalSupply = await contract.totalSupply();
@@ -98,6 +117,25 @@ const getTotalSupply = async (): Promise<number> => {
         return 0;
     }
 }
+
+/**
+ * Solicita a MetaMask cambiar a una red específica.
+ * @param chainId El ID de la cadena en formato hexadecimal (ej: '0x1').
+ */
+const switchNetwork = async (chainId: string) => {
+    if (!window.ethereum) return;
+    try {
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId }],
+        });
+    } catch (switchError) {
+        // Este error (código 4902) indica que la red no ha sido agregada a MetaMask.
+        // Aquí se podría implementar la lógica para agregar la red, pero se omite por simplicidad.
+        console.error("Error al cambiar de red:", switchError);
+    }
+};
+
 
 // --- FIN: Lógica de Blockchain ---
 
@@ -149,6 +187,10 @@ const translations = {
         howToFindTokenId: '¿Cómo encuentro el ID del Token?',
         tokenIdHelpTitle: 'Para encontrar el ID del Token de un NFT:',
         tokenIdHelpText: 'Ve a la página del NFT en un marketplace como OpenSea. El ID del Token es el último número que aparece en la URL.',
+        unsupportedNetwork: 'Red Desconocida',
+        switchTo: 'Cambiar a',
+        searchingOn: 'Buscando en {network}...',
+        foundOn: 'Encontrado en la red:'
     }
 };
 const useTranslations = () => translations.es;
@@ -166,7 +208,52 @@ const Loader = ({ text = '' }) => {
     );
 };
 
-const Header = ({ walletAddress, onConnect, setPage }) => {
+const NetworkIndicator = ({ network, onSwitch }) => {
+    const t = useTranslations();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const isSupported = network && SUPPORTED_NETWORKS[network.chainId];
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    if (!network) return null;
+
+    return (
+        <div className="network-indicator" ref={dropdownRef}>
+            <button className={`network-button ${isSupported ? 'supported' : 'unsupported'}`} onClick={() => setIsOpen(!isOpen)}>
+                <span className="network-dot"></span>
+                {isSupported ? network.name : t.unsupportedNetwork}
+            </button>
+            {isOpen && (
+                <div className="network-dropdown">
+                    {Object.values(SUPPORTED_NETWORKS).map(net => (
+                        <a 
+                            key={net.chainId}
+                            href="#" 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                onSwitch(net.chainId);
+                                setIsOpen(false);
+                            }}
+                        >
+                           {t.switchTo} {net.name}
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+const Header = ({ walletAddress, onConnect, setPage, network, onSwitchNetwork }) => {
     const t = useTranslations();
     return (
         <header className="app-header">
@@ -179,8 +266,11 @@ const Header = ({ walletAddress, onConnect, setPage }) => {
                     {t.verify}
                 </a>
                 {walletAddress ? (
-                    <div className="wallet-address" title={walletAddress}>
-                        {`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}
+                    <div className="wallet-info">
+                         <NetworkIndicator network={network} onSwitch={onSwitchNetwork} />
+                        <div className="wallet-address" title={walletAddress}>
+                            {`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}
+                        </div>
                     </div>
                 ) : (
                     <button onClick={onConnect} className="connect-wallet-btn">{t.connectWallet}</button>
@@ -254,12 +344,13 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
     const [contractAddressInput, setContractAddressInput] = useState(initialContractAddress);
     const [result, setResult] = useState(null);
     const [isVerifying, setIsVerifying] = useState(false);
+    const [verifyingMessage, setVerifyingMessage] = useState('');
     const [showHelp, setShowHelp] = useState(false);
     const helpRef = useRef(null);
 
     useEffect(() => {
         if (initialTokenId && initialContractAddress) {
-            handleVerification();
+            handleMultiNetworkVerification();
         }
     }, [initialTokenId, initialContractAddress]);
 
@@ -275,23 +366,31 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
         };
     }, []);
     
-    const handleVerification = async () => {
+    const handleMultiNetworkVerification = async () => {
         if (!tokenIdInput || !contractAddressInput) return;
         setIsVerifying(true);
         setResult(null);
 
-        const ownership = await getOwnershipDetails(contractAddressInput, tokenIdInput);
+        let foundOwnership = null;
+        for (const network of Object.values(SUPPORTED_NETWORKS)) {
+            setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
+            const ownership = await getOwnershipDetails(contractAddressInput, tokenIdInput, network);
+            if (ownership) {
+                foundOwnership = { ...ownership, networkName: network.name };
+                break; // Detener la búsqueda al encontrar el primer resultado
+            }
+        }
         
-        if (ownership) {
-            // Buscamos en el catálogo local solo si la dirección del contrato coincide con la nuestra
+        if (foundOwnership) {
             const art = contractAddressInput.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
                 ? catalog.find(a => a.tokenId === tokenIdInput)
-                : { title: `Token ID: ${tokenIdInput}`, artist: `Contrato: ${contractAddressInput}` }; // Datos genéricos para contratos externos
-            setResult({ art, ownership });
+                : { title: `Token ID: ${tokenIdInput}`, artist: `Contrato: ${contractAddressInput}` };
+            setResult({ art, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound });
         }
         setIsVerifying(false);
+        setVerifyingMessage('');
     };
 
     return (
@@ -319,7 +418,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                             placeholder={t.tokenIdPlaceholder}
                             disabled={isVerifying}
                         />
-                         <button onClick={handleVerification} disabled={isVerifying || !tokenIdInput || !contractAddressInput}>{t.verify}</button>
+                         <button onClick={handleMultiNetworkVerification} disabled={isVerifying || !tokenIdInput || !contractAddressInput}>{t.verify}</button>
                     </div>
                     <div className="verifier-help-trigger" onClick={() => setShowHelp(!showHelp)} title={t.howToFindTokenId}>?</div>
                     {showHelp && (
@@ -332,7 +431,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                 </div>
             </div>
 
-            {isVerifying && <Loader text={t.verifying} />}
+            {isVerifying && <Loader text={verifyingMessage} />}
 
             {result && (
                  <div className={`verification-result ${result.error ? 'error' : ''}`}>
@@ -341,6 +440,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                         <>
                            <p><strong>{result.art.title}</strong></p>
                            <p className="owner-info"><em>{result.art.artist}</em></p>
+                           <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.networkName}</p>
                            <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
                            <h4>{t.history}</h4>
                            {result.ownership.history.map((tx, i) => (
@@ -407,53 +507,54 @@ const CyberpunkEasterEgg = ({ onClose }) => {
 const App = () => {
     const [page, setPage] = useState<{ name: string; id?: number; tokenId?: string; contractAddress?: string; }>({ name: 'gallery' });
     const [walletAddress, setWalletAddress] = useState('');
+    const [network, setNetwork] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [catalog, setCatalog] = useState([]);
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const t = useTranslations();
     
-    // Carga inicial de la app, robusta ante la "race condition" de MetaMask.
+    const updateNetwork = async () => {
+        if (!window.ethereum) return;
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const net = await provider.getNetwork();
+        const chainId = `0x${net.chainId.toString(16)}`;
+        const networkInfo = SUPPORTED_NETWORKS[chainId];
+        setNetwork({
+            chainId,
+            name: networkInfo ? networkInfo.name : t.unsupportedNetwork
+        });
+    };
+    
     useEffect(() => {
-        const handleEthereumReady = async () => {
-            console.log("Proveedor de Ethereum detectado. Cargando datos de la blockchain...");
+        if(walletAddress) {
+            updateNetwork();
+        }
+        if (window.ethereum) {
+            const handleChainChanged = () => window.location.reload(); // Simple reload on network change
+            window.ethereum.on('chainChanged', handleChainChanged);
+            return () => window.ethereum.removeListener('chainChanged', handleChainChanged);
+        }
+    }, [walletAddress]);
+    
+    // Carga inicial de la app
+    useEffect(() => {
+        const initializeApp = async () => {
+            console.log("Inicializando aplicación...");
             try {
+                // Obtenemos el total supply de nuestro contrato para mostrar solo los NFTs "acuñados"
                 const totalSupply = await getTotalSupply();
                 if (totalSupply > 0) {
                     const availableArt = artCatalog.filter(art => parseInt(art.tokenId, 10) <= totalSupply);
                     setCatalog(availableArt);
                 } else {
-                    console.warn("Conectado, pero el total supply del contrato es 0. Mostrando catálogo completo.");
+                    console.warn("Conectado, pero el total supply del contrato es 0. Mostrando catálogo completo como vista previa.");
                     setCatalog(artCatalog);
                 }
             } catch (error) {
-                console.error("Error al obtener datos de la blockchain. Mostrando catálogo en modo vista previa.", error);
+                console.error("No se pudo conectar a la blockchain para obtener el total supply. Mostrando catálogo en modo vista previa.", error);
                 setCatalog(artCatalog);
-            } finally {
-                setIsLoading(false);
             }
-        };
-
-        const handleNoEthereum = () => {
-            console.warn("MetaMask no detectado. Mostrando galería en modo de vista previa.");
-            setCatalog(artCatalog);
             setIsLoading(false);
-        };
-
-        const initializeApp = () => {
-            if (window.ethereum) {
-                handleEthereumReady();
-            } else {
-                // Si ethereum no está, escuchamos el evento que lo anuncia.
-                window.addEventListener('ethereum#initialized', handleEthereumReady, { once: true });
-                
-                // Como fallback, si el evento nunca se dispara, asumimos que no hay wallet.
-                setTimeout(() => {
-                    window.removeEventListener('ethereum#initialized', handleEthereumReady);
-                    if (!window.ethereum) {
-                        handleNoEthereum();
-                    }
-                }, 3000); // 3 segundos de espera
-            }
         };
 
         initializeApp();
@@ -488,6 +589,10 @@ const App = () => {
         }
     };
     
+    const handleSwitchNetwork = async (chainId) => {
+        await switchNetwork(chainId);
+    };
+    
     const renderPage = () => {
         switch (page.name) {
             case 'detail':
@@ -513,7 +618,13 @@ const App = () => {
         <>
             {showEasterEgg && <CyberpunkEasterEgg onClose={() => setShowEasterEgg(false)} />}
             <div className="app-container">
-                <Header walletAddress={walletAddress} onConnect={handleConnectWallet} setPage={setPage} />
+                <Header 
+                    walletAddress={walletAddress} 
+                    onConnect={handleConnectWallet} 
+                    setPage={setPage}
+                    network={network}
+                    onSwitchNetwork={handleSwitchNetwork}
+                />
                 <main>
                     {isLoading ? <Loader text={t.loading} /> : renderPage()}
                 </main>
