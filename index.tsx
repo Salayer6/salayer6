@@ -81,17 +81,25 @@ const connectWallet = async (): Promise<string | null> => {
 
 /**
  * Obtiene los detalles de propiedad y la última transferencia de un NFT.
- * Ahora devuelve un objeto con un estado para manejar errores de forma más granular.
+ * Refactorizado para ser más robusto: primero verifica la existencia del contrato.
  * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
  * @param network La red específica en la que buscar.
  * @returns Un objeto con el estado de la búsqueda y los datos si se encuentra.
  */
 const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string }) => {
-    const contract = getContract(contractAddress, network);
-    if (!contract) return { status: 'error', message: 'Contrato inválido' };
-
     try {
+        const provider = new ethers.JsonRpcProvider(network.rpcUrl);
+        
+        // Paso 1: Verificar si el contrato existe en esta red. Es la forma más fiable.
+        const code = await provider.getCode(contractAddress);
+        if (code === '0x') {
+            console.info(`Búsqueda informativa: Contrato ${contractAddress} no existe en la red ${network.name}.`);
+            return { status: 'not_found' };
+        }
+
+        // Paso 2: Si el contrato existe, ahora sí interactuamos con él.
+        const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
         const owner = await contract.ownerOf(tokenId);
         
         const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
@@ -108,9 +116,10 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
         return { status: 'found', data: { owner, lastTransfer } };
 
     } catch (error: any) {
-        // Si el error indica que el token no existe, lo clasificamos como 'not_found'.
+        // Si el error ocurre DESPUÉS de confirmar que el contrato existe,
+        // es probable que el token ID sea el inválido.
         if (error.code === 'CALL_EXCEPTION' || (error.info?.error?.message || '').includes('owner query for nonexistent token')) {
-            console.info(`Búsqueda informativa: Token ${tokenId} no existe en la red ${network.name}.`);
+            console.info(`Búsqueda informativa: Token ${tokenId} no existe en el contrato ${contractAddress} en la red ${network.name}.`);
             return { status: 'not_found' };
         }
         // Otros errores son probablemente problemas de red o RPC.
