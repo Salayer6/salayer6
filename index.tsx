@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ethers } from "ethers";
 
@@ -146,7 +146,10 @@ const translations = {
         myCollectionDisabled: "La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.",
         footerText: '© 2024 Galería Abstracta Chile. Todos los derechos reservados.',
         loading: 'Cargando...',
-        verifying: 'Verificando en la blockchain...'
+        verifying: 'Verificando en la blockchain...',
+        howToFindTokenId: '¿Cómo encuentro el ID del Token?',
+        tokenIdHelpTitle: 'Para encontrar el ID del Token de un NFT:',
+        tokenIdHelpText: 'Ve a la página del NFT en un marketplace como OpenSea. El ID del Token es el último número que aparece en la URL.',
     }
 };
 const useTranslations = () => translations.es;
@@ -251,12 +254,26 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
     const [tokenIdInput, setTokenIdInput] = useState(initialTokenId);
     const [result, setResult] = useState(null);
     const [isVerifying, setIsVerifying] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
+    const helpRef = useRef(null);
 
     useEffect(() => {
         if (initialTokenId) {
             handleVerification();
         }
     }, [initialTokenId]);
+
+     useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (helpRef.current && !helpRef.current.contains(event.target)) {
+                setShowHelp(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
     
     const handleVerification = async () => {
         if (!tokenIdInput) return;
@@ -281,15 +298,25 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
             
             <div className="verifier-box">
                 <h2>{t.verifyByTokenId}</h2>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        value={tokenIdInput}
-                        onChange={(e) => setTokenIdInput(e.target.value)}
-                        placeholder={t.tokenIdPlaceholder}
-                        disabled={isVerifying}
-                    />
-                    <button onClick={handleVerification} disabled={isVerifying || !tokenIdInput}>{t.verify}</button>
+                <div className="form-group-wrapper" ref={helpRef}>
+                    <div className="form-group">
+                        <input 
+                            type="text" 
+                            value={tokenIdInput}
+                            onChange={(e) => setTokenIdInput(e.target.value)}
+                            placeholder={t.tokenIdPlaceholder}
+                            disabled={isVerifying}
+                        />
+                        <button onClick={handleVerification} disabled={isVerifying || !tokenIdInput}>{t.verify}</button>
+                    </div>
+                    <div className="verifier-help-trigger" onClick={() => setShowHelp(!showHelp)} title={t.howToFindTokenId}>?</div>
+                    {showHelp && (
+                        <div className="verifier-help-box">
+                            <h4>{t.tokenIdHelpTitle}</h4>
+                            <p>{t.tokenIdHelpText}</p>
+                            <code>opensea.io/assets/.../`{`{TOKEN_ID}`}</code>
+                        </div>
+                    )}
                 </div>
             </div>
 

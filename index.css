@@ -317,7 +317,15 @@ main {
     margin-top: 0;
 }
 
+.form-group-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 .form-group {
+    flex-grow: 1;
     display: flex;
     gap: 0.5rem;
 }
@@ -350,6 +358,69 @@ main {
     background-color: var(--text-secondary-color);
     cursor: not-allowed;
 }
+
+.verifier-help-trigger {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-secondary-color);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.verifier-help-trigger:hover {
+    background-color: var(--surface-color);
+    border-color: var(--text-secondary-color);
+}
+
+.verifier-help-box {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 300px;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 10;
+    animation: fadeIn 0.2s ease;
+}
+
+.verifier-help-box::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent var(--border-color) transparent;
+}
+
+
+.verifier-help-box h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+.verifier-help-box p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0 0 0.75rem 0;
+}
+.verifier-help-box code {
+    background-color: var(--surface-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    display: block;
+    word-break: break-all;
+}
+
 
 .disabled-feature-notice {
     color: var(--text-secondary-color);
