@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ethers } from "ethers";
@@ -29,9 +28,9 @@ const CONTRACT_ABI = [
     "function totalSupply() view returns (uint256)"
 ];
 
-// 3. Redes Soportadas - Ahora con URL del explorador
+// 3. Redes Soportadas - Ahora con URL del explorador y RPCs de respaldo para Ethereum
 const SUPPORTED_NETWORKS = {
-    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://cloudflare-eth.com', blockExplorerUrl: 'https://etherscan.io' },
+    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: ['https://ethereum.publicnode.com', 'https://cloudflare-eth.com', 'https://eth-mainnet.public.blastapi.io'], blockExplorerUrl: 'https://etherscan.io' },
     '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon.publicnode.com', blockExplorerUrl: 'https://polygonscan.com' },
     '0x38': { chainId: '0x38', name: 'BNB Chain', rpcUrl: 'https://bsc.publicnode.com', blockExplorerUrl: 'https://bscscan.com' },
     '0xa86a': { chainId: '0xa86a', name: 'Avalanche', rpcUrl: 'https://avalanche-c-chain.publicnode.com', blockExplorerUrl: 'https://snowtrace.io' },
@@ -48,17 +47,21 @@ const DEFAULT_NETWORK = SUPPORTED_NETWORKS['0x1'];
  * @param network Opcional. Si se provee, usa un proveedor estático para esa red.
  * @returns Un objeto de contrato de ethers.js, o null si los parámetros no son válidos.
  */
-const getContract = (address: string, network: { rpcUrl: string } | null = null) => {
+const getContract = (address: string, network: { rpcUrl: string | string[] } | null = null) => {
     if (!address || !ethers.isAddress(address)) {
         console.error("La dirección del contrato no es válida.");
         return null;
     }
-    // Si se especifica una red, usamos un proveedor de solo lectura para esa red específica.
+    // Si se especifica una red, usamos un proveedor estático.
     if (network) {
-        const provider = new ethers.JsonRpcProvider(network.rpcUrl);
+        // Si la red tiene múltiples RPCs (como Ethereum), usamos un FallbackProvider.
+        // Si no, usamos un JsonRpcProvider simple.
+        const provider = Array.isArray(network.rpcUrl)
+            ? new ethers.FallbackProvider(network.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
+            : new ethers.JsonRpcProvider(network.rpcUrl as string);
         return new ethers.Contract(address, CONTRACT_ABI, provider);
     }
-    // Si no, usamos el proveedor de MetaMask (la red activa del usuario).
+    // Si no se especifica red, usamos el proveedor de MetaMask (la red activa del usuario).
     if (typeof window.ethereum === 'undefined') {
         console.error("MetaMask no está instalado.");
         return null;
@@ -120,8 +123,12 @@ const retryAsync = async <T,>(
  * @param network La red específica en la que buscar.
  * @returns Un objeto con el estado de la búsqueda y los datos si se encuentra.
  */
-const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string }) => {
-    const provider = new ethers.JsonRpcProvider(network.rpcUrl);
+const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string | string[] }) => {
+    // Si la red tiene múltiples RPCs, usamos un FallbackProvider para resiliencia.
+    // Si no, un JsonRpcProvider normal.
+    const provider = Array.isArray(network.rpcUrl)
+        ? new ethers.FallbackProvider(network.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
+        : new ethers.JsonRpcProvider(network.rpcUrl as string);
 
     // Paso 1: Verificar si el contrato existe, con reintentos.
     try {
@@ -696,7 +703,7 @@ interface CyberpunkEasterEggProps {
 const CyberpunkEasterEgg: React.FC<CyberpunkEasterEggProps> = ({ onClose }) => {
     const lines = [
         "// ACCEDIENDO A CORE_IDENTITY.SYS...",
-        "// CONEXIÓN ESTABLECIDA. DESCIFRANDO MANIFIESTO...",
+        "// CONEXIÓN ESTABLECIDA. DESCIFRANDO MANIFESTO...",
         "> En la intersección del arte y el código, nosotros existimos.",
         "> Misión: Vincular la expresión humana a la verdad inmutable de la cadena de bloques.",
         "> Somos un colectivo de creadores y tecnólogos que creen que la procedencia es un derecho, no un privilegio.",
