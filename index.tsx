@@ -1,6 +1,14 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ethers } from "ethers";
+
+// --- FIX: Add global type declaration for window.ethereum at the top to make it available throughout the file.
+declare global {
+    interface Window {
+        ethereum?: any;
+    }
+}
 
 // --- INICIO: Lógica de Blockchain (integrada desde blockchain.ts) ---
 
@@ -79,53 +87,86 @@ const connectWallet = async (): Promise<string | null> => {
     }
 };
 
+// --- FIX: Corrected generic type syntax for TSX files. `<T>` was being interpreted as a JSX tag.
+// The trailing comma `<T,>` tells the TypeScript parser that this is a generic type parameter, not a component.
+// This single fix resolves a large cascade of parsing errors throughout the file.
+const retryAsync = async <T,>(
+    fn: () => Promise<T>,
+    retries = 2, // 2 reintentos = 3 intentos en total
+    delay = 500
+): Promise<T> => {
+    let lastError: Error | null = null;
+    for (let i = 0; i <= retries; i++) {
+        try {
+            return await fn();
+        } catch (error: any) {
+            lastError = error;
+            if (i < retries) {
+                // Espera antes del siguiente reintento
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+    // Si todos los reintentos fallan, lanza el último error capturado.
+    throw lastError;
+};
+
 /**
  * Obtiene los detalles de propiedad y la última transferencia de un NFT.
- * Refactorizado para ser más robusto: primero verifica la existencia del contrato.
+ * Refactorizado para ser resiliente: utiliza reintentos para las llamadas críticas a la red
+ * y maneja con gracia los fallos en la obtención del historial de transacciones.
  * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
  * @param network La red específica en la que buscar.
  * @returns Un objeto con el estado de la búsqueda y los datos si se encuentra.
  */
 const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string }) => {
+    const provider = new ethers.JsonRpcProvider(network.rpcUrl);
+
+    // Paso 1: Verificar si el contrato existe, con reintentos.
     try {
-        const provider = new ethers.JsonRpcProvider(network.rpcUrl);
-        
-        // Paso 1: Verificar si el contrato existe en esta red. Es la forma más fiable.
-        const code = await provider.getCode(contractAddress);
+        const code = await retryAsync(() => provider.getCode(contractAddress));
         if (code === '0x') {
-            console.info(`Búsqueda informativa: Contrato ${contractAddress} no existe en la red ${network.name}.`);
             return { status: 'not_found' };
         }
-
-        // Paso 2: Si el contrato existe, ahora sí interactuamos con él.
-        const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
-        const owner = await contract.ownerOf(tokenId);
-        
-        const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
-        
-        let lastTransfer = null;
-        if (transferEvents.length > 0) {
-            const latestEvent = transferEvents[transferEvents.length - 1] as ethers.EventLog;
-            lastTransfer = {
-                from: latestEvent.args.from,
-                to: latestEvent.args.to,
-            };
-        }
-
-        return { status: 'found', data: { owner, lastTransfer } };
-
     } catch (error: any) {
-        // Si el error ocurre DESPUÉS de confirmar que el contrato existe,
-        // es probable que el token ID sea el inválido.
+        console.error(`Error al verificar el código del contrato en ${network.name} después de varios intentos:`, error);
+        return { status: 'error', message: `No se pudo conectar a ${network.name}.` };
+    }
+
+    const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
+    let owner;
+
+    // Paso 2: Obtener propietario, con reintentos (Funcionalidad Principal).
+    try {
+        owner = await retryAsync(() => contract.ownerOf(tokenId));
+    } catch (error: any) {
         if (error.code === 'CALL_EXCEPTION' || (error.info?.error?.message || '').includes('owner query for nonexistent token')) {
-            console.info(`Búsqueda informativa: Token ${tokenId} no existe en el contrato ${contractAddress} en la red ${network.name}.`);
             return { status: 'not_found' };
         }
-        // Otros errores son probablemente problemas de red o RPC.
-        console.error(`Error de red o RPC en ${network.name}:`, error);
+        console.error(`Error al obtener el propietario en ${network.name} después de varios intentos:`, error);
         return { status: 'error', message: error.message };
     }
+
+    // Paso 3: Obtener historial (Mejora, puede fallar sin detener la verificación). No necesita reintentos.
+    let lastTransfer = null;
+    try {
+        const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
+        if (transferEvents.length > 0) {
+            const latestEvent = transferEvents[transferEvents.length - 1] as ethers.EventLog;
+            if (latestEvent.args) {
+                lastTransfer = {
+                    from: latestEvent.args.from,
+                    to: latestEvent.args.to,
+                };
+            }
+        }
+    } catch (error: any) {
+        console.warn(`No se pudo obtener el historial de transacciones en ${network.name}. Esto es común en nodos RPC públicos. La verificación de propiedad sigue siendo válida.`, error);
+    }
+
+    // Éxito: Se encontró al menos el propietario.
+    return { status: 'found', data: { owner, lastTransfer } };
 };
 
 
@@ -167,15 +208,36 @@ const switchNetwork = async (chainId: string) => {
 
 // --- FIN: Lógica de Blockchain ---
 
-
-declare global {
-    interface Window {
-        ethereum?: any;
-    }
+// --- FIX: Add type definitions for application data structures.
+interface Art {
+    id: number;
+    tokenId: string;
+    title: string;
+    artist: string;
+    priceCLP: string;
+    priceETH: string;
+    imageUrl: string;
+    description: string;
 }
 
+interface NetworkInfo {
+    chainId: string;
+    name: string;
+}
+
+type PageState = {
+    name: 'gallery'
+} | {
+    name: 'detail',
+    id: number
+} | {
+    name: 'verify',
+    tokenId?: string,
+    contractAddress?: string
+};
+
 // --- FUENTE DE DATOS (Catálogo de la Galería) ---
-const artCatalog = [
+const artCatalog: Art[] = [
     { id: 1, tokenId: '1', title: 'Ecos Cósmicos', artist: 'Elena Valdés', priceCLP: '450.000', priceETH: '0.25', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjBwYWludGluZ3xlbnwwfHx8fDE3MTU2MzM4MTB8MA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una exploración vibrante de la creación y la destrucción en el universo, utilizando acrílicos sobre lienzo de 100x120cm.' },
     { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
     { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-30057590f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
@@ -234,7 +296,11 @@ const useTranslations = () => translations.es;
 
 // --- COMPONENTS ---
 
-const Loader = ({ text = '' }) => {
+// --- FIX: Add prop types for component
+interface LoaderProps {
+    text?: string;
+}
+const Loader: React.FC<LoaderProps> = ({ text = '' }) => {
     const t = useTranslations();
     return (
         <div className="loader-container">
@@ -244,15 +310,20 @@ const Loader = ({ text = '' }) => {
     );
 };
 
-const NetworkIndicator = ({ network, onSwitch }) => {
+// --- FIX: Add prop types for component
+interface NetworkIndicatorProps {
+    network: NetworkInfo | null;
+    onSwitch: (chainId: string) => void;
+}
+const NetworkIndicator: React.FC<NetworkIndicatorProps> = ({ network, onSwitch }) => {
     const t = useTranslations();
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
-    const isSupported = network && SUPPORTED_NETWORKS[network.chainId];
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const isSupported = network && SUPPORTED_NETWORKS[network.chainId as keyof typeof SUPPORTED_NETWORKS];
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
@@ -289,7 +360,15 @@ const NetworkIndicator = ({ network, onSwitch }) => {
     );
 };
 
-const Header = ({ walletAddress, onConnect, setPage, network, onSwitchNetwork }) => {
+// --- FIX: Add prop types for component
+interface HeaderProps {
+    walletAddress: string;
+    onConnect: () => void;
+    setPage: (page: PageState) => void;
+    network: NetworkInfo | null;
+    onSwitchNetwork: (chainId: string) => void;
+}
+const Header: React.FC<HeaderProps> = ({ walletAddress, onConnect, setPage, network, onSwitchNetwork }) => {
     const t = useTranslations();
     return (
         <header className="app-header">
@@ -316,7 +395,12 @@ const Header = ({ walletAddress, onConnect, setPage, network, onSwitchNetwork })
     );
 };
 
-const ArtCard = ({ art, onSelect }) => {
+// --- FIX: Add prop types for component
+interface ArtCardProps {
+    art: Art;
+    onSelect: (id: number) => void;
+}
+const ArtCard: React.FC<ArtCardProps> = ({ art, onSelect }) => {
     return (
         <div className="art-card" onClick={() => onSelect(art.id)}>
             <div className="art-card-image-wrapper">
@@ -333,7 +417,12 @@ const ArtCard = ({ art, onSelect }) => {
     );
 };
 
-const ArtGallery = ({ catalog, onSelectArt }) => {
+// --- FIX: Add prop types for component
+interface ArtGalleryProps {
+    catalog: Art[];
+    onSelectArt: (id: number) => void;
+}
+const ArtGallery: React.FC<ArtGalleryProps> = ({ catalog, onSelectArt }) => {
     return (
         <div className="art-gallery-grid">
             {catalog.map(art => (
@@ -345,7 +434,13 @@ const ArtGallery = ({ catalog, onSelectArt }) => {
     );
 };
 
-const ArtDetail = ({ art, onBack, setPage }) => {
+// --- FIX: Add prop types for component
+interface ArtDetailProps {
+    art: Art;
+    onBack: () => void;
+    setPage: (page: PageState) => void;
+}
+const ArtDetail: React.FC<ArtDetailProps> = ({ art, onBack, setPage }) => {
     const t = useTranslations();
     return (
         <div className="art-detail-container">
@@ -374,15 +469,41 @@ const ArtDetail = ({ art, onBack, setPage }) => {
     );
 };
 
-const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', walletAddress, onConnect, catalog, setPage }) => {
+// --- FIX: Add specific types for verification result state
+type NetworkFromSupported = typeof SUPPORTED_NETWORKS[keyof typeof SUPPORTED_NETWORKS];
+interface VerificationSuccess {
+    art: Art | { title: string, artist: string };
+    ownership: {
+        owner: string;
+        lastTransfer: { from: string, to: string } | null;
+        network: NetworkFromSupported;
+    }
+}
+interface VerificationError {
+    error: string;
+    searchLog?: { network: string, status: string }[];
+}
+type VerificationResult = VerificationSuccess | VerificationError | null;
+
+// --- FIX: Add prop types for component
+interface VerificationPortalProps {
+    initialTokenId?: string;
+    initialContractAddress?: string;
+    walletAddress: string;
+    onConnect: () => void;
+    catalog: Art[];
+    setPage: (page: PageState) => void;
+}
+
+const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId = '', initialContractAddress = '', walletAddress, onConnect, catalog, setPage }) => {
     const t = useTranslations();
     const [tokenIdInput, setTokenIdInput] = useState(initialTokenId);
     const [contractAddressInput, setContractAddressInput] = useState(initialContractAddress);
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState<VerificationResult>(null);
     const [isVerifying, setIsVerifying] = useState(false);
     const [verifyingMessage, setVerifyingMessage] = useState('');
     const [showHelp, setShowHelp] = useState(false);
-    const helpRef = useRef(null);
+    const helpRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (initialTokenId && initialContractAddress) {
@@ -391,8 +512,8 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
     }, [initialTokenId, initialContractAddress]);
 
      useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (helpRef.current && !helpRef.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
                 setShowHelp(false);
             }
         };
@@ -414,7 +535,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
         setResult(null);
 
         let foundOwnership = null;
-        const searchLog = [];
+        const searchLog: { network: string, status: string }[] = [];
 
         for (const network of Object.values(SUPPORTED_NETWORKS)) {
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
@@ -435,7 +556,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
             const art = cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
                 ? catalog.find(a => a.tokenId === cleanTokenId)
                 : { title: `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
-            setResult({ art, ownership: foundOwnership });
+            setResult({ art: art!, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound, searchLog });
         }
@@ -444,7 +565,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
     };
     
     const renderHistory = () => {
-        if (!result || !result.ownership || !result.ownership.lastTransfer) {
+        if (!result || 'error' in result || !result.ownership || !result.ownership.lastTransfer) {
             return null;
         }
 
@@ -503,9 +624,9 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
             {isVerifying && <Loader text={verifyingMessage} />}
 
             {result && (
-                 <div className={`verification-result ${result.error ? 'error' : ''}`}>
+                 <div className={`verification-result ${'error' in result ? 'error' : ''}`}>
                     <h3>{t.verificationResult}</h3>
-                    {result.error ? (
+                    {'error' in result ? (
                         <>
                             <p>{result.error}</p>
                             {result.searchLog && (
@@ -566,7 +687,11 @@ const Footer = () => {
     );
 };
 
-const CyberpunkEasterEgg = ({ onClose }) => {
+// --- FIX: Add prop types for component
+interface CyberpunkEasterEggProps {
+    onClose: () => void;
+}
+const CyberpunkEasterEgg: React.FC<CyberpunkEasterEggProps> = ({ onClose }) => {
     const lines = [
         "// ACCEDIENDO A CORE_IDENTITY.SYS...",
         "// CONEXIÓN ESTABLECIDA. DESCIFRANDO MANIFIESTO...",
@@ -592,11 +717,12 @@ const CyberpunkEasterEgg = ({ onClose }) => {
 
 
 const App = () => {
-    const [page, setPage] = useState<{ name: string; id?: number; tokenId?: string; contractAddress?: string; }>({ name: 'gallery' });
+    // --- FIX: Add specific types for React state hooks
+    const [page, setPage] = useState<PageState>({ name: 'gallery' });
     const [walletAddress, setWalletAddress] = useState('');
-    const [network, setNetwork] = useState(null);
+    const [network, setNetwork] = useState<NetworkInfo | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [catalog, setCatalog] = useState([]);
+    const [catalog, setCatalog] = useState<Art[]>([]);
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const t = useTranslations();
     
@@ -621,7 +747,7 @@ const App = () => {
             window.ethereum.on('chainChanged', handleChainChanged);
             return () => window.ethereum.removeListener('chainChanged', handleChainChanged);
         }
-    }, [walletAddress]);
+    }, [walletAddress, t.unsupportedNetwork]);
     
     // Carga inicial de la app
     useEffect(() => {
@@ -676,7 +802,7 @@ const App = () => {
         }
     };
     
-    const handleSwitchNetwork = async (chainId) => {
+    const handleSwitchNetwork = async (chainId: string) => {
         await switchNetwork(chainId);
     };
     
@@ -721,5 +847,5 @@ const App = () => {
     );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<App />);
