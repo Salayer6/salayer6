@@ -1,11 +1,102 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-// Importamos nuestras nuevas funciones de blockchain
-import {
-    connectWallet,
-    getOwnershipDetails,
-    getTotalSupply
-} from './blockchain.ts';
+import { ethers } from "ethers";
+
+// --- INICIO: Lógica de Blockchain (integrada desde blockchain.ts) ---
+
+/*
+ * Documentación Didáctica (ethers.js):
+ * ethers.js es una librería que nos permite interactuar con la blockchain de Ethereum (y compatibles).
+ * Simplifica enormemente el proceso de enviar transacciones y leer datos de los contratos.
+ */
+
+// 1. LA DIRECCIÓN DEL CONTRATO
+const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // <--- REEMPLAZAR ESTO
+
+// 2. EL ABI (Application Binary Interface)
+const CONTRACT_ABI = [
+    "function ownerOf(uint256 tokenId) view returns (address)",
+    "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
+    "function name() view returns (string)",
+    "function totalSupply() view returns (uint256)"
+];
+
+
+/**
+ * Crea una "instancia" del contrato con la que podemos interactuar.
+ * @returns Un objeto de contrato de ethers.js, o null si MetaMask no está disponible.
+ */
+const getContract = () => {
+    if (typeof window.ethereum === 'undefined') {
+        console.error("MetaMask no está instalado.");
+        return null;
+    }
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+    return contract;
+};
+
+
+/**
+ * Conecta la wallet de MetaMask y devuelve la dirección del usuario.
+ * @returns La dirección de la wallet conectada o null si hay un error.
+ */
+const connectWallet = async (): Promise<string | null> => {
+    if (typeof window.ethereum === 'undefined') {
+        alert("MetaMask no detectado. Por favor, instala la extensión de MetaMask.");
+        return null;
+    }
+    try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        return accounts[0] || null;
+    } catch (error) {
+        console.error("El usuario rechazó la solicitud de conexión:", error);
+        return null;
+    }
+};
+
+/**
+ * Obtiene los detalles de propiedad de un NFT específico desde la blockchain.
+ * @param tokenId El ID del token a verificar.
+ * @returns Un objeto con el propietario y el historial (simulado por ahora).
+ */
+const getOwnershipDetails = async (tokenId: string) => {
+    const contract = getContract();
+    if (!contract) return null;
+
+    try {
+        const owner = await contract.ownerOf(tokenId);
+        
+        const history = [
+             { from: '... (On-Chain Data)', to: owner, date: 'Desde la Blockchain' }
+        ];
+
+        return { owner, history };
+
+    } catch (error) {
+        console.error(`Error al obtener datos para el token ${tokenId}:`, error);
+        return null; // El token puede no existir
+    }
+};
+
+/**
+ * Obtiene el número total de NFTs en la colección.
+ * @returns El número total de tokens acuñados.
+ */
+const getTotalSupply = async (): Promise<number> => {
+    const contract = getContract();
+    if (!contract) return 0;
+    try {
+        const totalSupply = await contract.totalSupply();
+        return Number(totalSupply);
+    } catch (error) {
+        console.error("Error al obtener el total supply:", error);
+        return 0;
+    }
+}
+
+// --- FIN: Lógica de Blockchain ---
 
 
 declare global {
@@ -297,25 +388,52 @@ const App = () => {
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const t = useTranslations();
     
-    // Carga inicial de la app (con solución al problema de race condition de MetaMask)
+    // Carga inicial de la app, robusta ante la "race condition" de MetaMask.
     useEffect(() => {
-        const loadGallery = async () => {
-            const totalSupply = await getTotalSupply();
-            if (totalSupply > 0) {
-                const availableArt = artCatalog.filter(art => parseInt(art.tokenId, 10) <= totalSupply);
-                setCatalog(availableArt);
-            } else {
-                console.warn("No se detectaron NFTs acuñados o no se pudo conectar. Mostrando catálogo completo como vista previa.");
+        const handleEthereumReady = async () => {
+            console.log("Proveedor de Ethereum detectado. Cargando datos de la blockchain...");
+            try {
+                const totalSupply = await getTotalSupply();
+                if (totalSupply > 0) {
+                    const availableArt = artCatalog.filter(art => parseInt(art.tokenId, 10) <= totalSupply);
+                    setCatalog(availableArt);
+                } else {
+                    console.warn("Conectado, pero el total supply del contrato es 0. Mostrando catálogo completo.");
+                    setCatalog(artCatalog);
+                }
+            } catch (error) {
+                console.error("Error al obtener datos de la blockchain. Mostrando catálogo en modo vista previa.", error);
                 setCatalog(artCatalog);
+            } finally {
+                setIsLoading(false);
             }
+        };
+
+        const handleNoEthereum = () => {
+            console.warn("MetaMask no detectado. Mostrando galería en modo de vista previa.");
+            setCatalog(artCatalog);
             setIsLoading(false);
         };
-        
-        // Damos un respiro más largo para asegurar que el provider de MetaMask (window.ethereum)
-        // se inyecte en la página, evitando la condición de carrera en la carga inicial.
-        const initTimeout = setTimeout(loadGallery, 1500);
 
-        return () => clearTimeout(initTimeout); // Buena práctica: limpiar el timeout.
+        const initializeApp = () => {
+            if (window.ethereum) {
+                handleEthereumReady();
+            } else {
+                // Si ethereum no está, escuchamos el evento que lo anuncia.
+                window.addEventListener('ethereum#initialized', handleEthereumReady, { once: true });
+                
+                // Como fallback, si el evento nunca se dispara, asumimos que no hay wallet.
+                setTimeout(() => {
+                    window.removeEventListener('ethereum#initialized', handleEthereumReady);
+                    if (!window.ethereum) {
+                        handleNoEthereum();
+                    }
+                }, 3000); // 3 segundos de espera
+            }
+        };
+
+        initializeApp();
+
     }, []);
 
     // Listener para el código Konami del Easter Egg
