@@ -389,7 +389,10 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
     const handleMultiNetworkVerification = async () => {
         const cleanContractAddress = contractAddressInput.trim();
         const cleanTokenId = tokenIdInput.trim();
-        if (!cleanTokenId || !cleanContractAddress) return;
+        if (!cleanTokenId || !ethers.isAddress(cleanContractAddress)) {
+            alert("Por favor, introduce una dirección de contrato y un ID de token válidos.");
+            return;
+        }
         
         setIsVerifying(true);
         setResult(null);
