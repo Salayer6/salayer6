@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ethers } from "ethers";
@@ -23,8 +24,13 @@ const CONTRACT_ABI = [
 
 // 3. Redes Soportadas
 const SUPPORTED_NETWORKS = {
-    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://cloudflare-eth.com' },
-    '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon-rpc.com/' }
+    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://ethereum.publicnode.com' },
+    '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon.publicnode.com' },
+    '0x38': { chainId: '0x38', name: 'BNB Chain', rpcUrl: 'https://bsc.publicnode.com' },
+    '0xa86a': { chainId: '0xa86a', name: 'Avalanche', rpcUrl: 'https://avalanche-c-chain.publicnode.com' },
+    '0xa4b1': { chainId: '0xa4b1', name: 'Arbitrum', rpcUrl: 'https://arbitrum-one.publicnode.com' },
+    '0x2105': { chainId: '0x2105', name: 'Base', rpcUrl: 'https://base.publicnode.com' },
+    '0xe708': { chainId: '0xe708', name: 'Linea', rpcUrl: 'https://linea.publicnode.com' }
 };
 const DEFAULT_NETWORK = SUPPORTED_NETWORKS['0x1'];
 
@@ -81,7 +87,7 @@ const connectWallet = async (): Promise<string | null> => {
  * @param network La red específica en la que buscar.
  * @returns Un objeto con el propietario y el historial (simulado por ahora).
  */
-const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { rpcUrl: string } | null = null) => {
+const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string } | null = null) => {
     const contract = getContract(contractAddress, network);
     if (!contract) return null;
 
@@ -95,9 +101,10 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
         return { owner, history };
 
     } catch (error) {
-        // Silenciamos el error en la consola para una búsqueda secuencial más limpia
-        // console.error(`Error al obtener datos para el token ${tokenId} del contrato ${contractAddress}:`, error);
-        return null; // El token o el contrato pueden no existir en esta red
+        // Esto es esperado si el token/contrato no existe en la red actual.
+        // Lo registramos como información para depuración, no como un error crítico.
+        console.info(`Búsqueda informativa: No se encontró el token ${tokenId} en la red ${network.name}.`);
+        return null;
     }
 };
 
@@ -172,7 +179,6 @@ const translations = {
         verifyByTokenId: 'Verificar un NFT',
         tokenIdPlaceholder: 'Ingresa el ID del Token (ej: 346)',
         contractAddressPlaceholder: 'Pega la dirección de cualquier contrato NFT',
-        useExample: 'Usar ejemplo (BAYC)',
         or: 'o',
         myCollection: 'Mi Colección',
         connectToSee: 'Conecta tu wallet para ver tu colección',
@@ -368,14 +374,17 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
     }, []);
     
     const handleMultiNetworkVerification = async () => {
-        if (!tokenIdInput || !contractAddressInput) return;
+        const cleanContractAddress = contractAddressInput.trim();
+        const cleanTokenId = tokenIdInput.trim();
+        if (!cleanTokenId || !cleanContractAddress) return;
+        
         setIsVerifying(true);
         setResult(null);
 
         let foundOwnership = null;
         for (const network of Object.values(SUPPORTED_NETWORKS)) {
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
-            const ownership = await getOwnershipDetails(contractAddressInput, tokenIdInput, network);
+            const ownership = await getOwnershipDetails(cleanContractAddress, cleanTokenId, network);
             if (ownership) {
                 foundOwnership = { ...ownership, networkName: network.name };
                 break; // Detener la búsqueda al encontrar el primer resultado
@@ -383,9 +392,9 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
         }
         
         if (foundOwnership) {
-            const art = contractAddressInput.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
-                ? catalog.find(a => a.tokenId === tokenIdInput)
-                : { title: `Token ID: ${tokenIdInput}`, artist: `Contrato: ${contractAddressInput}` };
+            const art = cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
+                ? catalog.find(a => a.tokenId === cleanTokenId)
+                : { title: `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
             setResult({ art, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound });
@@ -401,7 +410,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
             
             <div className="verifier-box">
                 <h2>{t.verifyByTokenId}</h2>
-                <div className="form-group with-example">
+                <div className="form-group">
                     <input 
                         type="text" 
                         value={contractAddressInput}
@@ -409,7 +418,6 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                         placeholder={t.contractAddressPlaceholder}
                         disabled={isVerifying}
                     />
-                     <button className="use-example-btn" onClick={() => setContractAddressInput(CONTRACT_ADDRESS)}>{t.useExample}</button>
                 </div>
                  <div className="form-group-wrapper" ref={helpRef}>
                     <div className="form-group">
@@ -427,7 +435,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                         <div className="verifier-help-box">
                             <h4>{t.tokenIdHelpTitle}</h4>
                             <p>{t.tokenIdHelpText}</p>
-                            <code>opensea.io/assets/.../`{`{TOKEN_ID}`}</code>
+                            <code>opensea.io/assets/.../[TOKEN_ID]</code>
                         </div>
                     )}
                 </div>
