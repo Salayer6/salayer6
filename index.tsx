@@ -143,6 +143,7 @@ const translations = {
         history: 'Historial de Propiedad:',
         noArtFound: 'No se encontró arte para este ID o no existe en la blockchain.',
         noArtInWallet: 'No posees ninguna obra de esta colección en la wallet conectada.',
+        myCollectionDisabled: "La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.",
         footerText: '© 2024 Galería Abstracta Chile. Todos los derechos reservados.',
         loading: 'Cargando...',
         verifying: 'Verificando en la blockchain...'
@@ -249,7 +250,6 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
     const t = useTranslations();
     const [tokenIdInput, setTokenIdInput] = useState(initialTokenId);
     const [result, setResult] = useState(null);
-    const [myCollection, setMyCollection] = useState([]);
     const [isVerifying, setIsVerifying] = useState(false);
 
     useEffect(() => {
@@ -258,16 +258,6 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
         }
     }, [initialTokenId]);
     
-    useEffect(() => {
-       if (walletAddress) {
-           setMyCollection([]);
-           alert("La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.");
-       } else {
-           setMyCollection([]);
-       }
-    }, [walletAddress]);
-
-
     const handleVerification = async () => {
         if (!tokenIdInput) return;
         setIsVerifying(true);
@@ -330,13 +320,7 @@ const VerificationPortal = ({ initialTokenId = '', walletAddress, onConnect, cat
             <div className="verifier-box">
                 <h2>{t.myCollection}</h2>
                 {walletAddress ? (
-                    myCollection.length > 0 ? (
-                       <div className="art-gallery-grid">
-                           {myCollection.map(art => (
-                               <ArtCard key={art.id} art={art} onSelect={() => setPage({ name: 'detail', id: art.id })} />
-                           ))}
-                       </div>
-                    ) : <p>{t.noArtInWallet}</p>
+                    <p className="disabled-feature-notice">{t.myCollectionDisabled}</p>
                 ) : (
                     <button onClick={onConnect} className="connect-wallet-btn">{t.connectToSee}</button>
                 )}

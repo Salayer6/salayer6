@@ -351,6 +351,16 @@ main {
     cursor: not-allowed;
 }
 
+.disabled-feature-notice {
+    color: var(--text-secondary-color);
+    font-style: italic;
+    text-align: left;
+    background-color: var(--background-color);
+    border: 1px dashed var(--border-color);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
 .separator {
     margin: 2rem 0;
     text-transform: uppercase;
