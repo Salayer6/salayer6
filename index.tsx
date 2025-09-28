@@ -31,7 +31,7 @@ const CONTRACT_ABI = [
 
 // 3. Redes Soportadas - Ahora con URL del explorador
 const SUPPORTED_NETWORKS = {
-    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://ethereum.publicnode.com', blockExplorerUrl: 'https://etherscan.io' },
+    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://cloudflare-eth.com', blockExplorerUrl: 'https://etherscan.io' },
     '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon.publicnode.com', blockExplorerUrl: 'https://polygonscan.com' },
     '0x38': { chainId: '0x38', name: 'BNB Chain', rpcUrl: 'https://bsc.publicnode.com', blockExplorerUrl: 'https://bscscan.com' },
     '0xa86a': { chainId: '0xa86a', name: 'Avalanche', rpcUrl: 'https://avalanche-c-chain.publicnode.com', blockExplorerUrl: 'https://snowtrace.io' },
@@ -179,7 +179,9 @@ const getTotalSupply = async (): Promise<number> => {
     const contract = getContract(CONTRACT_ADDRESS, DEFAULT_NETWORK); 
     if (!contract) return 0;
     try {
-        const totalSupply = await contract.totalSupply();
+        // Envolvemos la llamada al contrato en nuestra función de reintentos para
+        // hacerla más robusta frente a fallos de red intermitentes.
+        const totalSupply = await retryAsync(() => contract.totalSupply());
         return Number(totalSupply);
     } catch (error) {
         console.error("Error al obtener el total supply:", error);
