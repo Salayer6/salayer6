@@ -531,8 +531,14 @@ main {
     font-family: var(--font-family-serif);
     margin-top: 0;
 }
+.verification-result h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
 
-.owner-info, .history-item {
+
+.owner-info, .history-item p {
     font-family: monospace;
     font-size: 0.9rem;
     word-break: break-all;
@@ -548,11 +554,47 @@ main {
 }
 
 .history-item {
-    padding-top: 0.5rem;
-    border-top: 1px dashed var(--border-color);
+    padding: 1rem;
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
     margin-top: 0.5rem;
+    background: var(--surface-color);
 }
 
+.history-item p {
+    margin: 0;
+    padding: 0.25rem 0;
+}
+.history-item strong {
+    font-weight: 600;
+    color: var(--text-secondary-color);
+    display: inline-block;
+    min-width: 50px;
+}
+
+.mint-event {
+    font-style: italic;
+    color: var(--success-color);
+    font-family: var(--font-family-sans);
+}
+
+.explorer-link {
+    display: block;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    text-align: center;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.explorer-link:hover {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+}
 
 /* --- Footer --- */
 .app-footer {

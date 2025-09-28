@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ethers } from "ethers";
@@ -22,15 +21,15 @@ const CONTRACT_ABI = [
     "function totalSupply() view returns (uint256)"
 ];
 
-// 3. Redes Soportadas
+// 3. Redes Soportadas - Ahora con URL del explorador
 const SUPPORTED_NETWORKS = {
-    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://ethereum.publicnode.com' },
-    '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon.publicnode.com' },
-    '0x38': { chainId: '0x38', name: 'BNB Chain', rpcUrl: 'https://bsc.publicnode.com' },
-    '0xa86a': { chainId: '0xa86a', name: 'Avalanche', rpcUrl: 'https://avalanche-c-chain.publicnode.com' },
-    '0xa4b1': { chainId: '0xa4b1', name: 'Arbitrum', rpcUrl: 'https://arbitrum-one.publicnode.com' },
-    '0x2105': { chainId: '0x2105', name: 'Base', rpcUrl: 'https://base.publicnode.com' },
-    '0xe708': { chainId: '0xe708', name: 'Linea', rpcUrl: 'https://linea.publicnode.com' }
+    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://ethereum.publicnode.com', blockExplorerUrl: 'https://etherscan.io' },
+    '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon.publicnode.com', blockExplorerUrl: 'https://polygonscan.com' },
+    '0x38': { chainId: '0x38', name: 'BNB Chain', rpcUrl: 'https://bsc.publicnode.com', blockExplorerUrl: 'https://bscscan.com' },
+    '0xa86a': { chainId: '0xa86a', name: 'Avalanche', rpcUrl: 'https://avalanche-c-chain.publicnode.com', blockExplorerUrl: 'https://snowtrace.io' },
+    '0xa4b1': { chainId: '0xa4b1', name: 'Arbitrum', rpcUrl: 'https://arbitrum-one.publicnode.com', blockExplorerUrl: 'https://arbiscan.io' },
+    '0x2105': { chainId: '0x2105', name: 'Base', rpcUrl: 'https://base.publicnode.com', blockExplorerUrl: 'https://basescan.org' },
+    '0xe708': { chainId: '0xe708', name: 'Linea', rpcUrl: 'https://linea.publicnode.com', blockExplorerUrl: 'https://lineascan.build' }
 };
 const DEFAULT_NETWORK = SUPPORTED_NETWORKS['0x1'];
 
@@ -81,11 +80,11 @@ const connectWallet = async (): Promise<string | null> => {
 };
 
 /**
- * Obtiene los detalles de propiedad de un NFT específico desde la blockchain.
+ * Obtiene los detalles de propiedad y la última transferencia de un NFT.
  * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
  * @param network La red específica en la que buscar.
- * @returns Un objeto con el propietario y el historial (simulado por ahora).
+ * @returns Un objeto con el propietario y los detalles de la última transferencia.
  */
 const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string } | null = null) => {
     const contract = getContract(contractAddress, network);
@@ -94,11 +93,20 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
     try {
         const owner = await contract.ownerOf(tokenId);
         
-        const history = [
-             { from: '... (On-Chain Data)', to: owner, date: 'Desde la Blockchain' }
-        ];
+        // Buscamos los eventos de transferencia para este token específico.
+        const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
+        
+        let lastTransfer = null;
+        if (transferEvents.length > 0) {
+            // FIX: Cast event to ethers.EventLog to access the 'args' property.
+            const latestEvent = transferEvents[transferEvents.length - 1] as ethers.EventLog;
+            lastTransfer = {
+                from: latestEvent.args.from,
+                to: latestEvent.args.to,
+            };
+        }
 
-        return { owner, history };
+        return { owner, lastTransfer };
 
     } catch (error) {
         // Esto es esperado si el token/contrato no existe en la red actual.
@@ -107,6 +115,7 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
         return null;
     }
 };
+
 
 /**
  * Obtiene el número total de NFTs en la colección.
@@ -184,7 +193,7 @@ const translations = {
         connectToSee: 'Conecta tu wallet para ver tu colección',
         verificationResult: 'Resultado de la Verificación',
         owner: 'Propietario Actual:',
-        history: 'Historial de Propiedad:',
+        history: 'Última Transacción Registrada',
         noArtFound: 'No se encontraron datos para esta combinación de Contrato y Token ID. Verifica que ambos sean correctos.',
         noArtInWallet: 'No posees ninguna obra de esta colección en la wallet conectada.',
         myCollectionDisabled: "La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.",
@@ -197,7 +206,11 @@ const translations = {
         unsupportedNetwork: 'Red Desconocida',
         switchTo: 'Cambiar a',
         searchingOn: 'Buscando en {network}...',
-        foundOn: 'Encontrado en la red:'
+        foundOn: 'Encontrado en la red:',
+        from: 'De:',
+        to: 'Para:',
+        mintEvent: 'Acuñación (Creación del NFT)',
+        viewOnExplorer: 'Ver en Explorador de Bloques'
     }
 };
 const useTranslations = () => translations.es;
@@ -386,7 +399,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
             const ownership = await getOwnershipDetails(cleanContractAddress, cleanTokenId, network);
             if (ownership) {
-                foundOwnership = { ...ownership, networkName: network.name };
+                foundOwnership = { ...ownership, network };
                 break; // Detener la búsqueda al encontrar el primer resultado
             }
         }
@@ -401,6 +414,25 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
         }
         setIsVerifying(false);
         setVerifyingMessage('');
+    };
+    
+    const renderHistory = () => {
+        if (!result || !result.ownership || !result.ownership.lastTransfer) {
+            return null;
+        }
+
+        const { lastTransfer } = result.ownership;
+        const isMint = lastTransfer.from === ethers.ZeroAddress;
+
+        return (
+            <div className="history-item">
+                <p>
+                    <strong>{t.from}</strong> 
+                    {isMint ? <span className="mint-event">{t.mintEvent}</span> : lastTransfer.from}
+                </p>
+                <p><strong>{t.to}</strong> {lastTransfer.to}</p>
+            </div>
+        );
     };
 
     return (
@@ -450,16 +482,18 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                         <>
                            <p><strong>{result.art.title}</strong></p>
                            <p className="owner-info"><em>{result.art.artist}</em></p>
-                           <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.networkName}</p>
+                           <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
                            <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
                            <h4>{t.history}</h4>
-                           {result.ownership.history.map((tx, i) => (
-                               <div key={i} className="history-item">
-                                   <p><strong>De:</strong> {tx.from}</p>
-                                   <p><strong>Para:</strong> {tx.to}</p>
-                                   <p><strong>Info:</strong> {tx.date}</p>
-                               </div>
-                           ))}
+                           {renderHistory()}
+                           <a 
+                             href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`}
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             className="explorer-link"
+                           >
+                             {t.viewOnExplorer}
+                           </a>
                         </>
                     )}
                  </div>
@@ -528,7 +562,7 @@ const App = () => {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const net = await provider.getNetwork();
         const chainId = `0x${net.chainId.toString(16)}`;
-        const networkInfo = SUPPORTED_NETWORKS[chainId];
+        const networkInfo = Object.values(SUPPORTED_NETWORKS).find(n => n.chainId === chainId);
         setNetwork({
             chainId,
             name: networkInfo ? networkInfo.name : t.unsupportedNetwork
