@@ -525,8 +525,13 @@ main {
     background-color: var(--background-color);
 }
 .verification-result.error {
-    color: var(--danger-color);
+    border-color: var(--danger-color);
 }
+.verification-result.error > p {
+    color: var(--danger-color);
+    font-weight: 500;
+}
+
 .verification-result h3 {
     font-family: var(--font-family-serif);
     margin-top: 0;
@@ -594,6 +599,38 @@ main {
 .explorer-link:hover {
     background-color: var(--surface-color);
     border-color: var(--primary-color);
+}
+
+.search-log {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+.search-log h4 {
+    margin-top: 0;
+}
+.search-log ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-family-mono);
+    font-size: 0.9rem;
+}
+.search-log li {
+    padding: 0.4rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+.search-log .status-encontrado {
+    color: var(--success-color);
+    font-weight: 600;
+}
+.search-log .status-no-encontrado {
+    color: var(--text-secondary-color);
+}
+.search-log .status-error-de-red {
+    color: var(--danger-color);
+    font-weight: 600;
 }
 
 /* --- Footer --- */

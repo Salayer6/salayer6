@@ -81,24 +81,23 @@ const connectWallet = async (): Promise<string | null> => {
 
 /**
  * Obtiene los detalles de propiedad y la última transferencia de un NFT.
+ * Ahora devuelve un objeto con un estado para manejar errores de forma más granular.
  * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
  * @param network La red específica en la que buscar.
- * @returns Un objeto con el propietario y los detalles de la última transferencia.
+ * @returns Un objeto con el estado de la búsqueda y los datos si se encuentra.
  */
-const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string } | null = null) => {
+const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string }) => {
     const contract = getContract(contractAddress, network);
-    if (!contract) return null;
+    if (!contract) return { status: 'error', message: 'Contrato inválido' };
 
     try {
         const owner = await contract.ownerOf(tokenId);
         
-        // Buscamos los eventos de transferencia para este token específico.
         const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
         
         let lastTransfer = null;
         if (transferEvents.length > 0) {
-            // FIX: Cast event to ethers.EventLog to access the 'args' property.
             const latestEvent = transferEvents[transferEvents.length - 1] as ethers.EventLog;
             lastTransfer = {
                 from: latestEvent.args.from,
@@ -106,13 +105,17 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
             };
         }
 
-        return { owner, lastTransfer };
+        return { status: 'found', data: { owner, lastTransfer } };
 
-    } catch (error) {
-        // Esto es esperado si el token/contrato no existe en la red actual.
-        // Lo registramos como información para depuración, no como un error crítico.
-        console.info(`Búsqueda informativa: No se encontró el token ${tokenId} en la red ${network.name}.`);
-        return null;
+    } catch (error: any) {
+        // Si el error indica que el token no existe, lo clasificamos como 'not_found'.
+        if (error.code === 'CALL_EXCEPTION' || (error.info?.error?.message || '').includes('owner query for nonexistent token')) {
+            console.info(`Búsqueda informativa: Token ${tokenId} no existe en la red ${network.name}.`);
+            return { status: 'not_found' };
+        }
+        // Otros errores son probablemente problemas de red o RPC.
+        console.error(`Error de red o RPC en ${network.name}:`, error);
+        return { status: 'error', message: error.message };
     }
 };
 
@@ -166,7 +169,7 @@ declare global {
 const artCatalog = [
     { id: 1, tokenId: '1', title: 'Ecos Cósmicos', artist: 'Elena Valdés', priceCLP: '450.000', priceETH: '0.25', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjBwYWludGluZ3xlbnwwfHx8fDE3MTU2MzM4MTB8MA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una exploración vibrante de la creación y la destrucción en el universo, utilizando acrílicos sobre lienzo de 100x120cm.' },
     { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
-    { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-3005759f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
+    { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-30057590f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
     { id: 4, tokenId: '4', title: 'El Jardín Silente', artist: 'Elena Valdés', priceCLP: '750.000', priceETH: '0.42', imageUrl: 'https://images.unsplash.com/photo-1552554623-74b86f6580e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MjZ8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Capas de óleo que construyen un paisaje onírico y tranquilo, invitando a la introspección. Dimensiones 150x100cm.' },
     { id: 5, tokenId: '5', title: 'Ritmo Quebrado', artist: 'Carlos Mendoza', priceCLP: '510.000', priceETH: '0.29', imageUrl: 'https://images.unsplash.com/photo-1502537233324-179a83446b23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MzB8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'La improvisación del jazz hecha pintura. Trazos enérgicos y colores contrastantes sobre lienzo.' },
     { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
@@ -210,7 +213,11 @@ const translations = {
         from: 'De:',
         to: 'Para:',
         mintEvent: 'Acuñación (Creación del NFT)',
-        viewOnExplorer: 'Ver en Explorador de Bloques'
+        viewOnExplorer: 'Ver en Explorador de Bloques',
+        searchLogTitle: 'Registro de Búsqueda:',
+        statusFound: 'Encontrado',
+        statusNotFound: 'No Encontrado',
+        statusError: 'Error de Red'
     }
 };
 const useTranslations = () => translations.es;
@@ -398,12 +405,20 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
         setResult(null);
 
         let foundOwnership = null;
+        const searchLog = [];
+
         for (const network of Object.values(SUPPORTED_NETWORKS)) {
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
-            const ownership = await getOwnershipDetails(cleanContractAddress, cleanTokenId, network);
-            if (ownership) {
-                foundOwnership = { ...ownership, network };
+            const ownershipResult = await getOwnershipDetails(cleanContractAddress, cleanTokenId, network);
+            
+            if (ownershipResult.status === 'found') {
+                foundOwnership = { ...ownershipResult.data, network };
+                searchLog.push({ network: network.name, status: t.statusFound });
                 break; // Detener la búsqueda al encontrar el primer resultado
+            } else if (ownershipResult.status === 'not_found') {
+                searchLog.push({ network: network.name, status: t.statusNotFound });
+            } else { // 'error'
+                searchLog.push({ network: network.name, status: t.statusError });
             }
         }
         
@@ -413,7 +428,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                 : { title: `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
             setResult({ art, ownership: foundOwnership });
         } else {
-            setResult({ error: t.noArtFound });
+            setResult({ error: t.noArtFound, searchLog });
         }
         setIsVerifying(false);
         setVerifyingMessage('');
@@ -481,7 +496,23 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
             {result && (
                  <div className={`verification-result ${result.error ? 'error' : ''}`}>
                     <h3>{t.verificationResult}</h3>
-                    {result.error ? <p>{result.error}</p> : (
+                    {result.error ? (
+                        <>
+                            <p>{result.error}</p>
+                            {result.searchLog && (
+                                <div className="search-log">
+                                    <h4>{t.searchLogTitle}</h4>
+                                    <ul>
+                                        {result.searchLog.map(log => (
+                                            <li key={log.network}>
+                                                {log.network}: <span className={`status-${log.status.toLowerCase().replace(/\s+/g, '-')}`}>{log.status}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </>
+                    ) : (
                         <>
                            <p><strong>{result.art.title}</strong></p>
                            <p className="owner-info"><em>{result.art.artist}</em></p>
