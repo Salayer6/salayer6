@@ -10,8 +10,8 @@ import { ethers } from "ethers";
  * Simplifica enormemente el proceso de enviar transacciones y leer datos de los contratos.
  */
 
-// 1. LA DIRECCIÓN DEL CONTRATO (de nuestra galería, ahora usada como default)
-const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // <--- REEMPLAZAR ESTO
+// 1. LA DIRECCIÓN DEL CONTRATO (de nuestra galería, ahora usando un contrato real)
+const CONTRACT_ADDRESS = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Dirección del contrato de Bored Ape Yacht Club (BAYC)
 
 // 2. EL ABI (Application Binary Interface)
 const CONTRACT_ABI = [
@@ -23,7 +23,7 @@ const CONTRACT_ABI = [
 
 // 3. Redes Soportadas
 const SUPPORTED_NETWORKS = {
-    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: `https://mainnet.infura.io/v3/` }, // Usar una clave de Infura en producción
+    '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: 'https://cloudflare-eth.com' },
     '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon-rpc.com/' }
 };
 const DEFAULT_NETWORK = SUPPORTED_NETWORKS['0x1'];
@@ -171,7 +171,8 @@ const translations = {
         verifyDescription: 'La unicidad de un NFT se define por su Contrato y su ID de Token. Introduce ambos para verificar la propiedad en la blockchain.',
         verifyByTokenId: 'Verificar un NFT',
         tokenIdPlaceholder: 'Ingresa el ID del Token (ej: 346)',
-        contractAddressPlaceholder: 'Dirección del Contrato (ej: 0x...)',
+        contractAddressPlaceholder: 'Pega la dirección de cualquier contrato NFT',
+        useExample: 'Usar ejemplo (BAYC)',
         or: 'o',
         myCollection: 'Mi Colección',
         connectToSee: 'Conecta tu wallet para ver tu colección',
@@ -400,7 +401,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
             
             <div className="verifier-box">
                 <h2>{t.verifyByTokenId}</h2>
-                <div className="form-group">
+                <div className="form-group with-example">
                     <input 
                         type="text" 
                         value={contractAddressInput}
@@ -408,6 +409,7 @@ const VerificationPortal = ({ initialTokenId = '', initialContractAddress = '', 
                         placeholder={t.contractAddressPlaceholder}
                         disabled={isVerifying}
                     />
+                     <button className="use-example-btn" onClick={() => setContractAddressInput(CONTRACT_ADDRESS)}>{t.useExample}</button>
                 </div>
                  <div className="form-group-wrapper" ref={helpRef}>
                     <div className="form-group">
