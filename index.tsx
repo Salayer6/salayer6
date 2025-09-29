@@ -562,10 +562,21 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
         }
         
         if (foundOwnership) {
-            const art = cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
-                ? catalog.find(a => a.tokenId === cleanTokenId)
-                : { title: `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
-            setResult({ art: art!, ownership: foundOwnership });
+            let art: Art | { title: string, artist: string } | undefined;
+            
+            if (cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase()) {
+                art = catalog.find(a => a.tokenId === cleanTokenId);
+            }
+            
+            // Si la obra no está en nuestro catálogo local (ya sea un contrato externo o un token no listado de nuestro contrato), crea un objeto genérico.
+            if (!art) {
+                art = { 
+                    title: `Token ID: ${cleanTokenId}`, 
+                    artist: `Contrato: ${cleanContractAddress}` 
+                };
+            }
+
+            setResult({ art: art, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound, searchLog });
         }
