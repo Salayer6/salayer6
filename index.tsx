@@ -20,12 +20,13 @@ declare global {
 // 1. LA DIRECCIÓN DEL CONTRATO (de nuestra galería, ahora usando un contrato real)
 const CONTRACT_ADDRESS = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Dirección del contrato de Bored Ape Yacht Club (BAYC)
 
-// 2. EL ABI (Application Binary Interface)
+// 2. EL ABI (Application Binary Interface) - AÑADIMOS tokenURI
 const CONTRACT_ABI = [
     "function ownerOf(uint256 tokenId) view returns (address)",
     "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
     "function name() view returns (string)",
-    "function totalSupply() view returns (uint256)"
+    "function totalSupply() view returns (uint256)",
+    "function tokenURI(uint256 tokenId) view returns (string)" // Estándar para metadatos
 ];
 
 // 3. Redes Soportadas - Ahora con URL del explorador y RPCs de respaldo para Ethereum
@@ -176,6 +177,46 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
     return { status: 'found', data: { owner, lastTransfer } };
 };
 
+/**
+ * Obtiene los metadatos de un NFT (nombre, imagen, etc.) desde su tokenURI.
+ * @param contract El contrato de ethers.js ya instanciado.
+ * @param tokenId El ID del token.
+ * @returns Un objeto con los metadatos o null si falla.
+ */
+const getNFTMetadata = async (contract: ethers.Contract, tokenId: string) => {
+    try {
+        const tokenURI = await contract.tokenURI(tokenId);
+        
+        // Convierte URLs de IPFS a URLs HTTP públicas
+        const httpURI = tokenURI.startsWith('ipfs://')
+            ? tokenURI.replace('ipfs://', 'https://ipfs.io/ipfs/')
+            : tokenURI;
+
+        const response = await fetch(httpURI);
+        if (!response.ok) {
+            console.error(`Error al obtener metadatos desde ${httpURI}:`, response.statusText);
+            return null;
+        }
+        
+        const metadata = await response.json();
+
+        // Normaliza la URL de la imagen (también podría ser IPFS)
+        if (metadata.image && metadata.image.startsWith('ipfs://')) {
+            metadata.image = metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+        }
+
+        return {
+            name: metadata.name || 'Sin Título',
+            description: metadata.description || 'Sin Descripción',
+            image: metadata.image || null
+        };
+
+    } catch (error) {
+        console.warn("No se pudieron obtener los metadatos del NFT:", error);
+        return null;
+    }
+};
+
 
 /**
  * Obtiene el número total de NFTs en la colección.
@@ -300,6 +341,7 @@ const translations = {
         statusError: 'Error de Red',
         blockchainDataTitle: 'Datos Verificados en Blockchain',
         catalogInfoTitle: 'Información de Nuestro Catálogo',
+        nftMetadataTitle: 'Metadatos del NFT',
         tokenId: 'Token ID:',
         contractAddress: 'Dirección del Contrato:'
     }
@@ -484,8 +526,13 @@ const ArtDetail: React.FC<ArtDetailProps> = ({ art, onBack, setPage }) => {
 
 // --- FIX: Add specific types for verification result state
 type NetworkFromSupported = typeof SUPPORTED_NETWORKS[keyof typeof SUPPORTED_NETWORKS];
+interface NFTMetadata {
+    name: string;
+    description: string;
+    image: string | null;
+}
 interface VerificationSuccess {
-    art: Art | null; // El arte de nuestro catálogo, si se encuentra.
+    metadata: NFTMetadata | null; // Los metadatos reales del NFT.
     ownership: {
         owner: string;
         lastTransfer: { from: string, to: string } | null;
@@ -551,6 +598,8 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
 
         let foundOwnership = null;
         const searchLog: { network: string, status: string }[] = [];
+        let contractForMetadata: ethers.Contract | null = null;
+        let foundNetwork: NetworkFromSupported | null = null;
 
         for (const network of Object.values(SUPPORTED_NETWORKS)) {
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
@@ -558,6 +607,7 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             
             if (ownershipResult.status === 'found') {
                 foundOwnership = { ...ownershipResult.data, network };
+                foundNetwork = network;
                 searchLog.push({ network: network.name, status: t.statusFound });
                 break; // Detener la búsqueda al encontrar el primer resultado
             } else if (ownershipResult.status === 'not_found') {
@@ -567,15 +617,18 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             }
         }
         
-        if (foundOwnership) {
-            let artFromCatalog: Art | null = null;
-            // Solo buscamos en el catálogo si el contrato es el de nuestra galería
-            if (cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase()) {
-                artFromCatalog = catalog.find(a => a.tokenId === cleanTokenId) || null;
-            }
+        if (foundOwnership && foundNetwork) {
+            // Ahora que encontramos el dueño, intentamos obtener los metadatos
+            setVerifyingMessage("Obteniendo metadatos del NFT...");
+            const provider = Array.isArray(foundNetwork.rpcUrl)
+                ? new ethers.FallbackProvider(foundNetwork.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
+                : new ethers.JsonRpcProvider(foundNetwork.rpcUrl as string);
+            
+            const contract = new ethers.Contract(cleanContractAddress, CONTRACT_ABI, provider);
+            const metadata = await getNFTMetadata(contract, cleanTokenId);
 
             setResult({
-                art: artFromCatalog,
+                metadata,
                 ownership: foundOwnership,
                 contractAddress: cleanContractAddress,
                 tokenId: cleanTokenId
@@ -667,15 +720,14 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                         </>
                     ) : (
                         <>
-                           {result.art && (
+                           {result.metadata && (
                                 <div className="catalog-info-section">
-                                    <h4>{t.catalogInfoTitle}</h4>
+                                    <h4>{t.nftMetadataTitle}</h4>
                                     <div className="catalog-info-content">
-                                        <img src={result.art.imageUrl} alt={result.art.title} className="catalog-info-image" />
+                                        {result.metadata.image && <img src={result.metadata.image} alt={result.metadata.name} className="catalog-info-image" />}
                                         <div className="catalog-info-text">
-                                            <p><strong>{result.art.title}</strong></p>
-                                            <p className="artist-name"><em>por {result.art.artist}</em></p>
-                                            <a href="#" onClick={(e) => { e.preventDefault(); setPage({ name: 'detail', id: result.art!.id })}}>{t.viewDetails} &rarr;</a>
+                                            <p><strong>{result.metadata.name}</strong></p>
+                                            <p className="artist-name"><em>{result.metadata.description}</em></p>
                                         </div>
                                     </div>
                                 </div>
