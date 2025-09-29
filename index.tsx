@@ -248,11 +248,11 @@ type PageState = {
 // --- FUENTE DE DATOS (Catálogo de la Galería) ---
 const artCatalog: Art[] = [
     { id: 1, tokenId: '1', title: 'Ecos Cósmicos', artist: 'Elena Valdés', priceCLP: '450.000', priceETH: '0.25', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjBwYWludGluZ3xlbnwwfHx8fDE3MTU2MzM4MTB8MA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una exploración vibrante de la creación y la destrucción en el universo, utilizando acrílicos sobre lienzo de 100x120cm.' },
-    { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
-    { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-30057590f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
-    { id: 4, tokenId: '4', title: 'El Jardín Silente', artist: 'Elena Valdés', priceCLP: '750.000', priceETH: '0.42', imageUrl: 'https://images.unsplash.com/photo-1552554623-74b86f6580e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MjZ8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Capas de óleo que construyen un paisaje onírico y tranquilo, invitando a la introspección. Dimensiones 150x100cm.' },
-    { id: 5, tokenId: '5', title: 'Ritmo Quebrado', artist: 'Carlos Mendoza', priceCLP: '510.000', priceETH: '0.29', imageUrl: 'https://images.unsplash.com/photo-1502537233324-179a83446b23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MzB8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'La improvisación del jazz hecha pintura. Trazos enérgicos y colores contrastantes sobre lienzo.' },
-    { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
+    { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlibrb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
+    { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-30057590f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
+    { id: 4, tokenId: '4', title: 'El Jardín Silente', artist: 'Elena Valdés', priceCLP: '750.000', priceETH: '0.42', imageUrl: 'https://images.unsplash.com/photo-1552554623-74b86f6580e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MjZ8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Capas de óleo que construyen un paisaje onírico y tranquilo, invitando a la introspección. Dimensiones 150x100cm.' },
+    { id: 5, tokenId: '5', title: 'Ritmo Quebrado', artist: 'Carlos Mendoza', priceCLP: '510.000', priceETH: '0.29', imageUrl: 'https://images.unsplash.com/photo-1502537233324-179a83446b23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MzB8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'La improvisación del jazz hecha pintura. Trazos enérgicos y colores contrastantes sobre lienzo.' },
+    { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
 ];
 
 // --- I18N ---
@@ -297,7 +297,11 @@ const translations = {
         searchLogTitle: 'Registro de Búsqueda:',
         statusFound: 'Encontrado',
         statusNotFound: 'No Encontrado',
-        statusError: 'Error de Red'
+        statusError: 'Error de Red',
+        blockchainDataTitle: 'Datos Verificados en Blockchain',
+        catalogInfoTitle: 'Información de Nuestro Catálogo',
+        tokenId: 'Token ID:',
+        contractAddress: 'Dirección del Contrato:'
     }
 };
 const useTranslations = () => translations.es;
@@ -481,12 +485,14 @@ const ArtDetail: React.FC<ArtDetailProps> = ({ art, onBack, setPage }) => {
 // --- FIX: Add specific types for verification result state
 type NetworkFromSupported = typeof SUPPORTED_NETWORKS[keyof typeof SUPPORTED_NETWORKS];
 interface VerificationSuccess {
-    art: Art | { title: string, artist: string };
+    art: Art | null; // El arte de nuestro catálogo, si se encuentra.
     ownership: {
         owner: string;
         lastTransfer: { from: string, to: string } | null;
         network: NetworkFromSupported;
-    }
+    };
+    contractAddress: string;
+    tokenId: string;
 }
 interface VerificationError {
     error: string;
@@ -562,21 +568,18 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
         }
         
         if (foundOwnership) {
-            let art: Art | { title: string, artist: string } | undefined;
-            
+            let artFromCatalog: Art | null = null;
+            // Solo buscamos en el catálogo si el contrato es el de nuestra galería
             if (cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase()) {
-                art = catalog.find(a => a.tokenId === cleanTokenId);
-            }
-            
-            // Si la obra no está en nuestro catálogo local (ya sea un contrato externo o un token no listado de nuestro contrato), crea un objeto genérico.
-            if (!art) {
-                art = { 
-                    title: `Token ID: ${cleanTokenId}`, 
-                    artist: `Contrato: ${cleanContractAddress}` 
-                };
+                artFromCatalog = catalog.find(a => a.tokenId === cleanTokenId) || null;
             }
 
-            setResult({ art: art, ownership: foundOwnership });
+            setResult({
+                art: artFromCatalog,
+                ownership: foundOwnership,
+                contractAddress: cleanContractAddress,
+                tokenId: cleanTokenId
+            });
         } else {
             setResult({ error: t.noArtFound, searchLog });
         }
@@ -664,20 +667,39 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                         </>
                     ) : (
                         <>
-                           <p><strong>{result.art.title}</strong></p>
-                           <p className="owner-info"><em>{result.art.artist}</em></p>
-                           <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
-                           <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
-                           <h4>{t.history}</h4>
-                           {renderHistory()}
-                           <a 
-                             href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`}
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             className="explorer-link"
-                           >
-                             {t.viewOnExplorer}
-                           </a>
+                           {result.art && (
+                                <div className="catalog-info-section">
+                                    <h4>{t.catalogInfoTitle}</h4>
+                                    <div className="catalog-info-content">
+                                        <img src={result.art.imageUrl} alt={result.art.title} className="catalog-info-image" />
+                                        <div className="catalog-info-text">
+                                            <p><strong>{result.art.title}</strong></p>
+                                            <p className="artist-name"><em>por {result.art.artist}</em></p>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); setPage({ name: 'detail', id: result.art!.id })}}>{t.viewDetails} &rarr;</a>
+                                        </div>
+                                    </div>
+                                </div>
+                           )}
+
+                           <div className="blockchain-data-section">
+                                <h4>{t.blockchainDataTitle}</h4>
+                                <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
+                                <p className="owner-info"><strong>{t.tokenId}</strong> {result.tokenId}</p>
+                                <p className="owner-info"><strong>{t.contractAddress}</strong> {result.contractAddress}</p>
+                                <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
+                                
+                                <h5>{t.history}</h5>
+                                {renderHistory() || <p>No se encontró historial de transferencias.</p>}
+                                
+                                <a 
+                                    href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`}
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="explorer-link"
+                                >
+                                    {t.viewOnExplorer}
+                                </a>
+                           </div>
                         </>
                     )}
                  </div>
@@ -830,7 +852,14 @@ const App = () => {
         switch (page.name) {
             case 'detail':
                 const art = catalog.find(a => a.id === page.id);
-                if (!art) return <ArtGallery catalog={catalog} onSelectArt={(id) => setPage({ name: 'detail', id })} />;
+                // --- FIX: Ensure `art` is not undefined before passing to `ArtDetail`.
+                // If the art piece is not found (e.g., due to a direct URL with an invalid ID),
+                // it's safer to redirect to the gallery rather than risk a runtime error.
+                if (!art) {
+                    // Si el arte no se encuentra, vuelve a la galería.
+                    setPage({ name: 'gallery' });
+                    return <ArtGallery catalog={catalog} onSelectArt={(id) => setPage({ name: 'detail', id })} />;
+                }
                 return <ArtDetail art={art} onBack={() => setPage({ name: 'gallery' })} setPage={setPage} />;
             case 'verify':
                 return <VerificationPortal 
