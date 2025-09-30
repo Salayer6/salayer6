@@ -296,6 +296,11 @@ const artCatalog: Art[] = [
     { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
 ];
 
+// --- DATOS INTERNOS: Miembros de la Galería ---
+const galleryMembers: { [address: string]: { pseudonym: string } } = {
+    '0x95a57eff2bd0afaaa3898273c7a3213855541710': { pseudonym: 'Naxhito' },
+};
+
 // --- I18N ---
 const translations = {
     es: {
@@ -350,6 +355,36 @@ const useTranslations = () => translations.es;
 
 
 // --- COMPONENTS ---
+
+/**
+ * Renderiza una dirección de Ethereum, mostrando un seudónimo si pertenece a un miembro de la galería.
+ * @param address La dirección a renderizar.
+ * @param type 'full' para la dirección completa, 'short' para la versión acortada.
+ * @returns Un elemento JSX.
+ */
+const renderAddress = (address: string | undefined | null, type: 'full' | 'short' = 'full') => {
+    if (!address) return null;
+
+    const lowerCaseAddress = address.toLowerCase();
+    const member = galleryMembers[lowerCaseAddress];
+    const displayAddress = type === 'short'
+        ? `${address.substring(0, 6)}...${address.substring(address.length - 4)}`
+        : address;
+
+    if (member) {
+        return (
+            <span className="address-display member" title={address}>
+                {member.pseudonym} <span className="address-mono">({displayAddress})</span>
+            </span>
+        );
+    }
+    
+    return (
+        <span className="address-display" title={address}>
+            {displayAddress}
+        </span>
+    );
+};
 
 // --- FIX: Add prop types for component
 interface LoaderProps {
@@ -438,8 +473,8 @@ const Header: React.FC<HeaderProps> = ({ walletAddress, onConnect, setPage, netw
                 {walletAddress ? (
                     <div className="wallet-info">
                          <NetworkIndicator network={network} onSwitch={onSwitchNetwork} />
-                        <div className="wallet-address" title={walletAddress}>
-                            {`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}
+                        <div className="wallet-address">
+                            {renderAddress(walletAddress, 'short')}
                         </div>
                     </div>
                 ) : (
@@ -652,9 +687,9 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             <div className="history-item">
                 <p>
                     <strong>{t.from}</strong> 
-                    {isMint ? <span className="mint-event">{t.mintEvent}</span> : lastTransfer.from}
+                    {isMint ? <span className="mint-event">{t.mintEvent}</span> : renderAddress(lastTransfer.from, 'full')}
                 </p>
-                <p><strong>{t.to}</strong> {lastTransfer.to}</p>
+                <p><strong>{t.to}</strong> {renderAddress(lastTransfer.to, 'full')}</p>
             </div>
         );
     };
@@ -737,8 +772,8 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                                 <h4>{t.blockchainDataTitle}</h4>
                                 <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
                                 <p className="owner-info"><strong>{t.tokenId}</strong> {result.tokenId}</p>
-                                <p className="owner-info"><strong>{t.contractAddress}</strong> {result.contractAddress}</p>
-                                <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
+                                <p className="owner-info"><strong>{t.contractAddress}</strong> {renderAddress(result.contractAddress, 'full')}</p>
+                                <p className="owner-info"><strong>{t.owner}</strong> {renderAddress(result.ownership.owner, 'full')}</p>
                                 
                                 <h5>{t.history}</h5>
                                 {renderHistory() || <p>No se encontró historial de transferencias.</p>}

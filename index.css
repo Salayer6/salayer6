@@ -565,6 +565,20 @@ main {
     color: var(--text-secondary-color);
 }
 
+.address-display.member {
+    font-weight: 500;
+    color: var(--primary-color);
+    font-family: var(--font-family-sans);
+}
+
+.address-mono {
+    font-family: var(--font-family-mono);
+    font-weight: normal;
+    color: var(--text-secondary-color);
+    font-size: 0.9em;
+    margin-left: 0.25rem;
+}
+
 
 .network-info {
     font-size: 0.9rem;
