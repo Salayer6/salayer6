@@ -1,3 +1,20 @@
+/*
+  COMENTARIO DIDÁCTICO: Principios de un CSS Moderno y Mantenible
+
+  Esta hoja de estilos está organizada siguiendo principios para que sea escalable,
+  consistente y fácil de modificar.
+*/
+
+/*
+  COMENTARIO DIDÁCTICO: CSS Custom Properties (Variables) para Theming
+
+  `:root` es un selector que apunta al elemento raíz del documento (el `<html>`).
+  Es el lugar ideal para definir variables CSS globales.
+  - Ventajas:
+    1. DRY (Don't Repeat Yourself): Define un color o un tamaño una vez y úsalo en múltiples lugares. Si necesitas cambiarlo, solo lo haces en un sitio.
+    2. Theming: Facilita enormemente la creación de temas (ej. modo claro/oscuro) cambiando solo los valores de estas variables con JavaScript.
+    3. Legibilidad: Nombres como `--primary-color` son más descriptivos que un código hexadecimal como `#1a1a1a`.
+*/
 :root {
   --background-color: #ffffff;
   --surface-color: #f9f9f9;
@@ -6,38 +23,47 @@
   --text-color: #1a1a1a;
   --text-secondary-color: #666666;
   --border-color: #eaeaea;
-  --font-family-serif: 'Lora', serif;
-  --font-family-sans: 'Inter', sans-serif;
-  --font-family-mono: 'Courier New', Courier, monospace;
+  --font-family-serif: 'Lora', serif; /* Para títulos, da un toque elegante. */
+  --font-family-sans: 'Inter', sans-serif; /* Para el cuerpo del texto, muy legible. */
+  --font-family-mono: 'Courier New', Courier, monospace; /* Para código o direcciones de wallet. */
   --success-color: #28a745;
   --danger-color: #dc3545;
 }
 
+/*
+  COMENTARIO DIDÁCTICO: El Reset Universal y el Modelo de Caja
+
+  `box-sizing: border-box;` es una de las reglas más importantes en el CSS moderno.
+  - Por defecto (`content-box`), el ancho y alto que defines para un elemento solo se aplica a su contenido. El padding y el borde se *añaden* a ese tamaño. Esto hace los cálculos de layout poco intuitivos.
+  - Con `border-box`, el padding y el borde se *incluyen* dentro del ancho y alto que defines. Si dices `width: 100px;`, el elemento medirá exactamente 100px de ancho total, sin importar su padding o borde.
+  - Aplicarlo a todos los elementos con `*` es una práctica estándar para un comportamiento predecible.
+*/
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: var(--font-family-sans);
+  margin: 0; /* Elimina el margen por defecto del navegador. */
+  font-family: var(--font-family-sans); /* Usa la variable de fuente definida en :root. */
   background-color: var(--background-color);
   color: var(--text-color);
+  /* Mejoran el renderizado de las fuentes en la mayoría de los navegadores. */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh; /* Asegura que la app ocupe al menos toda la altura de la pantalla. */
+  display: flex; /* Usamos Flexbox para el layout principal. */
+  flex-direction: column; /* Apilamos los hijos (container, footer) verticalmente. */
 }
 
 .app-container {
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  flex-grow: 1;
+  max-width: 1280px; /* Limita el ancho en pantallas grandes para mejor legibilidad. */
+  margin: 0 auto; /* Centra el contenedor horizontalmente. */
+  padding: 0 2rem; /* Espacio a los lados para que el contenido no toque los bordes. */
+  flex-grow: 1; /* Permite que este contenedor crezca para ocupar el espacio disponible, empujando el footer hacia abajo. */
 }
 
 main {
@@ -51,16 +77,26 @@ main {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Centrado horizontal */
+  justify-content: center; /* Centrado vertical */
   gap: 1rem;
 }
 .loader {
   border: 4px solid var(--surface-color);
   border-top: 4px solid var(--primary-color);
-  border-radius: 50%;
+  border-radius: 50%; /* Crea un círculo perfecto. */
   width: 40px;
   height: 40px;
+  /*
+    COMENTARIO DIDÁCTICO: Animaciones CSS con @keyframes
+
+    `animation` aplica una animación definida por `@keyframes`.
+    - `spin`: El nombre de la animación.
+    - `1s`: La duración (1 segundo).
+    - `linear`: La velocidad de la animación es constante.
+    - `infinite`: Se repite indefinidamente.
+    Animar la propiedad `transform` es muy eficiente para el rendimiento, ya que no provoca que el navegador recalcule el layout de la página.
+  */
   animation: spin 1s linear infinite;
 }
 
@@ -76,6 +112,16 @@ main {
 
 
 /* --- Header --- */
+/*
+  COMENTARIO DIDÁCTICO: Layout con Flexbox
+
+  Flexbox es ideal para alinear elementos en una sola dimensión (una fila o una columna).
+  Aquí lo usamos para distribuir los elementos del header.
+  - `display: flex`: Activa el contexto de Flexbox.
+  - `justify-content: space-between`: Empuja los elementos hijos a los extremos del contenedor, distribuyendo el espacio sobrante entre ellos.
+  - `align-items: center`: Alinea los elementos verticalmente al centro.
+  - `flex-wrap: wrap`: Permite que los elementos pasen a la siguiente línea si no hay espacio suficiente (importante para responsividad).
+*/
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -97,7 +143,7 @@ main {
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.5rem; /* `gap` es una forma moderna y limpia de añadir espacio entre elementos flex/grid. */
 }
 
 .nav-link {
@@ -106,9 +152,18 @@ main {
   text-decoration: none;
   padding: 0.5rem;
   border-bottom: 2px solid transparent;
+  /*
+    COMENTARIO DIDÁCTICO: Transiciones para una Mejor UX
+
+    `transition` anima suavemente el cambio de una propiedad en lugar de hacerlo de forma instantánea.
+    Esto hace que la interfaz se sienta más fluida y pulida.
+    - `color 0.2s`: Anima el cambio de color en 0.2 segundos.
+    - `border-color 0.2s`: Anima el cambio del color del borde en 0.2s.
+  */
   transition: color 0.2s, border-color 0.2s;
 }
 
+/* `:hover` se activa cuando el ratón está sobre el elemento. */
 .nav-link:hover, .nav-link.active {
   color: var(--text-color);
   border-bottom-color: var(--text-color);
@@ -145,6 +200,13 @@ main {
 }
 
 /* Network Indicator */
+/*
+  COMENTARIO DIDÁCTICO: Posicionamiento para Overlays (Dropdown)
+
+  - El contenedor `.network-indicator` tiene `position: relative`. Esto crea un "contexto de posicionamiento".
+  - El dropdown `.network-dropdown` tiene `position: absolute`. Esto lo saca del flujo normal del documento y lo posiciona *relativo a su ancestro posicionado más cercano* (en este caso, `.network-indicator`).
+  - Esto nos permite colocar el dropdown exactamente donde queremos (debajo del botón) sin afectar el layout de otros elementos.
+*/
 .network-indicator {
     position: relative;
 }
@@ -179,18 +241,18 @@ main {
 
 .network-dropdown {
     position: absolute;
-    top: calc(100% + 5px);
+    top: calc(100% + 5px); /* Se posiciona 5px por debajo del botón. */
     right: 0;
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    z-index: 20;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra sutil para dar profundidad. */
+    z-index: 20; /* Asegura que el dropdown aparezca por encima de otros contenidos. */
     min-width: 180px;
     animation: fadeIn 0.15s ease-out;
 }
 .network-dropdown a {
-    display: block;
+    display: block; /* Para que ocupe todo el ancho y sea más fácil hacer clic. */
     padding: 0.75rem 1rem;
     color: var(--text-color);
     text-decoration: none;
@@ -202,6 +264,19 @@ main {
 
 
 /* --- Art Gallery --- */
+/*
+  COMENTARIO DIDÁCTICO: Layout con CSS Grid
+
+  CSS Grid es perfecto para crear layouts en dos dimensiones (filas y columnas).
+  Es la herramienta ideal para una galería de imágenes.
+  - `display: grid`: Activa el contexto de Grid.
+  - `grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))`: Esta es la magia.
+    - `repeat()`: Crea un patrón repetitivo de columnas.
+    - `auto-fill`: Crea tantas columnas como quepan en el espacio disponible.
+    - `minmax(300px, 1fr)`: Cada columna tendrá un tamaño mínimo de 300px, pero podrá crecer para ocupar el espacio sobrante (`1fr` - una unidad de fracción).
+    - El resultado es una grilla perfectamente responsiva sin necesidad de media queries.
+  - `gap`: Define el espacio entre las filas y columnas de la grilla.
+*/
 .art-gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -214,7 +289,7 @@ main {
 }
 
 .art-card-image-wrapper {
-  overflow: hidden;
+  overflow: hidden; /* Oculta cualquier parte de la imagen que se salga por la animación de zoom. */
   border-radius: 8px;
   margin-bottom: 1rem;
   border: 1px solid var(--border-color);
@@ -223,14 +298,14 @@ main {
 .art-card-image {
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1.1;
-  object-fit: cover;
-  display: block;
+  aspect-ratio: 1 / 1.1; /* Mantiene una proporción constante para las imágenes, creando una grilla visualmente uniforme. */
+  object-fit: cover; /* Asegura que la imagen cubra todo el contenedor sin deformarse, recortando si es necesario. */
+  display: block; /* Elimina un pequeño espacio que a veces aparece debajo de las imágenes. */
   transition: transform 0.4s ease-in-out;
 }
 
 .art-card:hover .art-card-image {
-  transform: scale(1.05);
+  transform: scale(1.05); /* Efecto de zoom sutil al pasar el ratón. */
 }
 
 .art-card-info h3 {
@@ -270,7 +345,7 @@ main {
 }
 
 .art-detail-image {
-  flex: 1 1 55%;
+  flex: 1 1 55%; /* Ocupa el 55% del espacio disponible, con flexibilidad para encogerse/crecer. */
 }
 
 .art-detail-image img {
@@ -299,7 +374,7 @@ main {
 }
 
 .art-detail-info p {
-  line-height: 1.6;
+  line-height: 1.6; /* Aumenta el espacio entre líneas para mejor legibilidad. */
   margin-bottom: 2rem;
 }
 
@@ -388,7 +463,6 @@ main {
 .verifier-box .form-group {
     margin-bottom: 1rem;
 }
-/* Quitar margen al ultimo form-group para alinear bien el boton */
 .form-group-wrapper .form-group {
     margin-bottom: 0;
 }
@@ -431,6 +505,7 @@ main {
     background-color: var(--primary-hover-color);
 }
 
+/* `:disabled` es un pseudo-selector que se aplica cuando un elemento de formulario está deshabilitado. */
 .form-group button:disabled {
     background-color: var(--text-secondary-color);
     cursor: not-allowed;
@@ -469,6 +544,8 @@ main {
     animation: fadeIn 0.2s ease;
 }
 
+/* `::after` es un pseudo-elemento que nos permite crear un elemento visual con CSS,
+   en este caso, el pequeño triángulo que apunta al botón de ayuda. */
 .verifier-help-box::after {
     content: '';
     position: absolute;
@@ -546,7 +623,7 @@ main {
 .owner-info, .history-item p {
     font-family: monospace;
     font-size: 0.9rem;
-    word-break: break-all;
+    word-break: break-all; /* Evita que las direcciones largas rompan el layout. */
 }
 
 .verification-image-wrapper {
@@ -560,7 +637,7 @@ main {
     display: block;
     width: 100%;
     max-height: 400px;
-    object-fit: contain; /* Usar contain para ver la imagen completa */
+    object-fit: contain; /* `contain` asegura que se vea toda la imagen, a diferencia de `cover`. Ideal para mostrar arte sin recortar. */
     background-color: var(--surface-color);
 }
 
@@ -571,7 +648,7 @@ main {
     padding-top: 1rem;
     border-top: 1px dashed var(--border-color);
     color: var(--text-secondary-color);
-    white-space: pre-wrap;
+    white-space: pre-wrap; /* Respeta los saltos de línea y espacios del texto de la descripción. */
 }
 
 
@@ -647,6 +724,7 @@ main {
     display: flex;
     justify-content: space-between;
 }
+/* Selectores de atributo para estilizar basado en el texto de la clase, más robusto. */
 .search-log .status-encontrado {
     color: var(--success-color);
     font-weight: 600;
@@ -672,17 +750,17 @@ main {
 
 /* --- Cyberpunk Easter Egg --- */
 .easter-egg-overlay {
-  position: fixed;
+  position: fixed; /* Lo saca del flujo y lo posiciona relativo al viewport. */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(10, 25, 10, 0.95);
-  z-index: 1000;
+  z-index: 1000; /* Un z-index alto para asegurar que esté por encima de todo. */
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px); /* Efecto de desenfoque del contenido de fondo. */
   animation: fadeIn 0.3s ease;
   overflow: hidden;
 }
@@ -702,13 +780,13 @@ main {
   );
   background-size: 100% 4px;
   animation: scan 10s linear infinite;
-  pointer-events: none;
+  pointer-events: none; /* Evita que este elemento interfiera con los clics. */
 }
 
 .easter-egg-content {
   color: #00ff41;
   font-family: var(--font-family-mono);
-  text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41;
+  text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41; /* Efecto de brillo (glow). */
   padding: 2rem;
   max-width: 800px;
   width: 90%;
@@ -761,20 +839,32 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
+
+/*
+  COMENTARIO DIDÁCTICO: Media Queries para Diseño Responsivo
+
+  Las `@media` queries nos permiten aplicar estilos específicos basados en las características del
+  dispositivo, como el ancho de la pantalla.
+  - `@media (max-width: 768px)`: Estos estilos se aplicarán *únicamente* cuando el ancho de la
+    pantalla sea de 768px o menos (típicamente tabletas y móviles).
+  - Esta es una estrategia "desktop-first", donde diseñamos primero para escritorio y luego
+    ajustamos para pantallas más pequeñas. La alternativa es "mobile-first", que a menudo es
+    preferible, pero este enfoque también es válido.
+*/
 @media (max-width: 768px) {
     .app-container {
-        padding: 0 1rem;
+        padding: 0 1rem; /* Reduce el padding en móviles para dar más espacio al contenido. */
     }
     .app-header {
-        flex-direction: column;
+        flex-direction: column; /* Apila el logo y la navegación verticalmente. */
         gap: 1rem;
-        align-items: flex-start;
+        align-items: flex-start; /* Alinea todo a la izquierda. */
     }
     .art-detail-container {
-        flex-direction: column;
+        flex-direction: column; /* Apila la imagen y la información del arte. */
     }
     .verification-portal h1 {
-        font-size: 1.75rem;
+        font-size: 1.75rem; /* Reduce el tamaño del título para que no domine la pantalla. */
     }
     .verifier-box {
         padding: 1.5rem 1rem;
@@ -783,18 +873,18 @@ main {
         align-items: flex-start;
     }
     .form-group {
-        flex-direction: column;
+        flex-direction: column; /* Apila los inputs y el botón. */
         width: 100%;
     }
     .form-group input,
     .form-group button {
-        width: 100%;
+        width: 100%; /* Hace que ocupen todo el ancho disponible. */
     }
     .verifier-help-box {
         width: calc(100vw - 4rem);
         max-width: 320px;
         right: 50%;
-        transform: translateX(50%);
+        transform: translateX(50%); /* Truco para centrar un elemento posicionado absolutamente. */
     }
     .verifier-help-box::after {
         right: 50%;

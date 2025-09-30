@@ -1,26 +1,58 @@
+/**
+ * COMENTARIO DIDÁCTICO: La Arquitectura de una Aplicación React Moderna
+ *
+ * Este archivo es el corazón de nuestra aplicación. Está escrito en TypeScript y JSX.
+ * - TypeScript (`.ts`): Añade un sistema de tipos a JavaScript. Esto nos ayuda a evitar errores comunes,
+ *   mejora el autocompletado del editor de código y hace que el código sea más legible y mantenible.
+ * - JSX (`.tsx`): Es una extensión de JavaScript que nos permite escribir una sintaxis similar a HTML
+ *   directamente en nuestro código. Facilita enormemente la creación de interfaces de usuario en React.
+ *
+ * La estructura de este archivo sigue un patrón común:
+ * 1. Importaciones: Traemos las librerías y componentes que necesitamos.
+ * 2. Declaraciones Globales: Extendemos tipos existentes (como el objeto `window`).
+ * 3. Lógica de Negocio/Servicios: En este caso, toda la interacción con la blockchain. En una app más grande,
+ *    esto estaría en archivos separados (ej. `services/blockchain.ts`).
+ * 4. Definiciones de Tipos: `interfaces` y `types` que modelan los datos de nuestra aplicación.
+ * 5. Constantes: Datos estáticos como catálogos o traducciones.
+ * 6. Componentes: Bloques de UI reutilizables. Se dividen en componentes "tontos" (solo muestran datos)
+ *    y "listos" (manejan estado y lógica).
+ * 7. Componente Principal (`App`): El componente que orquesta toda la aplicación.
+ * 8. Renderizado: El punto de entrada donde React se "engancha" al DOM del HTML.
+ */
+
+// --- 1. IMPORTACIONES ---
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ethers } from "ethers";
 
-// --- FIX: Add global type declaration for window.ethereum at the top to make it available throughout the file.
+// --- 2. DECLARACIONES GLOBALES ---
+/*
+ * COMENTARIO DIDÁCTICO: Tipado del Objeto `window`
+ *
+ * Por defecto, TypeScript no sabe que `window.ethereum` (el objeto inyectado por MetaMask)
+ * existe. `declare global` nos permite "enseñarle" a TypeScript sobre esta propiedad,
+ * evitando errores de compilación y permitiendo el autocompletado en todo el archivo.
+ */
 declare global {
     interface Window {
         ethereum?: any;
     }
 }
 
-// --- INICIO: Lógica de Blockchain (integrada desde blockchain.ts) ---
+// --- 3. LÓGICA DE BLOCKCHAIN ---
 
-/*
- * Documentación Didáctica (ethers.js):
- * ethers.js es una librería que nos permite interactuar con la blockchain de Ethereum (y compatibles).
- * Simplifica enormemente el proceso de enviar transacciones y leer datos de los contratos.
+/**
+ * COMENTARIO DIDÁCTICO: ¿Qué son el ABI y la Dirección del Contrato?
+ *
+ * Para interactuar con un Smart Contract en la blockchain, necesitamos dos cosas:
+ * 1. La Dirección (Address): Es como la dirección de una casa. Identifica de forma única al contrato
+ *    en la red de Ethereum. La que usamos aquí es la del famoso proyecto Bored Ape Yacht Club (BAYC).
+ * 2. El ABI (Application Binary Interface): Es como el manual de instrucciones del contrato. Es un
+ *    archivo JSON que describe todas las funciones públicas del contrato (ej. `ownerOf`, `totalSupply`)
+ *    y los eventos que emite (ej. `Transfer`). Permite que librerías como ethers.js sepan cómo
+ *    formatear las llamadas al contrato y cómo interpretar sus respuestas.
  */
-
-// 1. LA DIRECCIÓN DEL CONTRATO (de nuestra galería, ahora usando un contrato real)
-const CONTRACT_ADDRESS = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Dirección del contrato de Bored Ape Yacht Club (BAYC)
-
-// 2. EL ABI (Application Binary Interface)
+const CONTRACT_ADDRESS = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D";
 const CONTRACT_ABI = [
     "function ownerOf(uint256 tokenId) view returns (address)",
     "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
@@ -29,7 +61,7 @@ const CONTRACT_ABI = [
     "function tokenURI(uint256 tokenId) view returns (string)"
 ];
 
-// 3. Redes Soportadas - Ahora con URL del explorador y RPCs de respaldo para Ethereum
+// Constantes para las redes soportadas, facilitando el cambio y la configuración.
 const SUPPORTED_NETWORKS = {
     '0x1': { chainId: '0x1', name: 'Ethereum', rpcUrl: ['https://ethereum.publicnode.com', 'https://cloudflare-eth.com', 'https://eth-mainnet.public.blastapi.io'], blockExplorerUrl: 'https://etherscan.io' },
     '0x89': { chainId: '0x89', name: 'Polygon', rpcUrl: 'https://polygon.publicnode.com', blockExplorerUrl: 'https://polygonscan.com' },
@@ -41,28 +73,33 @@ const SUPPORTED_NETWORKS = {
 };
 const DEFAULT_NETWORK = SUPPORTED_NETWORKS['0x1'];
 
-
 /**
- * Crea una "instancia" del contrato con la que podemos interactuar.
- * @param address La dirección del contrato a instanciar.
- * @param network Opcional. Si se provee, usa un proveedor estático para esa red.
- * @returns Un objeto de contrato de ethers.js, o null si los parámetros no son válidos.
+ * COMENTARIO DIDÁCTICO: El Objeto Contrato de Ethers.js
+ *
+ * Esta función es una "fábrica" que nos crea un objeto `Contract` de ethers.js.
+ * Este objeto es nuestra puerta de enlace para llamar a las funciones del Smart Contract.
+ * Requiere la dirección, el ABI y un "proveedor" (Provider).
+ *
+ * ¿Qué es un Provider?
+ * Es nuestra conexión a la blockchain. Hay varios tipos:
+ * - `BrowserProvider`: Se conecta a través de la wallet del usuario en el navegador (MetaMask).
+ *   Permite leer datos y también solicitar al usuario que firme transacciones.
+ * - `JsonRpcProvider`: Se conecta directamente a un nodo de la blockchain a través de una URL RPC.
+ *   Es solo para leer datos (read-only).
+ * - `FallbackProvider`: Un proveedor avanzado que puede conectarse a múltiples URLs RPC. Si una falla,
+ *   automáticamente intenta con la siguiente. Aumenta la resiliencia de nuestra aplicación.
  */
 const getContract = (address: string, network: { rpcUrl: string | string[] } | null = null) => {
     if (!address || !ethers.isAddress(address)) {
         console.error("La dirección del contrato no es válida.");
         return null;
     }
-    // Si se especifica una red, usamos un proveedor estático.
     if (network) {
-        // Si la red tiene múltiples RPCs (como Ethereum), usamos un FallbackProvider.
-        // Si no, usamos un JsonRpcProvider simple.
         const provider = Array.isArray(network.rpcUrl)
             ? new ethers.FallbackProvider(network.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
             : new ethers.JsonRpcProvider(network.rpcUrl as string);
         return new ethers.Contract(address, CONTRACT_ABI, provider);
     }
-    // Si no se especifica red, usamos el proveedor de MetaMask (la red activa del usuario).
     if (typeof window.ethereum === 'undefined') {
         console.error("MetaMask no está instalado.");
         return null;
@@ -71,24 +108,31 @@ const getContract = (address: string, network: { rpcUrl: string | string[] } | n
     return new ethers.Contract(address, CONTRACT_ABI, provider);
 };
 
-
 /**
- * Conecta la wallet de MetaMask y devuelve la dirección del usuario.
- * @returns La dirección de la wallet conectada o null si hay un error.
+ * COMENTARIO DIDÁCTICO: Asincronía y Promesas (`async`/`await`)
+ *
+ * Las interacciones con la blockchain (o cualquier red) no son instantáneas. Toman tiempo.
+ * JavaScript maneja estas operaciones asíncronas con "Promesas" (Promises).
+ * `async`/`await` es una sintaxis moderna que nos permite trabajar con promesas de una manera
+ * que parece síncrona, haciendo el código mucho más fácil de leer y escribir.
+ * - `async function`: Declara una función que devolverá una Promesa.
+ * - `await`: Pausa la ejecución de la función hasta que la Promesa se resuelva (o se rechace).
+ *   Solo se puede usar dentro de una `async function`.
+ * - `try...catch`: Es la forma estándar de manejar errores en código síncrono y asíncrono con `await`.
+ *   Si la promesa es rechazada (hay un error), el control salta al bloque `catch`.
  */
 const connectWallet = async (): Promise<string | null> => {
     if (typeof window.ethereum === 'undefined') {
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
+        // COMENTARIO DIDÁCTICO: Mejorando la UX en Móviles (Deep Linking)
+        // En lugar de solo decir "instala MetaMask", intentamos abrir la app directamente si ya está instalada,
+        // o llevar al usuario a la tienda de apps si no lo está. Esto reduce la fricción.
         if (isMobile) {
-            // En dispositivos móviles, intenta abrir la aplicación MetaMask a través de un "deep link".
-            // El servicio de MetaMask redirigirá a la tienda de aplicaciones apropiada (App Store o Google Play) si la aplicación no está instalada.
-            const dappUrl = window.location.host.replace(/:\d+$/, ''); // Elimina el puerto para el deep link
+            const dappUrl = window.location.host.replace(/:\d+$/, '');
             const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
             window.location.href = metamaskAppDeepLink;
-            return null; // La página redirigirá, no se necesita hacer más nada.
+            return null;
         } else {
-            // En escritorio, informa al usuario y le ofrece ir a la página de descarga.
             if (confirm("MetaMask no detectado. Para interactuar con la funcionalidad blockchain de este sitio, necesitas la extensión de MetaMask. ¿Quieres ir a la página de descarga oficial?")) {
                 window.open("https://metamask.io/download/", "_blank");
             }
@@ -97,7 +141,7 @@ const connectWallet = async (): Promise<string | null> => {
     }
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
-        const accounts = await provider.send("eth_requestAccounts", []);
+        const accounts = await provider.send("eth_requestAccounts", []); // Solicita al usuario que conecte su wallet.
         return accounts[0] || null;
     } catch (error) {
         console.error("El usuario rechazó la solicitud de conexión:", error);
@@ -105,12 +149,23 @@ const connectWallet = async (): Promise<string | null> => {
     }
 };
 
-// --- FIX: Corrected generic type syntax for TSX files. `<T>` was being interpreted as a JSX tag.
-// The trailing comma `<T,>` tells the TypeScript parser that this is a generic type parameter, not a component.
-// This single fix resolves a large cascade of parsing errors throughout the file.
+
+/**
+ * COMENTARIO DIDÁCTICO: Genéricos en TypeScript y Resiliencia de Red
+ *
+ * `<T,>`: Esta es una función genérica. `T` es un "tipo de marcador de posición".
+ * Significa que esta función puede trabajar con cualquier tipo de dato que devuelva la
+ * función `fn`, y TypeScript entenderá y preservará ese tipo. La coma extra `<T,>`
+ * es una peculiaridad de la sintaxis en archivos `.tsx` para diferenciarla de un componente JSX.
+ *
+ * Esta función `retryAsync` es un ejemplo de "programación defensiva". Las redes (especialmente
+ * las blockchains públicas) pueden fallar. En lugar de fallar al primer intento, esta función
+ * reintenta la operación varias veces antes de darse por vencida. Esto hace que nuestra
+ * aplicación sea mucho más robusta y confiable para el usuario final.
+ */
 const retryAsync = async <T,>(
     fn: () => Promise<T>,
-    retries = 2, // 2 reintentos = 3 intentos en total
+    retries = 2,
     delay = 500
 ): Promise<T> => {
     let lastError: Error | null = null;
@@ -120,35 +175,22 @@ const retryAsync = async <T,>(
         } catch (error: any) {
             lastError = error;
             if (i < retries) {
-                // Espera antes del siguiente reintento
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
         }
     }
-    // Si todos los reintentos fallan, lanza el último error capturado.
     throw lastError;
 };
 
-/**
- * Obtiene los detalles de propiedad, la última transferencia y la metadata de un NFT.
- * Refactorizado para ser resiliente: utiliza reintentos para las llamadas críticas a la red
- * y maneja con gracia los fallos en la obtención del historial de transacciones o metadata.
- * @param contractAddress La dirección del contrato del NFT.
- * @param tokenId El ID del token a verificar.
- * @param network La red específica en la que buscar.
- * @returns Un objeto con el estado de la búsqueda y los datos si se encuentra.
- */
 const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string | string[] }) => {
     const provider = Array.isArray(network.rpcUrl)
         ? new ethers.FallbackProvider(network.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
         : new ethers.JsonRpcProvider(network.rpcUrl as string);
 
-    // Paso 1: Verificar si el contrato existe.
+    // Verificación de existencia del contrato: una optimización para no hacer llamadas innecesarias.
     try {
         const code = await retryAsync(() => provider.getCode(contractAddress));
-        if (code === '0x') {
-            return { status: 'not_found' };
-        }
+        if (code === '0x') return { status: 'not_found' }; // '0x' significa que no hay código en esa dirección.
     } catch (error: any) {
         console.error(`Error al verificar el código del contrato en ${network.name}:`, error);
         return { status: 'error', message: `No se pudo conectar a ${network.name}.` };
@@ -157,10 +199,11 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
     const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
     let owner;
 
-    // Paso 2: Obtener propietario (Funcionalidad Principal).
+    // Obtención del propietario: la funcionalidad principal.
     try {
         owner = await retryAsync(() => contract.ownerOf(tokenId));
     } catch (error: any) {
+        // Manejo de errores específicos de la blockchain.
         if (error.code === 'CALL_EXCEPTION' || (error.info?.error?.message || '').includes('owner query for nonexistent token')) {
             return { status: 'not_found' };
         }
@@ -168,7 +211,10 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
         return { status: 'error', message: error.message };
     }
 
-    // Paso 3: Obtener historial (Mejora, puede fallar sin detener la verificación).
+    // COMENTARIO DIDÁCTICO: Mejora Progresiva (Progressive Enhancement)
+    // El historial y la metadata son "extras". Si fallan, la funcionalidad principal (verificar
+    // el propietario) no se ve afectada. El `try...catch` aquí solo muestra una advertencia
+    // (`console.warn`) en lugar de detener todo. Esto hace la app más resiliente.
     let lastTransfer = null;
     try {
         const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
@@ -182,10 +228,13 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
         console.warn(`No se pudo obtener el historial en ${network.name}.`, error);
     }
 
-    // Paso 4: Obtener metadata (tokenURI) (Mejora, puede fallar sin detener la verificación).
     let metadata = null;
     try {
         const tokenURI = await contract.tokenURI(tokenId);
+        // COMENTARIO DIDÁCTICO: Manejo de IPFS
+        // Muchos NFTs alojan su metadata en IPFS (InterPlanetary File System). Las URLs `ipfs://`
+        // no son accesibles directamente por los navegadores. Las convertimos a una URL de una
+        // "pasarela" (gateway) pública de IPFS como `ipfs.io` para poder hacer el `fetch`.
         const metadataUrl = tokenURI.startsWith('ipfs://')
             ? tokenURI.replace('ipfs://', 'https://ipfs.io/ipfs/')
             : tokenURI;
@@ -206,18 +255,10 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
     return { status: 'found', data: { owner, lastTransfer, metadata } };
 };
 
-
-/**
- * Obtiene el número total de NFTs en la colección.
- * @returns El número total de tokens acuñados.
- */
 const getTotalSupply = async (): Promise<number> => {
-    // Usamos la dirección de nuestro contrato y la red por defecto para esta función.
     const contract = getContract(CONTRACT_ADDRESS, DEFAULT_NETWORK); 
     if (!contract) return 0;
     try {
-        // Envolvemos la llamada al contrato en nuestra función de reintentos para
-        // hacerla más robusta frente a fallos de red intermitentes.
         const totalSupply = await retryAsync(() => contract.totalSupply());
         return Number(totalSupply);
     } catch (error) {
@@ -226,28 +267,30 @@ const getTotalSupply = async (): Promise<number> => {
     }
 }
 
-/**
- * Solicita a MetaMask cambiar a una red específica.
- * @param chainId El ID de la cadena en formato hexadecimal (ej: '0x1').
- */
 const switchNetwork = async (chainId: string) => {
     if (!window.ethereum) return;
     try {
+        // Llama a una función específica de la API de MetaMask para solicitar el cambio de red.
         await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId }],
         });
     } catch (switchError) {
-        // Este error (código 4902) indica que la red no ha sido agregada a MetaMask.
-        // Aquí se podría implementar la lógica para agregar la red, pero se omite por simplicidad.
         console.error("Error al cambiar de red:", switchError);
     }
 };
 
-
-// --- FIN: Lógica de Blockchain ---
-
-// --- FIX: Add type definitions for application data structures.
+// --- 4. DEFINICIONES DE TIPOS ---
+/*
+ * COMENTARIO DIDÁCTICO: Modelando los Datos con Interfaces
+ *
+ * `interface` es una construcción de TypeScript que nos permite definir la "forma" de un objeto.
+ * Es un contrato que dice "cualquier objeto de tipo 'Art' debe tener estas propiedades con estos tipos".
+ * - Mejora la legibilidad: Cualquiera puede ver qué datos componen una obra de arte.
+ * - Previene errores: TypeScript nos avisará si intentamos acceder a una propiedad que no existe
+ *   (ej. `art.color`) o si le pasamos un tipo de dato incorrecto.
+ * - Facilita el desarrollo: El autocompletado del editor funciona a la perfección.
+ */
 interface Art {
     id: number;
     tokenId: string;
@@ -264,6 +307,8 @@ interface NetworkInfo {
     name: string;
 }
 
+// Un "tipo de unión discriminada" para manejar el estado de la página.
+// Cada objeto tiene una propiedad `name` que nos permite saber en qué página estamos.
 type PageState = {
     name: 'gallery'
 } | {
@@ -275,7 +320,7 @@ type PageState = {
     contractAddress?: string
 };
 
-// --- FUENTE DE DATOS (Catálogo de la Galería) ---
+// --- 5. CONSTANTES ---
 const artCatalog: Art[] = [
     { id: 1, tokenId: '1', title: 'Ecos Cósmicos', artist: 'Elena Valdés', priceCLP: '450.000', priceETH: '0.25', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjBwYWludGluZ3xlbnwwfHx8fDE3MTU2MzM4MTB8MA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una exploración vibrante de la creación y la destrucción en el universo, utilizando acrílicos sobre lienzo de 100x120cm.' },
     { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
@@ -285,60 +330,26 @@ const artCatalog: Art[] = [
     { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
 ];
 
-// --- I18N ---
 const translations = {
-    es: {
-        gallery: 'Galería',
-        verify: 'Verificar Autenticidad',
-        connectWallet: 'Conectar Wallet',
-        walletConnected: 'Wallet Conectada',
-        viewDetails: 'Ver Detalles',
-        buyNow: 'Adquirir',
-        verifyOnChain: 'Verificar en Blockchain',
-        backToGallery: '← Volver a la Galería',
-        verifyTitle: 'Portal de Verificación de Autenticidad',
-        verifyDescription: 'La unicidad de un NFT se define por su Contrato y su ID de Token. Introduce ambos para verificar la propiedad en la blockchain.',
-        verifyByTokenId: 'Verificar un NFT',
-        tokenIdPlaceholder: 'Ingresa el ID del Token (ej: 346)',
-        contractAddressPlaceholder: 'Pega la dirección de cualquier contrato NFT',
-        or: 'o',
-        myCollection: 'Mi Colección',
-        connectToSee: 'Conecta tu wallet para ver tu colección',
-        verificationResult: 'Resultado de la Verificación',
-        owner: 'Propietario Actual:',
-        history: 'Última Transacción Registrada',
-        noArtFound: 'No se encontraron datos para esta combinación de Contrato y Token ID. Verifica que ambos sean correctos.',
-        noArtInWallet: 'No posees ninguna obra de esta colección en la wallet conectada.',
-        myCollectionDisabled: "La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.",
-        footerText: '© 2024 Galería Abstracta Chile. Todos los derechos reservados.',
-        loading: 'Cargando...',
-        verifying: 'Verificando en la blockchain...',
-        howToFindTokenId: '¿Cómo encuentro el ID del Token?',
-        tokenIdHelpTitle: 'Para encontrar el ID del Token de un NFT:',
-        tokenIdHelpText: 'Ve a la página del NFT en un marketplace como OpenSea. El ID del Token es el último número que aparece en la URL.',
-        unsupportedNetwork: 'Red Desconocida',
-        switchTo: 'Cambiar a',
-        searchingOn: 'Buscando en {network}...',
-        foundOn: 'Encontrado en la red:',
-        from: 'De:',
-        to: 'Para:',
-        mintEvent: 'Acuñación (Creación del NFT)',
-        viewOnExplorer: 'Ver en Explorador de Bloques',
-        searchLogTitle: 'Registro de Búsqueda:',
-        statusFound: 'Encontrado',
-        statusNotFound: 'No Encontrado',
-        statusError: 'Error de Red'
-    }
+    es: { gallery: 'Galería', verify: 'Verificar Autenticidad', connectWallet: 'Conectar Wallet', walletConnected: 'Wallet Conectada', viewDetails: 'Ver Detalles', buyNow: 'Adquirir', verifyOnChain: 'Verificar en Blockchain', backToGallery: '← Volver a la Galería', verifyTitle: 'Portal de Verificación de Autenticidad', verifyDescription: 'La unicidad de un NFT se define por su Contrato y su ID de Token. Introduce ambos para verificar la propiedad en la blockchain.', verifyByTokenId: 'Verificar un NFT', tokenIdPlaceholder: 'Ingresa el ID del Token (ej: 346)', contractAddressPlaceholder: 'Pega la dirección de cualquier contrato NFT', or: 'o', myCollection: 'Mi Colección', connectToSee: 'Conecta tu wallet para ver tu colección', verificationResult: 'Resultado de la Verificación', owner: 'Propietario Actual:', history: 'Última Transacción Registrada', noArtFound: 'No se encontraron datos para esta combinación de Contrato y Token ID. Verifica que ambos sean correctos.', noArtInWallet: 'No posees ninguna obra de esta colección en la wallet conectada.', myCollectionDisabled: "La función 'Mi Colección' es computacionalmente costosa y no está implementada en esta fase. Se requiere un servicio de indexación para hacerlo de manera eficiente.", footerText: '© 2024 Galería Abstracta Chile. Todos los derechos reservados.', loading: 'Cargando...', verifying: 'Verificando en la blockchain...', howToFindTokenId: '¿Cómo encuentro el ID del Token?', tokenIdHelpTitle: 'Para encontrar el ID del Token de un NFT:', tokenIdHelpText: 'Ve a la página del NFT en un marketplace como OpenSea. El ID del Token es el último número que aparece en la URL.', unsupportedNetwork: 'Red Desconocida', switchTo: 'Cambiar a', searchingOn: 'Buscando en {network}...', foundOn: 'Encontrado en la red:', from: 'De:', to: 'Para:', mintEvent: 'Acuñación (Creación del NFT)', viewOnExplorer: 'Ver en Explorador de Bloques', searchLogTitle: 'Registro de Búsqueda:', statusFound: 'Encontrado', statusNotFound: 'No Encontrado', statusError: 'Error de Red' }
 };
 const useTranslations = () => translations.es;
 
 
-// --- COMPONENTS ---
+// --- 6. COMPONENTES ---
 
-// --- FIX: Add prop types for component
-interface LoaderProps {
-    text?: string;
-}
+/**
+ * COMENTARIO DIDÁCTICO: Componentes Funcionales y Props
+ *
+ * `Loader` es un "componente funcional". En React moderno, casi todos los componentes son funciones.
+ * - Recibe un objeto de `props` (propiedades) como argumento.
+ * - Devuelve JSX que describe qué debe renderizar.
+ * - `React.FC<LoaderProps>`: Usamos TypeScript para definir la "forma" de las props.
+ *   `FC` significa Functional Component. Esto nos da autocompletado y verificación de tipos para las props.
+ * - `aria-label`: Un atributo de accesibilidad importante. Proporciona una etiqueta textual para
+ *   elementos no textuales (como nuestro spinner), para que los lectores de pantalla puedan describirlo.
+ */
+interface LoaderProps { text?: string; }
 const Loader: React.FC<LoaderProps> = ({ text = '' }) => {
     const t = useTranslations();
     return (
@@ -349,29 +360,54 @@ const Loader: React.FC<LoaderProps> = ({ text = '' }) => {
     );
 };
 
-// --- FIX: Add prop types for component
-interface NetworkIndicatorProps {
-    network: NetworkInfo | null;
-    onSwitch: (chainId: string) => void;
-}
+interface NetworkIndicatorProps { network: NetworkInfo | null; onSwitch: (chainId: string) => void; }
 const NetworkIndicator: React.FC<NetworkIndicatorProps> = ({ network, onSwitch }) => {
     const t = useTranslations();
+    // COMENTARIO DIDÁCTICO: El Hook `useState`
+    // `useState` nos permite añadir "estado" a un componente funcional. El estado son datos que
+    // pueden cambiar con el tiempo y que, cuando cambian, provocan que el componente se vuelva a renderizar.
+    // - `isOpen`: Es la variable de estado.
+    // - `setIsOpen`: Es la función para actualizar esa variable.
+    // - `useState(false)`: `false` es el valor inicial del estado.
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-    const isSupported = network && SUPPORTED_NETWORKS[network.chainId as keyof typeof SUPPORTED_NETWORKS];
 
+    // COMENTARIO DIDÁCTICO: El Hook `useRef`
+    // `useRef` puede usarse para obtener una referencia directa a un elemento del DOM.
+    // A diferencia del estado, cambiar una `ref` NO provoca una nueva renderización.
+    // Aquí lo usamos para detectar clics fuera del dropdown y poder cerrarlo.
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // COMENTARIO DIDÁCTICO: El Hook `useEffect`
+    // `useEffect` nos permite ejecutar "efectos secundarios" en nuestros componentes.
+    // Un efecto secundario es cualquier código que afecta a algo fuera del propio componente,
+    // como suscripciones, timers, o manipulación directa del DOM (como añadir un event listener).
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
+            // Si el clic fue fuera del elemento referenciado por `dropdownRef`, cerramos el menú.
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
+        // Añadimos el listener cuando el componente se monta.
         document.addEventListener('mousedown', handleClickOutside);
+        // COMENTARIO DIDÁCTICO: La Función de Limpieza de `useEffect`
+        // La función que se retorna desde `useEffect` es la "función de limpieza".
+        // React la ejecuta cuando el componente se "desmonta" (se elimina de la UI).
+        // Es crucial para evitar "memory leaks" (fugas de memoria), como tener event listeners
+        // que siguen existiendo después de que el componente ha desaparecido.
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, []); // El array vacío `[]` significa que este efecto solo se ejecuta una vez, al montar el componente.
 
     if (!network) return null;
 
+    // FIX: Define isSupported to check if the current network is in the list of supported networks.
+    const isSupported = network.name !== t.unsupportedNetwork;
+
+    // COMENTARIO DIDÁCTICO: Renderizado Condicional
+    // En JSX, podemos usar operadores de JavaScript como el ternario (`condición ? A : B`) o el `&&`
+    // para decidir qué renderizar.
+    // - `isSupported ? 'supported' : 'unsupported'`: Cambia la clase CSS basado en una condición.
+    // - `isOpen && (...)`: El dropdown solo se renderiza si `isOpen` es `true`.
     return (
         <div className="network-indicator" ref={dropdownRef}>
             <button className={`network-button ${isSupported ? 'supported' : 'unsupported'}`} onClick={() => setIsOpen(!isOpen)}>
@@ -399,14 +435,7 @@ const NetworkIndicator: React.FC<NetworkIndicatorProps> = ({ network, onSwitch }
     );
 };
 
-// --- FIX: Add prop types for component
-interface HeaderProps {
-    walletAddress: string;
-    onConnect: () => void;
-    setPage: (page: PageState) => void;
-    network: NetworkInfo | null;
-    onSwitchNetwork: (chainId: string) => void;
-}
+interface HeaderProps { walletAddress: string; onConnect: () => void; setPage: (page: PageState) => void; network: NetworkInfo | null; onSwitchNetwork: (chainId: string) => void; }
 const Header: React.FC<HeaderProps> = ({ walletAddress, onConnect, setPage, network, onSwitchNetwork }) => {
     const t = useTranslations();
     return (
@@ -434,11 +463,7 @@ const Header: React.FC<HeaderProps> = ({ walletAddress, onConnect, setPage, netw
     );
 };
 
-// --- FIX: Add prop types for component
-interface ArtCardProps {
-    art: Art;
-    onSelect: (id: number) => void;
-}
+interface ArtCardProps { art: Art; onSelect: (id: number) => void; }
 const ArtCard: React.FC<ArtCardProps> = ({ art, onSelect }) => {
     return (
         <div className="art-card" onClick={() => onSelect(art.id)}>
@@ -456,14 +481,20 @@ const ArtCard: React.FC<ArtCardProps> = ({ art, onSelect }) => {
     );
 };
 
-// --- FIX: Add prop types for component
-interface ArtGalleryProps {
-    catalog: Art[];
-    onSelectArt: (id: number) => void;
-}
+interface ArtGalleryProps { catalog: Art[]; onSelectArt: (id: number) => void; }
 const ArtGallery: React.FC<ArtGalleryProps> = ({ catalog, onSelectArt }) => {
     return (
         <div className="art-gallery-grid">
+            {/*
+              COMENTARIO DIDÁCTICO: Renderizando Listas con `.map()` y la Prop `key`
+
+              Para renderizar una lista de elementos en React, lo común es usar el método `.map()` de los arrays.
+              - `catalog.map(art => ...)`: Itera sobre cada `art` en el `catalog` y devuelve un componente `<ArtCard>` por cada uno.
+              - `key={art.id}`: La prop `key` es crucial. React la utiliza para identificar de forma única cada
+                elemento en la lista. Esto le permite optimizar las actualizaciones, inserciones y eliminaciones
+                de elementos sin tener que volver a renderizar toda la lista. La `key` debe ser un string o
+                número único y estable entre renderizados. El `id` del elemento es la elección perfecta.
+            */}
             {catalog.map(art => (
                 <React.Fragment key={art.id}>
                     <ArtCard art={art} onSelect={onSelectArt} />
@@ -473,12 +504,7 @@ const ArtGallery: React.FC<ArtGalleryProps> = ({ catalog, onSelectArt }) => {
     );
 };
 
-// --- FIX: Add prop types for component
-interface ArtDetailProps {
-    art: Art;
-    onBack: () => void;
-    setPage: (page: PageState) => void;
-}
+interface ArtDetailProps { art: Art; onBack: () => void; setPage: (page: PageState) => void; }
 const ArtDetail: React.FC<ArtDetailProps> = ({ art, onBack, setPage }) => {
     const t = useTranslations();
     return (
@@ -508,37 +534,16 @@ const ArtDetail: React.FC<ArtDetailProps> = ({ art, onBack, setPage }) => {
     );
 };
 
-// --- FIX: Add specific types for verification result state
+// Tipos más específicos para el estado del resultado de la verificación.
 type NetworkFromSupported = typeof SUPPORTED_NETWORKS[keyof typeof SUPPORTED_NETWORKS];
 interface VerificationSuccess {
     art: Art | { title: string, artist: string };
-    ownership: {
-        owner: string;
-        lastTransfer: { from: string, to: string } | null;
-        network: NetworkFromSupported;
-        metadata?: {
-            name?: string;
-            description?: string;
-            image?: string;
-        }
-    }
+    ownership: { owner: string; lastTransfer: { from: string, to: string } | null; network: NetworkFromSupported; metadata?: { name?: string; description?: string; image?: string; } }
 }
-interface VerificationError {
-    error: string;
-    searchLog?: { network: string, status: string }[];
-}
+interface VerificationError { error: string; searchLog?: { network: string, status: string }[]; }
 type VerificationResult = VerificationSuccess | VerificationError | null;
 
-// --- FIX: Add prop types for component
-interface VerificationPortalProps {
-    initialTokenId?: string;
-    initialContractAddress?: string;
-    walletAddress: string;
-    onConnect: () => void;
-    catalog: Art[];
-    setPage: (page: PageState) => void;
-}
-
+interface VerificationPortalProps { initialTokenId?: string; initialContractAddress?: string; walletAddress: string; onConnect: () => void; catalog: Art[]; setPage: (page: PageState) => void; }
 const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId = '', initialContractAddress = '', walletAddress, onConnect, catalog, setPage }) => {
     const t = useTranslations();
     const [tokenIdInput, setTokenIdInput] = useState(initialTokenId);
@@ -549,11 +554,13 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
     const [showHelp, setShowHelp] = useState(false);
     const helpRef = useRef<HTMLDivElement>(null);
 
+    // Este `useEffect` se dispara si el componente se renderiza con un `initialTokenId`,
+    // por ejemplo, al venir desde la página de detalle de una obra.
     useEffect(() => {
         if (initialTokenId && initialContractAddress) {
             handleMultiNetworkVerification();
         }
-    }, [initialTokenId, initialContractAddress]);
+    }, [initialTokenId, initialContractAddress]); // El array de dependencias asegura que solo se ejecute si estos valores cambian.
 
      useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -581,6 +588,7 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
         let foundOwnership = null;
         const searchLog: { network: string, status: string }[] = [];
 
+        // Itera sobre todas las redes soportadas para buscar el NFT.
         for (const network of Object.values(SUPPORTED_NETWORKS)) {
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
             const ownershipResult = await getOwnershipDetails(cleanContractAddress, cleanTokenId, network);
@@ -588,10 +596,10 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             if (ownershipResult.status === 'found') {
                 foundOwnership = { ...ownershipResult.data, network };
                 searchLog.push({ network: network.name, status: t.statusFound });
-                break; // Detener la búsqueda al encontrar el primer resultado
+                break; // Detiene la búsqueda al encontrar el primer resultado.
             } else if (ownershipResult.status === 'not_found') {
                 searchLog.push({ network: network.name, status: t.statusNotFound });
-            } else { // 'error'
+            } else {
                 searchLog.push({ network: network.name, status: t.statusError });
             }
         }
@@ -599,10 +607,7 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
         if (foundOwnership) {
             const art = cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
                 ? catalog.find(a => a.tokenId === cleanTokenId)
-                : { 
-                    title: foundOwnership.metadata?.name || `Token ID: ${cleanTokenId}`, 
-                    artist: `Contrato: ${cleanContractAddress}` 
-                  };
+                : { title: foundOwnership.metadata?.name || `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
             setResult({ art: art!, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound, searchLog });
@@ -612,19 +617,12 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
     };
     
     const renderHistory = () => {
-        if (!result || 'error' in result || !result.ownership || !result.ownership.lastTransfer) {
-            return null;
-        }
-
+        if (!result || 'error' in result || !result.ownership || !result.ownership.lastTransfer) return null;
         const { lastTransfer } = result.ownership;
-        const isMint = lastTransfer.from === ethers.ZeroAddress;
-
+        const isMint = lastTransfer.from === ethers.ZeroAddress; // Una transferencia desde la dirección cero significa que el token fue creado (acuñado).
         return (
             <div className="history-item">
-                <p>
-                    <strong>{t.from}</strong> 
-                    {isMint ? <span className="mint-event">{t.mintEvent}</span> : lastTransfer.from}
-                </p>
+                <p><strong>{t.from}</strong> {isMint ? <span className="mint-event">{t.mintEvent}</span> : lastTransfer.from}</p>
                 <p><strong>{t.to}</strong> {lastTransfer.to}</p>
             </div>
         );
@@ -634,27 +632,14 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
         <div className="verification-portal">
             <h1>{t.verifyTitle}</h1>
             <p>{t.verifyDescription}</p>
-            
             <div className="verifier-box">
                 <h2>{t.verifyByTokenId}</h2>
                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        value={contractAddressInput}
-                        onChange={(e) => setContractAddressInput(e.target.value)}
-                        placeholder={t.contractAddressPlaceholder}
-                        disabled={isVerifying}
-                    />
+                    <input type="text" value={contractAddressInput} onChange={(e) => setContractAddressInput(e.target.value)} placeholder={t.contractAddressPlaceholder} disabled={isVerifying} />
                 </div>
                  <div className="form-group-wrapper" ref={helpRef}>
                     <div className="form-group">
-                        <input 
-                            type="text" 
-                            value={tokenIdInput}
-                            onChange={(e) => setTokenIdInput(e.target.value)}
-                            placeholder={t.tokenIdPlaceholder}
-                            disabled={isVerifying}
-                        />
+                        <input type="text" value={tokenIdInput} onChange={(e) => setTokenIdInput(e.target.value)} placeholder={t.tokenIdPlaceholder} disabled={isVerifying} />
                          <button onClick={handleMultiNetworkVerification} disabled={isVerifying || !tokenIdInput || !contractAddressInput}>{t.verify}</button>
                     </div>
                     <div className="verifier-help-trigger" onClick={() => setShowHelp(!showHelp)} title={t.howToFindTokenId}>?</div>
@@ -669,7 +654,6 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             </div>
 
             {isVerifying && <Loader text={verifyingMessage} />}
-
             {result && (
                  <div className={`verification-result ${'error' in result ? 'error' : ''}`}>
                     <h3>{t.verificationResult}</h3>
@@ -679,61 +663,50 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                             {result.searchLog && (
                                 <div className="search-log">
                                     <h4>{t.searchLogTitle}</h4>
-                                    <ul>
-                                        {result.searchLog.map(log => (
-                                            <li key={log.network}>
-                                                {log.network}: <span className={`status-${log.status.toLowerCase().replace(/\s+/g, '-')}`}>{log.status}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <ul>{result.searchLog.map(log => (<li key={log.network}>{log.network}: <span className={`status-${log.status.toLowerCase().replace(/\s+/g, '-')}`}>{log.status}</span></li>))}</ul>
                                 </div>
                             )}
                         </>
                     ) : (
                         <>
-                           {result.ownership.metadata?.image && (
-                                <div className="verification-image-wrapper">
-                                    <img src={result.ownership.metadata.image} alt={result.art.title} className="verification-image" />
-                                </div>
-                           )}
+                           {result.ownership.metadata?.image && (<div className="verification-image-wrapper"><img src={result.ownership.metadata.image} alt={result.art.title} className="verification-image" /></div>)}
                            <p><strong>{result.art.title}</strong></p>
                            <p className="owner-info"><em>{result.art.artist}</em></p>
-                           {result.ownership.metadata?.description && (
-                                <p className="metadata-description">{result.ownership.metadata.description}</p>
-                           )}
+                           {result.ownership.metadata?.description && (<p className="metadata-description">{result.ownership.metadata.description}</p>)}
                            <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
                            <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
                            <h4>{t.history}</h4>
                            {renderHistory()}
-                           <a 
-                             href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`}
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             className="explorer-link"
-                           >
-                             {t.viewOnExplorer}
-                           </a>
+                           <a href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`} target="_blank" rel="noopener noreferrer" className="explorer-link">{t.viewOnExplorer}</a>
                         </>
                     )}
                  </div>
             )}
-            
             <div className="separator">{t.or}</div>
-
             <div className="verifier-box">
                 <h2>{t.myCollection}</h2>
-                {walletAddress ? (
-                    <p className="disabled-feature-notice">{t.myCollectionDisabled}</p>
-                ) : (
-                    <button onClick={onConnect} className="connect-wallet-btn">{t.connectToSee}</button>
-                )}
+                {walletAddress ? (<p className="disabled-feature-notice">{t.myCollectionDisabled}</p>) : (<button onClick={onConnect} className="connect-wallet-btn">{t.connectToSee}</button>)}
             </div>
         </div>
     );
 };
 
+interface CyberpunkEasterEggProps { onClose: () => void; }
+const CyberpunkEasterEgg: React.FC<CyberpunkEasterEggProps> = ({ onClose }) => {
+    const lines = [ "// ACCEDIENDO A CORE_IDENTITY.SYS...", "// CONEXIÓN ESTABLECIDA. DESCIFRANDO MANIFESTO...", "> En la intersección del arte y el código, nosotros existimos.", "> Misión: Vincular la expresión humana a la verdad inmutable de la cadena de bloques.", "> Somos un colectivo de creadores y tecnólogos que creen que la procedencia es un derecho, no un privilegio.", "> Cada token es una promesa. Cada transacción, una historia.", "> Has vislumbrado el código fuente de nuestra convicción.", "> El futuro del arte es verificable.", "// FIN DE LA TRANSMISIÓN." ];
+    return (
+        <div className="easter-egg-overlay" onClick={onClose}>
+            <div className="scanline-effect"></div>
+            <div className="easter-egg-content" onClick={(e) => e.stopPropagation()}>
+                {lines.map((line, index) => <p key={index}>{line}</p>)}
+                <button onClick={onClose} className="easter-egg-_close-btn">[ SALIR ]</button>
+            </div>
+        </div>
+    );
+};
 
-const Footer = () => {
+// FIX: Define the Footer component.
+const Footer: React.FC = () => {
     const t = useTranslations();
     return (
         <footer className="app-footer">
@@ -742,37 +715,21 @@ const Footer = () => {
     );
 };
 
-// --- FIX: Add prop types for component
-interface CyberpunkEasterEggProps {
-    onClose: () => void;
-}
-const CyberpunkEasterEgg: React.FC<CyberpunkEasterEggProps> = ({ onClose }) => {
-    const lines = [
-        "// ACCEDIENDO A CORE_IDENTITY.SYS...",
-        "// CONEXIÓN ESTABLECIDA. DESCIFRANDO MANIFESTO...",
-        "> En la intersección del arte y el código, nosotros existimos.",
-        "> Misión: Vincular la expresión humana a la verdad inmutable de la cadena de bloques.",
-        "> Somos un colectivo de creadores y tecnólogos que creen que la procedencia es un derecho, no un privilegio.",
-        "> Cada token es una promesa. Cada transacción, una historia.",
-        "> Has vislumbrado el código fuente de nuestra convicción.",
-        "> El futuro del arte es verificable.",
-        "// FIN DE LA TRANSMISIÓN."
-    ];
-
-    return (
-        <div className="easter-egg-overlay" onClick={onClose}>
-            <div className="scanline-effect"></div>
-            <div className="easter-egg-content" onClick={(e) => e.stopPropagation()}>
-                {lines.map((line, index) => <p key={index}>{line}</p>)}
-                <button onClick={onClose} className="easter-egg-close-btn">[ SALIR ]</button>
-            </div>
-        </div>
-    );
-};
-
-
+// --- 7. COMPONENTE PRINCIPAL (APP) ---
+/**
+ * COMENTARIO DIDÁCTICO: El Componente Orquestador (`App`)
+ *
+ * `App` es el componente de más alto nivel. No renderiza mucha UI por sí mismo, sino que
+ * su principal responsabilidad es:
+ * 1. Manejar el estado global de la aplicación: Qué página se está mostrando (`page`),
+ *    la dirección de la wallet conectada (`walletAddress`), la red actual (`network`), etc.
+ * 2. Contener la lógica principal de la aplicación: Funciones como `handleConnectWallet`
+ *    que modifican el estado global.
+ * 3. Pasar el estado y las funciones a los componentes hijos a través de props. Este patrón
+ *    se conoce como "levantar el estado" (lifting state up).
+ * 4. Orquestar qué componente de página se debe renderizar basado en el estado actual (`renderPage`).
+ */
 const App = () => {
-    // --- FIX: Add specific types for React state hooks
     const [page, setPage] = useState<PageState>({ name: 'gallery' });
     const [walletAddress, setWalletAddress] = useState('');
     const [network, setNetwork] = useState<NetworkInfo | null>(null);
@@ -787,74 +744,81 @@ const App = () => {
         const net = await provider.getNetwork();
         const chainId = `0x${net.chainId.toString(16)}`;
         const networkInfo = Object.values(SUPPORTED_NETWORKS).find(n => n.chainId === chainId);
-        setNetwork({
-            chainId,
-            name: networkInfo ? networkInfo.name : t.unsupportedNetwork
-        });
+        setNetwork({ chainId, name: networkInfo ? networkInfo.name : t.unsupportedNetwork });
     };
     
     useEffect(() => {
-        if(walletAddress) {
-            updateNetwork();
-        }
+        if(walletAddress) updateNetwork();
         if (window.ethereum) {
-            const handleChainChanged = () => window.location.reload(); // Simple reload on network change
+            // MetaMask emite este evento cuando el usuario cambia de red.
+            const handleChainChanged = () => window.location.reload(); // La forma más simple de manejarlo es recargar la app.
             window.ethereum.on('chainChanged', handleChainChanged);
             return () => window.ethereum.removeListener('chainChanged', handleChainChanged);
         }
     }, [walletAddress, t.unsupportedNetwork]);
     
-    // Carga inicial de la app
+    // `useEffect` para la carga inicial de datos.
     useEffect(() => {
         const initializeApp = async () => {
-            console.log("Inicializando aplicación...");
             try {
-                // Obtenemos el total supply de nuestro contrato para mostrar solo los NFTs "acuñados"
+                // Filtramos el catálogo para mostrar solo los NFTs que han sido "acuñados" (existen on-chain).
                 const totalSupply = await getTotalSupply();
-                if (totalSupply > 0) {
-                    const availableArt = artCatalog.filter(art => parseInt(art.tokenId, 10) <= totalSupply);
-                    setCatalog(availableArt);
-                } else {
-                    console.warn("Conectado, pero el total supply del contrato es 0. Mostrando catálogo completo como vista previa.");
-                    setCatalog(artCatalog);
-                }
+                setCatalog(totalSupply > 0 ? artCatalog.filter(art => parseInt(art.tokenId, 10) <= totalSupply) : artCatalog);
             } catch (error) {
-                console.error("No se pudo conectar a la blockchain para obtener el total supply. Mostrando catálogo en modo vista previa.", error);
+                console.error("No se pudo conectar a la blockchain. Mostrando catálogo en modo vista previa.", error);
                 setCatalog(artCatalog);
             }
             setIsLoading(false);
         };
-
         initializeApp();
+    }, []); // El `[]` asegura que esto se ejecute solo una vez.
 
-    }, []);
-
-    // Listener para el código Konami del Easter Egg
+    // `useEffect` para el "easter egg".
     useEffect(() => {
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let index = 0;
-        const keyHandler = (event: KeyboardEvent) => {
-            if (event.key.toLowerCase() === konamiCode[index].toLowerCase()) {
+        let touchStartX = 0, touchStartY = 0;
+    
+        const processInput = (key: string) => {
+            if (key.toLowerCase() === konamiCode[index].toLowerCase()) {
                 index++;
                 if (index === konamiCode.length) {
                     setShowEasterEgg(true);
                     index = 0;
                 }
-            } else {
-                index = 0;
-            }
+            } else { index = 0; }
         };
+
+        const keyHandler = (event: KeyboardEvent) => processInput(event.key);
+        const touchStartHandler = (event: TouchEvent) => {
+            touchStartX = event.changedTouches[0].screenX;
+            touchStartY = event.changedTouches[0].screenY;
+            if (event.touches.length === 2) processInput('b'); // Dos dedos para 'B'
+        };
+        const touchEndHandler = (event: TouchEvent) => {
+            const deltaX = event.changedTouches[0].screenX - touchStartX;
+            const deltaY = event.changedTouches[0].screenY - touchStartY;
+            const swipeThreshold = 50;
+            if (Math.abs(deltaX) > swipeThreshold || Math.abs(deltaY) > swipeThreshold) {
+                if (Math.abs(deltaX) > Math.abs(deltaY)) processInput(deltaX > 0 ? 'ArrowRight' : 'ArrowLeft');
+                else processInput(deltaY > 0 ? 'ArrowDown' : 'ArrowUp');
+            } else if (event.touches.length === 0) processInput('a'); // Un toque para 'A'
+        };
+
         window.addEventListener('keydown', keyHandler);
+        window.addEventListener('touchstart', touchStartHandler);
+        window.addEventListener('touchend', touchEndHandler);
+
         return () => {
             window.removeEventListener('keydown', keyHandler);
+            window.removeEventListener('touchstart', touchStartHandler);
+            window.removeEventListener('touchend', touchEndHandler);
         };
     }, []);
 
     const handleConnectWallet = async () => {
         const address = await connectWallet();
-        if (address) {
-            setWalletAddress(address);
-        }
+        if (address) setWalletAddress(address);
     };
     
     const handleSwitchNetwork = async (chainId: string) => {
@@ -868,14 +832,7 @@ const App = () => {
                 if (!art) return <ArtGallery catalog={catalog} onSelectArt={(id) => setPage({ name: 'detail', id })} />;
                 return <ArtDetail art={art} onBack={() => setPage({ name: 'gallery' })} setPage={setPage} />;
             case 'verify':
-                return <VerificationPortal 
-                    initialTokenId={page.tokenId}
-                    initialContractAddress={page.contractAddress}
-                    walletAddress={walletAddress} 
-                    onConnect={handleConnectWallet} 
-                    catalog={catalog}
-                    setPage={setPage}
-                />;
+                return <VerificationPortal initialTokenId={page.tokenId} initialContractAddress={page.contractAddress} walletAddress={walletAddress} onConnect={handleConnectWallet} catalog={catalog} setPage={setPage} />;
             case 'gallery':
             default:
                 return <ArtGallery catalog={catalog} onSelectArt={(id) => setPage({ name: 'detail', id })} />;
@@ -883,16 +840,11 @@ const App = () => {
     };
 
     return (
+        // `React.Fragment` (`<>`) nos permite devolver múltiples elementos sin añadir un nodo extra al DOM.
         <>
             {showEasterEgg && <CyberpunkEasterEgg onClose={() => setShowEasterEgg(false)} />}
             <div className="app-container">
-                <Header 
-                    walletAddress={walletAddress} 
-                    onConnect={handleConnectWallet} 
-                    setPage={setPage}
-                    network={network}
-                    onSwitchNetwork={handleSwitchNetwork}
-                />
+                <Header walletAddress={walletAddress} onConnect={handleConnectWallet} setPage={setPage} network={network} onSwitchNetwork={handleSwitchNetwork} />
                 <main>
                     {isLoading ? <Loader text={t.loading} /> : renderPage()}
                 </main>
@@ -902,5 +854,15 @@ const App = () => {
     );
 };
 
+// --- 8. RENDERIZADO DE LA APLICACIÓN ---
+/**
+ * COMENTARIO DIDÁCTICO: El "Root" de la Aplicación
+ *
+ * Esta es la línea que conecta nuestra aplicación de React con el archivo HTML.
+ * - `ReactDOM.createRoot()`: Crea una "raíz" de renderizado de React en el elemento del DOM
+ *   con el id 'root' (que definimos en `index.html`).
+ * - `.render(<App />)`: Le dice a React que renderice nuestro componente `App` principal
+ *   (y todos sus componentes hijos) dentro de esa raíz.
+ */
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<App />);

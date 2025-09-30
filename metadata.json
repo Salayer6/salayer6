@@ -3,3 +3,20 @@
   "description": "smn+",
   "requestFramePermissions": []
 }
+
+// COMENTARIO DIDÁCTICO: El Propósito del Archivo `metadata.json`
+//
+// Este archivo es específico de la plataforma o entorno en el que se está ejecutando la aplicación.
+// A menudo, los entornos de desarrollo web en línea o ciertos frameworks lo utilizan para
+// configurar metadatos sobre el proyecto.
+//
+// - `name`: Un nombre legible para la aplicación.
+// - `description`: Una breve descripción de lo que hace la aplicación.
+// - `requestFramePermissions`: Esta es una clave importante. Se utiliza para solicitar
+//   permisos del navegador de forma declarativa. Si nuestra aplicación necesitara
+//   acceder a la cámara o al micrófono del usuario, lo especificaríamos aquí.
+//   Por ejemplo:
+//   "requestFramePermissions": [ "camera", "microphone" ]
+//
+//   Como nuestra aplicación actual no necesita estos permisos, el array está vacío.
+//   Mantenerlo vacío es una buena práctica de seguridad (principio de mínimo privilegio).
