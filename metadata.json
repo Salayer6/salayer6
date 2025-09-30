@@ -3,7 +3,6 @@
   "description": "smn+",
   "requestFramePermissions": []
 }
-
 // COMENTARIO DIDÁCTICO: El Propósito del Archivo `metadata.json`
 //
 // Este archivo es específico de la plataforma o entorno en el que se está ejecutando la aplicación.
