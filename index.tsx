@@ -699,7 +699,7 @@ const CyberpunkEasterEgg: React.FC<CyberpunkEasterEggProps> = ({ onClose }) => {
             <div className="scanline-effect"></div>
             <div className="easter-egg-content" onClick={(e) => e.stopPropagation()}>
                 {lines.map((line, index) => <p key={index}>{line}</p>)}
-                <button onClick={onClose} className="easter-egg-_close-btn">[ SALIR ]</button>
+                <button onClick={onClose} className="easter-egg-close-btn">[ SALIR ]</button>
             </div>
         </div>
     );
