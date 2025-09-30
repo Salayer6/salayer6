@@ -540,14 +540,6 @@ main {
     font-size: 1rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-}
-.verification-result h5 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
 }
 
 
@@ -555,34 +547,31 @@ main {
     font-family: monospace;
     font-size: 0.9rem;
     word-break: break-all;
-    margin: 0.5rem 0;
 }
-.owner-info strong {
-    font-family: var(--font-family-sans);
-    font-weight: 600;
-    display: inline-block;
-    min-width: 200px;
+
+.verification-image-wrapper {
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.verification-image {
+    display: block;
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain; /* Usar contain para ver la imagen completa */
+    background-color: var(--surface-color);
+}
+
+.metadata-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1rem 0 1.5rem 0;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
     color: var(--text-secondary-color);
-}
-
-/* --- Address Display Refactor --- */
-.address-mono {
-    font-family: var(--font-family-mono);
-    word-break: break-all;
-}
-
-.address-display.member {
-    font-weight: 500;
-    color: var(--primary-color);
-    font-family: var(--font-family-sans);
-}
-
-.member-address {
-    font-family: var(--font-family-mono);
-    font-weight: normal;
-    color: var(--text-secondary-color);
-    font-size: 0.9em;
-    margin-left: 0.25rem;
+    white-space: pre-wrap;
 }
 
 
@@ -593,9 +582,6 @@ main {
     border-radius: 6px;
     display: inline-block;
     margin-bottom: 1rem;
-}
-.network-info strong {
-    font-weight: 500;
 }
 
 .history-item {
@@ -615,7 +601,6 @@ main {
     color: var(--text-secondary-color);
     display: inline-block;
     min-width: 50px;
-    font-family: var(--font-family-sans);
 }
 
 .mint-event {
@@ -673,73 +658,6 @@ main {
     color: var(--danger-color);
     font-weight: 600;
 }
-
-/* New Verification Result Sections */
-.catalog-info-section {
-    background-color: var(--surface-color);
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-}
-.catalog-info-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-.catalog-info-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-}
-.catalog-info-image-placeholder {
-    width: 80px;
-    height: 80px;
-    background-color: var(--background-color);
-    border: 1px dashed var(--border-color);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    color: var(--text-secondary-color);
-    text-align: center;
-    padding: 0.25rem;
-}
-.catalog-info-text p {
-    margin: 0;
-}
-.catalog-info-text .artist-name {
-    color: var(--text-secondary-color);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-}
-.catalog-info-text a {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--primary-color);
-    text-decoration: none;
-}
-.catalog-info-text a:hover {
-    text-decoration: underline;
-}
-
-.metadata-error {
-    font-size: 0.9rem;
-    color: var(--text-secondary-color);
-    font-style: italic;
-    background-color: var(--background-color);
-    padding: 1rem;
-    border-radius: 6px;
-    border: 1px dashed var(--border-color);
-    text-align: center;
-}
-
-.blockchain-data-section {
-    padding-top: 1rem;
-}
-
 
 /* --- Footer --- */
 .app-footer {
@@ -854,5 +772,35 @@ main {
     }
     .art-detail-container {
         flex-direction: column;
+    }
+    .verification-portal h1 {
+        font-size: 1.75rem;
+    }
+    .verifier-box {
+        padding: 1.5rem 1rem;
+    }
+    .form-group-wrapper {
+        align-items: flex-start;
+    }
+    .form-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    .form-group input,
+    .form-group button {
+        width: 100%;
+    }
+    .verifier-help-box {
+        width: calc(100vw - 4rem);
+        max-width: 320px;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .verifier-help-box::after {
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .verification-result {
+        padding: 1rem;
     }
 }

@@ -25,7 +25,8 @@ const CONTRACT_ABI = [
     "function ownerOf(uint256 tokenId) view returns (address)",
     "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
     "function name() view returns (string)",
-    "function totalSupply() view returns (uint256)"
+    "function totalSupply() view returns (uint256)",
+    "function tokenURI(uint256 tokenId) view returns (string)"
 ];
 
 // 3. Redes Soportadas - Ahora con URL del explorador y RPCs de respaldo para Ethereum
@@ -129,65 +130,80 @@ const retryAsync = async <T,>(
 };
 
 /**
- * Obtiene los detalles de propiedad y la última transferencia de un NFT.
+ * Obtiene los detalles de propiedad, la última transferencia y la metadata de un NFT.
  * Refactorizado para ser resiliente: utiliza reintentos para las llamadas críticas a la red
- * y maneja con gracia los fallos en la obtención del historial de transacciones.
+ * y maneja con gracia los fallos en la obtención del historial de transacciones o metadata.
  * @param contractAddress La dirección del contrato del NFT.
  * @param tokenId El ID del token a verificar.
  * @param network La red específica en la que buscar.
  * @returns Un objeto con el estado de la búsqueda y los datos si se encuentra.
  */
 const getOwnershipDetails = async (contractAddress: string, tokenId: string, network: { name: string, rpcUrl: string | string[] }) => {
-    // Si la red tiene múltiples RPCs, usamos un FallbackProvider para resiliencia.
-    // Si no, un JsonRpcProvider normal.
     const provider = Array.isArray(network.rpcUrl)
         ? new ethers.FallbackProvider(network.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
         : new ethers.JsonRpcProvider(network.rpcUrl as string);
 
-    // Paso 1: Verificar si el contrato existe, con reintentos.
+    // Paso 1: Verificar si el contrato existe.
     try {
         const code = await retryAsync(() => provider.getCode(contractAddress));
         if (code === '0x') {
             return { status: 'not_found' };
         }
     } catch (error: any) {
-        console.error(`Error al verificar el código del contrato en ${network.name} después de varios intentos:`, error);
+        console.error(`Error al verificar el código del contrato en ${network.name}:`, error);
         return { status: 'error', message: `No se pudo conectar a ${network.name}.` };
     }
 
     const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
     let owner;
 
-    // Paso 2: Obtener propietario, con reintentos (Funcionalidad Principal).
+    // Paso 2: Obtener propietario (Funcionalidad Principal).
     try {
         owner = await retryAsync(() => contract.ownerOf(tokenId));
     } catch (error: any) {
         if (error.code === 'CALL_EXCEPTION' || (error.info?.error?.message || '').includes('owner query for nonexistent token')) {
             return { status: 'not_found' };
         }
-        console.error(`Error al obtener el propietario en ${network.name} después de varios intentos:`, error);
+        console.error(`Error al obtener el propietario en ${network.name}:`, error);
         return { status: 'error', message: error.message };
     }
 
-    // Paso 3: Obtener historial (Mejora, puede fallar sin detener la verificación). No necesita reintentos.
+    // Paso 3: Obtener historial (Mejora, puede fallar sin detener la verificación).
     let lastTransfer = null;
     try {
         const transferEvents = await contract.queryFilter(contract.filters.Transfer(null, null, tokenId), 0, 'latest');
         if (transferEvents.length > 0) {
             const latestEvent = transferEvents[transferEvents.length - 1] as ethers.EventLog;
             if (latestEvent.args) {
-                lastTransfer = {
-                    from: latestEvent.args.from,
-                    to: latestEvent.args.to,
-                };
+                lastTransfer = { from: latestEvent.args.from, to: latestEvent.args.to };
             }
         }
     } catch (error: any) {
-        console.warn(`No se pudo obtener el historial de transacciones en ${network.name}. Esto es común en nodos RPC públicos. La verificación de propiedad sigue siendo válida.`, error);
+        console.warn(`No se pudo obtener el historial en ${network.name}.`, error);
     }
 
-    // Éxito: Se encontró al menos el propietario.
-    return { status: 'found', data: { owner, lastTransfer } };
+    // Paso 4: Obtener metadata (tokenURI) (Mejora, puede fallar sin detener la verificación).
+    let metadata = null;
+    try {
+        const tokenURI = await contract.tokenURI(tokenId);
+        const metadataUrl = tokenURI.startsWith('ipfs://')
+            ? tokenURI.replace('ipfs://', 'https://ipfs.io/ipfs/')
+            : tokenURI;
+        
+        const response = await fetch(metadataUrl);
+        if (response.ok) {
+            const data = await response.json();
+            const imageUrl = data.image && data.image.startsWith('ipfs://')
+                ? data.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+                : data.image;
+
+            metadata = { name: data.name, description: data.description, image: imageUrl };
+        }
+    } catch (error) {
+        console.warn(`No se pudo obtener la metadata (tokenURI) en ${network.name}.`, error);
+    }
+
+    return { status: 'found', data: { owner, lastTransfer, metadata } };
 };
 
 
@@ -500,6 +516,11 @@ interface VerificationSuccess {
         owner: string;
         lastTransfer: { from: string, to: string } | null;
         network: NetworkFromSupported;
+        metadata?: {
+            name?: string;
+            description?: string;
+            image?: string;
+        }
     }
 }
 interface VerificationError {
@@ -578,7 +599,10 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
         if (foundOwnership) {
             const art = cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
                 ? catalog.find(a => a.tokenId === cleanTokenId)
-                : { title: `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
+                : { 
+                    title: foundOwnership.metadata?.name || `Token ID: ${cleanTokenId}`, 
+                    artist: `Contrato: ${cleanContractAddress}` 
+                  };
             setResult({ art: art!, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound, searchLog });
@@ -667,8 +691,16 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                         </>
                     ) : (
                         <>
+                           {result.ownership.metadata?.image && (
+                                <div className="verification-image-wrapper">
+                                    <img src={result.ownership.metadata.image} alt={result.art.title} className="verification-image" />
+                                </div>
+                           )}
                            <p><strong>{result.art.title}</strong></p>
                            <p className="owner-info"><em>{result.art.artist}</em></p>
+                           {result.ownership.metadata?.description && (
+                                <p className="metadata-description">{result.ownership.metadata.description}</p>
+                           )}
                            <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
                            <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
                            <h4>{t.history}</h4>
