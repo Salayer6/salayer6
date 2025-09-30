@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <!-- `<!DOCTYPE html>` declara que este documento es un archivo HTML5. Es crucial para que los navegadores usen el modo de renderizado estándar y no un modo de compatibilidad antiguo ("quirks mode"). -->
 <html lang="es">
-  <!-- El tag `<html>` es la raíz de todo documento HTML. El atributo `lang="es"` es importante para la accesibilidad (los lectores de pantalla lo usan para la pronunciación) y para el SEO (motores de búsqueda). -->
+  <!-- El tag `<html>` es la raíz de todo documento HTML. El atributo `lang="es"` es importante para la accesibilidad (los lectores de pantalla lo usan para la pronunciación) y para el SEO (motores de búsqueda lo usan para saber el idioma principal). -->
   <head>
     <!--
       El `<head>` contiene metadatos sobre la página: información que no se muestra directamente
@@ -34,7 +34,7 @@
 
       La tipografía es un pilar del diseño. En lugar de depender de las fuentes del sistema (que varían mucho),
       importamos fuentes personalizadas desde servicios como Google Fonts.
-      - `preconnect`: Estas etiquetas le dicen al navegador que "caliente" una conexión a estos dominios antes de que realmente se necesiten los recursos. Es una optimización de rendimiento que puede acelerar la carga de las fuentes.
+      - `preconnect`: Estas etiquetas le dicen al navegador que "caliente" una conexión a estos dominios antes de que realmente se necesiten los recursos. Es una optimización de rendimiento que puede reducir la latencia.
       - `stylesheet`: Este es el enlace al archivo CSS de Google Fonts que define las familias de fuentes (`@font-face`) para que podamos usarlas en nuestro CSS.
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,7 +75,7 @@
   <body>
     <!-- El `<body>` contiene todo el contenido visible de la página web. -->
 
-    <noscript>↑, ↑, ↓, ↓, ←, →, ←, →, B, A <br> KONAMI ® </noscript>
+    <noscript>↑, ↑, ↓, ↓, ←, →, ←, →, B, A <br> KUMANI ® </noscript>
     <!--
       La etiqueta `<noscript>` es un fallback de accesibilidad. Su contenido solo se muestra si el usuario
       tiene JavaScript deshabilitado en su navegador. Es crucial para aplicaciones como la nuestra, que dependen
