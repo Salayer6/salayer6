@@ -20,13 +20,12 @@ declare global {
 // 1. LA DIRECCIÓN DEL CONTRATO (de nuestra galería, ahora usando un contrato real)
 const CONTRACT_ADDRESS = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Dirección del contrato de Bored Ape Yacht Club (BAYC)
 
-// 2. EL ABI (Application Binary Interface) - AÑADIMOS tokenURI
+// 2. EL ABI (Application Binary Interface)
 const CONTRACT_ABI = [
     "function ownerOf(uint256 tokenId) view returns (address)",
     "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
     "function name() view returns (string)",
-    "function totalSupply() view returns (uint256)",
-    "function tokenURI(uint256 tokenId) view returns (string)" // Estándar para metadatos
+    "function totalSupply() view returns (uint256)"
 ];
 
 // 3. Redes Soportadas - Ahora con URL del explorador y RPCs de respaldo para Ethereum
@@ -78,8 +77,22 @@ const getContract = (address: string, network: { rpcUrl: string | string[] } | n
  */
 const connectWallet = async (): Promise<string | null> => {
     if (typeof window.ethereum === 'undefined') {
-        alert("MetaMask no detectado. Por favor, instala la extensión de MetaMask.");
-        return null;
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // En dispositivos móviles, intenta abrir la aplicación MetaMask a través de un "deep link".
+            // El servicio de MetaMask redirigirá a la tienda de aplicaciones apropiada (App Store o Google Play) si la aplicación no está instalada.
+            const dappUrl = window.location.host.replace(/:\d+$/, ''); // Elimina el puerto para el deep link
+            const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
+            window.location.href = metamaskAppDeepLink;
+            return null; // La página redirigirá, no se necesita hacer más nada.
+        } else {
+            // En escritorio, informa al usuario y le ofrece ir a la página de descarga.
+            if (confirm("MetaMask no detectado. Para interactuar con la funcionalidad blockchain de este sitio, necesitas la extensión de MetaMask. ¿Quieres ir a la página de descarga oficial?")) {
+                window.open("https://metamask.io/download/", "_blank");
+            }
+            return null;
+        }
     }
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -177,46 +190,6 @@ const getOwnershipDetails = async (contractAddress: string, tokenId: string, net
     return { status: 'found', data: { owner, lastTransfer } };
 };
 
-/**
- * Obtiene los metadatos de un NFT (nombre, imagen, etc.) desde su tokenURI.
- * @param contract El contrato de ethers.js ya instanciado.
- * @param tokenId El ID del token.
- * @returns Un objeto con los metadatos o null si falla.
- */
-const getNFTMetadata = async (contract: ethers.Contract, tokenId: string) => {
-    try {
-        const tokenURI = await contract.tokenURI(tokenId);
-        
-        // Convierte URLs de IPFS a URLs HTTP públicas usando un proveedor más confiable.
-        const httpURI = tokenURI.startsWith('ipfs://')
-            ? tokenURI.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/')
-            : tokenURI;
-
-        const response = await fetch(httpURI);
-        if (!response.ok) {
-            console.error(`Error al obtener metadatos desde ${httpURI}:`, response.statusText);
-            return null;
-        }
-        
-        const metadata = await response.json();
-
-        // Normaliza la URL de la imagen (también podría ser IPFS)
-        if (metadata.image && metadata.image.startsWith('ipfs://')) {
-            metadata.image = metadata.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/');
-        }
-
-        return {
-            name: metadata.name || 'Sin Título',
-            description: metadata.description || 'Sin Descripción',
-            image: metadata.image || null
-        };
-
-    } catch (error) {
-        console.warn("No se pudieron obtener los metadatos del NFT:", error);
-        return null;
-    }
-};
-
 
 /**
  * Obtiene el número total de NFTs en la colección.
@@ -289,17 +262,12 @@ type PageState = {
 // --- FUENTE DE DATOS (Catálogo de la Galería) ---
 const artCatalog: Art[] = [
     { id: 1, tokenId: '1', title: 'Ecos Cósmicos', artist: 'Elena Valdés', priceCLP: '450.000', priceETH: '0.25', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjBwYWludGluZ3xlbnwwfHx8fDE3MTU2MzM4MTB8MA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una exploración vibrante de la creación y la destrucción en el universo, utilizando acrílicos sobre lienzo de 100x120cm.' },
-    { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlibrb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
-    { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-30057590f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
-    { id: 4, tokenId: '4', title: 'El Jardín Silente', artist: 'Elena Valdés', priceCLP: '750.000', priceETH: '0.42', imageUrl: 'https://images.unsplash.com/photo-1552554623-74b86f6580e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MjZ8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Capas de óleo que construyen un paisaje onírico y tranquilo, invitando a la introspección. Dimensiones 150x100cm.' },
-    { id: 5, tokenId: '5', title: 'Ritmo Quebrado', artist: 'Carlos Mendoza', priceCLP: '510.000', priceETH: '0.29', imageUrl: 'https://images.unsplash.com/photo-1502537233324-179a83446b23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MzB8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'La improvisación del jazz hecha pintura. Trazos enérgicos y colores contrastantes sobre lienzo.' },
-    { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib.rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
+    { id: 2, tokenId: '2', title: 'Frontera Líquida', artist: 'Javier Ríos', priceCLP: '620.000', priceETH: '0.35', imageUrl: 'https://images.unsplash.com/photo-1536924430914-94f33bd6a133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Obra que captura la tensión entre la calma y el caos, representada a través de fluidos de tinta sobre papel de alto gramaje.' },
+    { id: 3, tokenId: '3', title: 'Nostalgia Urbana', artist: 'Sofía Castillo', priceCLP: '380.000', priceETH: '0.21', imageUrl: 'https://images.unsplash.com/photo-1578301978018-30057590f48f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MTd8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODEwfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Un collage de emociones que evoca los recuerdos fragmentados de una ciudad bulliciosa. Técnica mixta sobre madera.' },
+    { id: 4, tokenId: '4', title: 'El Jardín Silente', artist: 'Elena Valdés', priceCLP: '750.000', priceETH: '0.42', imageUrl: 'https://images.unsplash.com/photo-1552554623-74b86f6580e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MjZ8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Capas de óleo que construyen un paisaje onírico y tranquilo, invitando a la introspección. Dimensiones 150x100cm.' },
+    { id: 5, tokenId: '5', title: 'Ritmo Quebrado', artist: 'Carlos Mendoza', priceCLP: '510.000', priceETH: '0.29', imageUrl: 'https://images.unsplash.com/photo-1502537233324-179a83446b23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8MzB8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'La improvisación del jazz hecha pintura. Trazos enérgicos y colores contrastantes sobre lienzo.' },
+    { id: 6, tokenId: '6', title: 'Amanecer Digital', artist: 'Javier Ríos', priceCLP: '890.000', priceETH: '0.50', imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTurlV7fDB8MXxzZWFyY2h8NDF8fGFic3RyYWN0JTIwcGFpbnRpbmd8ZW58MHx8fHwxNzE1NjMzODQxfDA&ixlib=rb-4.0.3&q=80&w=400', description: 'Una obra a gran escala que interpreta la fusión entre la naturaleza y la tecnología en la era moderna.' }
 ];
-
-// --- DATOS INTERNOS: Miembros de la Galería ---
-const galleryMembers: { [address: string]: { pseudonym: string } } = {
-    '0x95a57eff2bd0afaaa3898273c7a3213855541710': { pseudonym: 'Naxhito' },
-};
 
 // --- I18N ---
 const translations = {
@@ -343,49 +311,13 @@ const translations = {
         searchLogTitle: 'Registro de Búsqueda:',
         statusFound: 'Encontrado',
         statusNotFound: 'No Encontrado',
-        statusError: 'Error de Red',
-        blockchainDataTitle: 'Datos Verificados en Blockchain',
-        catalogInfoTitle: 'Información de Nuestro Catálogo',
-        nftMetadataTitle: 'Metadatos del NFT',
-        tokenId: 'Token ID:',
-        contractAddress: 'Dirección del Contrato:',
-        metadataError: 'No se pudieron cargar los metadatos. Esto puede ser un problema de la red o del servidor que aloja la información del NFT.'
+        statusError: 'Error de Red'
     }
 };
 const useTranslations = () => translations.es;
 
 
 // --- COMPONENTS ---
-
-/**
- * Renderiza una dirección de Ethereum, mostrando un seudónimo si pertenece a un miembro de la galería.
- * @param address La dirección a renderizar.
- * @param type 'full' para la dirección completa, 'short' para la versión acortada.
- * @returns Un elemento JSX.
- */
-const renderAddress = (address: string | undefined | null, type: 'full' | 'short' = 'full') => {
-    if (!address) return null;
-
-    const lowerCaseAddress = address.toLowerCase();
-    const member = galleryMembers[lowerCaseAddress];
-    const displayAddress = type === 'short'
-        ? `${address.substring(0, 6)}...${address.substring(address.length - 4)}`
-        : address;
-
-    if (member) {
-        return (
-            <span className="address-display member" title={address}>
-                {member.pseudonym} <span className="member-address">({displayAddress})</span>
-            </span>
-        );
-    }
-    
-    return (
-        <span className="address-mono" title={address}>
-            {displayAddress}
-        </span>
-    );
-};
 
 // --- FIX: Add prop types for component
 interface LoaderProps {
@@ -474,8 +406,8 @@ const Header: React.FC<HeaderProps> = ({ walletAddress, onConnect, setPage, netw
                 {walletAddress ? (
                     <div className="wallet-info">
                          <NetworkIndicator network={network} onSwitch={onSwitchNetwork} />
-                        <div className="wallet-address">
-                            {renderAddress(walletAddress, 'short')}
+                        <div className="wallet-address" title={walletAddress}>
+                            {`${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`}
                         </div>
                     </div>
                 ) : (
@@ -562,20 +494,13 @@ const ArtDetail: React.FC<ArtDetailProps> = ({ art, onBack, setPage }) => {
 
 // --- FIX: Add specific types for verification result state
 type NetworkFromSupported = typeof SUPPORTED_NETWORKS[keyof typeof SUPPORTED_NETWORKS];
-interface NFTMetadata {
-    name: string;
-    description: string;
-    image: string | null;
-}
 interface VerificationSuccess {
-    metadata: NFTMetadata | null; // Los metadatos reales del NFT.
+    art: Art | { title: string, artist: string };
     ownership: {
         owner: string;
         lastTransfer: { from: string, to: string } | null;
         network: NetworkFromSupported;
-    };
-    contractAddress: string;
-    tokenId: string;
+    }
 }
 interface VerificationError {
     error: string;
@@ -634,8 +559,6 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
 
         let foundOwnership = null;
         const searchLog: { network: string, status: string }[] = [];
-        let contractForMetadata: ethers.Contract | null = null;
-        let foundNetwork: NetworkFromSupported | null = null;
 
         for (const network of Object.values(SUPPORTED_NETWORKS)) {
             setVerifyingMessage(t.searchingOn.replace('{network}', network.name));
@@ -643,7 +566,6 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             
             if (ownershipResult.status === 'found') {
                 foundOwnership = { ...ownershipResult.data, network };
-                foundNetwork = network;
                 searchLog.push({ network: network.name, status: t.statusFound });
                 break; // Detener la búsqueda al encontrar el primer resultado
             } else if (ownershipResult.status === 'not_found') {
@@ -653,22 +575,11 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             }
         }
         
-        if (foundOwnership && foundNetwork) {
-            // Ahora que encontramos el dueño, intentamos obtener los metadatos
-            setVerifyingMessage("Obteniendo metadatos del NFT...");
-            const provider = Array.isArray(foundNetwork.rpcUrl)
-                ? new ethers.FallbackProvider(foundNetwork.rpcUrl.map(url => new ethers.JsonRpcProvider(url)))
-                : new ethers.JsonRpcProvider(foundNetwork.rpcUrl as string);
-            
-            const contract = new ethers.Contract(cleanContractAddress, CONTRACT_ABI, provider);
-            const metadata = await getNFTMetadata(contract, cleanTokenId);
-
-            setResult({
-                metadata,
-                ownership: foundOwnership,
-                contractAddress: cleanContractAddress,
-                tokenId: cleanTokenId
-            });
+        if (foundOwnership) {
+            const art = cleanContractAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() 
+                ? catalog.find(a => a.tokenId === cleanTokenId)
+                : { title: `Token ID: ${cleanTokenId}`, artist: `Contrato: ${cleanContractAddress}` };
+            setResult({ art: art!, ownership: foundOwnership });
         } else {
             setResult({ error: t.noArtFound, searchLog });
         }
@@ -688,9 +599,9 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
             <div className="history-item">
                 <p>
                     <strong>{t.from}</strong> 
-                    {isMint ? <span className="mint-event">{t.mintEvent}</span> : renderAddress(lastTransfer.from, 'full')}
+                    {isMint ? <span className="mint-event">{t.mintEvent}</span> : lastTransfer.from}
                 </p>
-                <p><strong>{t.to}</strong> {renderAddress(lastTransfer.to, 'full')}</p>
+                <p><strong>{t.to}</strong> {lastTransfer.to}</p>
             </div>
         );
     };
@@ -756,43 +667,20 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                         </>
                     ) : (
                         <>
-                           <div className="catalog-info-section">
-                                <h4>{t.nftMetadataTitle}</h4>
-                                {result.metadata ? (
-                                    <div className="catalog-info-content">
-                                        {result.metadata.image 
-                                            ? <img src={result.metadata.image} alt={result.metadata.name} className="catalog-info-image" />
-                                            : <div className="catalog-info-image-placeholder">Sin imagen</div>
-                                        }
-                                        <div className="catalog-info-text">
-                                            <p><strong>{result.metadata.name}</strong></p>
-                                            <p className="artist-name"><em>{result.metadata.description}</em></p>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <p className="metadata-error">{t.metadataError}</p>
-                                )}
-                           </div>
-
-                           <div className="blockchain-data-section">
-                                <h4>{t.blockchainDataTitle}</h4>
-                                <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
-                                <p className="owner-info"><strong>{t.tokenId}</strong> {result.tokenId}</p>
-                                <p className="owner-info"><strong>{t.contractAddress}</strong> <span className="address-mono" title={result.contractAddress}>{result.contractAddress}</span></p>
-                                <p className="owner-info"><strong>{t.owner}</strong> {renderAddress(result.ownership.owner, 'full')}</p>
-                                
-                                <h5>{t.history}</h5>
-                                {renderHistory() || <p>No se encontró historial de transferencias.</p>}
-                                
-                                <a 
-                                    href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`}
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="explorer-link"
-                                >
-                                    {t.viewOnExplorer}
-                                </a>
-                           </div>
+                           <p><strong>{result.art.title}</strong></p>
+                           <p className="owner-info"><em>{result.art.artist}</em></p>
+                           <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
+                           <p className="owner-info"><strong>{t.owner}</strong> {result.ownership.owner}</p>
+                           <h4>{t.history}</h4>
+                           {renderHistory()}
+                           <a 
+                             href={`${result.ownership.network.blockExplorerUrl}/token/${contractAddressInput.trim()}?id=${tokenIdInput.trim()}`}
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             className="explorer-link"
+                           >
+                             {t.viewOnExplorer}
+                           </a>
                         </>
                     )}
                  </div>
@@ -945,14 +833,7 @@ const App = () => {
         switch (page.name) {
             case 'detail':
                 const art = catalog.find(a => a.id === page.id);
-                // --- FIX: Ensure `art` is not undefined before passing to `ArtDetail`.
-                // If the art piece is not found (e.g., due to a direct URL with an invalid ID),
-                // it's safer to redirect to the gallery rather than risk a runtime error.
-                if (!art) {
-                    // Si el arte no se encuentra, vuelve a la galería.
-                    setPage({ name: 'gallery' });
-                    return <ArtGallery catalog={catalog} onSelectArt={(id) => setPage({ name: 'detail', id })} />;
-                }
+                if (!art) return <ArtGallery catalog={catalog} onSelectArt={(id) => setPage({ name: 'detail', id })} />;
                 return <ArtDetail art={art} onBack={() => setPage({ name: 'gallery' })} setPage={setPage} />;
             case 'verify':
                 return <VerificationPortal 
