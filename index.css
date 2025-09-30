@@ -565,8 +565,10 @@ main {
     color: var(--text-secondary-color);
 }
 
-.address-display {
+/* --- Address Display Refactor --- */
+.address-mono {
     font-family: var(--font-family-mono);
+    word-break: break-all;
 }
 
 .address-display.member {
@@ -575,7 +577,7 @@ main {
     font-family: var(--font-family-sans);
 }
 
-.address-mono {
+.member-address {
     font-family: var(--font-family-mono);
     font-weight: normal;
     color: var(--text-secondary-color);

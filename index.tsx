@@ -187,9 +187,9 @@ const getNFTMetadata = async (contract: ethers.Contract, tokenId: string) => {
     try {
         const tokenURI = await contract.tokenURI(tokenId);
         
-        // Convierte URLs de IPFS a URLs HTTP públicas
+        // Convierte URLs de IPFS a URLs HTTP públicas usando un proveedor más confiable.
         const httpURI = tokenURI.startsWith('ipfs://')
-            ? tokenURI.replace('ipfs://', 'https://ipfs.io/ipfs/')
+            ? tokenURI.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/')
             : tokenURI;
 
         const response = await fetch(httpURI);
@@ -202,7 +202,7 @@ const getNFTMetadata = async (contract: ethers.Contract, tokenId: string) => {
 
         // Normaliza la URL de la imagen (también podría ser IPFS)
         if (metadata.image && metadata.image.startsWith('ipfs://')) {
-            metadata.image = metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+            metadata.image = metadata.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/');
         }
 
         return {
@@ -375,13 +375,13 @@ const renderAddress = (address: string | undefined | null, type: 'full' | 'short
     if (member) {
         return (
             <span className="address-display member" title={address}>
-                {member.pseudonym} <span className="address-mono">({displayAddress})</span>
+                {member.pseudonym} <span className="member-address">({displayAddress})</span>
             </span>
         );
     }
     
     return (
-        <span className="address-display" title={address}>
+        <span className="address-mono" title={address}>
             {displayAddress}
         </span>
     );
@@ -778,7 +778,7 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                                 <h4>{t.blockchainDataTitle}</h4>
                                 <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
                                 <p className="owner-info"><strong>{t.tokenId}</strong> {result.tokenId}</p>
-                                <p className="owner-info"><strong>{t.contractAddress}</strong> <span className="address-display" title={result.contractAddress}>{result.contractAddress}</span></p>
+                                <p className="owner-info"><strong>{t.contractAddress}</strong> <span className="address-mono" title={result.contractAddress}>{result.contractAddress}</span></p>
                                 <p className="owner-info"><strong>{t.owner}</strong> {renderAddress(result.ownership.owner, 'full')}</p>
                                 
                                 <h5>{t.history}</h5>
