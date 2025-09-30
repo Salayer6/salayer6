@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <!-- `<!DOCTYPE html>` declara que este documento es un archivo HTML5. Es crucial para que los navegadores usen el modo de renderizado estándar y no un modo de compatibilidad antiguo ("quirks mode"). -->
 <html lang="es">
-  <!-- El tag `<html>` es la raíz de todo documento HTML. El atributo `lang="es"` es importante para la accesibilidad (los lectores de pantalla lo usan para la pronunciación) y para el SEO (motores de búsqueda). -->
+  <!-- El tag `<html>` es la raíz de todo documento HTML. El atributo `lang="es"` es importante para la accesibilidad (los lectores de pantalla lo usan para la pronunciación) y para el SEO (motores de búsqueda lo usan para saber el idioma principal). -->
   <head>
     <!--
       El `<head>` contiene metadatos sobre la página: información que no se muestra directamente
@@ -34,7 +34,7 @@
 
       La tipografía es un pilar del diseño. En lugar de depender de las fuentes del sistema (que varían mucho),
       importamos fuentes personalizadas desde servicios como Google Fonts.
-      - `preconnect`: Estas etiquetas le dicen al navegador que "caliente" una conexión a estos dominios antes de que realmente se necesiten los recursos. Es una optimización de rendimiento que puede acelerar la carga de las fuentes.
+      - `preconnect`: Estas etiquetas le dicen al navegador que "caliente" una conexión a estos dominios antes de que realmente se necesiten los recursos. Es una optimización de rendimiento que puede reducir la latencia.
       - `stylesheet`: Este es el enlace al archivo CSS de Google Fonts que define las familias de fuentes (`@font-face`) para que podamos usarlas en nuestro CSS.
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,32 +58,24 @@
         haciéndolos compatibles con este enfoque.
     -->
     <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@19.0.0-rc.0",
-    "react/jsx-runtime": "https://esm.sh/react@19.0.0-rc.0/jsx-runtime",
-    "react/jsx-dev-runtime": "https://esm.sh/react@19.0.0-rc.0/jsx-dev-runtime",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0-rc.0/client",
-    "ethers": "https://esm.sh/ethers@6.11.1"
-  }
-}
-</script>
-    
-<link rel="stylesheet" href="/index.css">
-    
-</head>
-  
-<body>
-  
+    {
+      "imports": {
+        "react": "https://esm.sh/react@19.0.0-rc.0",
+        "react/jsx-runtime": "https://esm.sh/react@19.0.0-rc.0/jsx-runtime",
+        "react/jsx-dev-runtime": "https://esm.sh/react@19.0.0-rc.0/jsx-dev-runtime",
+        "react-dom/client": "https://esm.sh/react-dom@19.0.0-rc.0/client",
+        "ethers": "https://esm.sh/ethers@6.11.1"
+      }
+    }
+    </script>
+  </head>
+  <body>
     <!--La etiqueta `<noscript>` es un fallback de accesibilidad. Su contenido solo se muestra si el usuario
       tiene JavaScript deshabilitado en su navegador. Es crucial para aplicaciones como la nuestra, que dependen
       completamente de JavaScript para funcionar.-->
-  
     <noscript>↑ ↑ ↓ ↓ ← → ← → B A <br> KONAMI ® </noscript>
 
-  
-      <!-- El `<body>` contiene todo el contenido visible de la página web. -->
-
+    <!-- El `<body>` contiene todo el contenido visible de la página web. -->
     <div id="root"></div>
     <!--
       COMENTARIO DIDÁCTICO: El Punto de Montaje de React
@@ -108,6 +100,5 @@
       - `src="./index.tsx"`: La fuente de nuestro código de la aplicación.
     -->
     <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
-  <script type="module" src="/index.tsx"></script>
-</body>
+  </body>
 </html>
