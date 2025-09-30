@@ -348,7 +348,8 @@ const translations = {
         catalogInfoTitle: 'Información de Nuestro Catálogo',
         nftMetadataTitle: 'Metadatos del NFT',
         tokenId: 'Token ID:',
-        contractAddress: 'Dirección del Contrato:'
+        contractAddress: 'Dirección del Contrato:',
+        metadataError: 'No se pudieron cargar los metadatos. Esto puede ser un problema de la red o del servidor que aloja la información del NFT.'
     }
 };
 const useTranslations = () => translations.es;
@@ -755,9 +756,9 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                         </>
                     ) : (
                         <>
-                           {result.metadata && (
-                                <div className="catalog-info-section">
-                                    <h4>{t.nftMetadataTitle}</h4>
+                           <div className="catalog-info-section">
+                                <h4>{t.nftMetadataTitle}</h4>
+                                {result.metadata ? (
                                     <div className="catalog-info-content">
                                         {result.metadata.image 
                                             ? <img src={result.metadata.image} alt={result.metadata.name} className="catalog-info-image" />
@@ -768,8 +769,10 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                                             <p className="artist-name"><em>{result.metadata.description}</em></p>
                                         </div>
                                     </div>
-                                </div>
-                           )}
+                                ) : (
+                                    <p className="metadata-error">{t.metadataError}</p>
+                                )}
+                           </div>
 
                            <div className="blockchain-data-section">
                                 <h4>{t.blockchainDataTitle}</h4>

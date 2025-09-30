@@ -723,6 +723,17 @@ main {
     text-decoration: underline;
 }
 
+.metadata-error {
+    font-size: 0.9rem;
+    color: var(--text-secondary-color);
+    font-style: italic;
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px dashed var(--border-color);
+    text-align: center;
+}
+
 .blockchain-data-section {
     padding-top: 1rem;
 }
