@@ -759,7 +759,10 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                                 <div className="catalog-info-section">
                                     <h4>{t.nftMetadataTitle}</h4>
                                     <div className="catalog-info-content">
-                                        {result.metadata.image && <img src={result.metadata.image} alt={result.metadata.name} className="catalog-info-image" />}
+                                        {result.metadata.image 
+                                            ? <img src={result.metadata.image} alt={result.metadata.name} className="catalog-info-image" />
+                                            : <div className="catalog-info-image-placeholder">Sin imagen</div>
+                                        }
                                         <div className="catalog-info-text">
                                             <p><strong>{result.metadata.name}</strong></p>
                                             <p className="artist-name"><em>{result.metadata.description}</em></p>
@@ -772,7 +775,7 @@ const VerificationPortal: React.FC<VerificationPortalProps> = ({ initialTokenId 
                                 <h4>{t.blockchainDataTitle}</h4>
                                 <p className="network-info"><strong>{t.foundOn}</strong> {result.ownership.network.name}</p>
                                 <p className="owner-info"><strong>{t.tokenId}</strong> {result.tokenId}</p>
-                                <p className="owner-info"><strong>{t.contractAddress}</strong> {renderAddress(result.contractAddress, 'full')}</p>
+                                <p className="owner-info"><strong>{t.contractAddress}</strong> <span className="address-display" title={result.contractAddress}>{result.contractAddress}</span></p>
                                 <p className="owner-info"><strong>{t.owner}</strong> {renderAddress(result.ownership.owner, 'full')}</p>
                                 
                                 <h5>{t.history}</h5>
