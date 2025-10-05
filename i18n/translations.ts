@@ -1,92 +1,111 @@
-export const translations = {
-  en: {
-    app: {
-      title: 'Study Hub',
-    },
-    chat: {
-      agentName: 'Gems Agent',
-      welcomeMessage: "Hello! I'm your study assistant. What topic from the diploma can I help you with today?",
-      inputPlaceholder: 'Type your question here...',
-      errorMessage: 'Sorry, an error occurred while processing your request.',
-      ariaLabelSendMessage: 'Send message'
-    },
-    board: {
-      title: 'Notes Board',
-      pasteArea: 'PASTE IMAGE OR TEXT',
-      exportButtonAria: 'Export board as SVG',
-      helpButtonAria: 'Help',
-      changeColorAria: 'Change color',
-      deleteNoteAria: 'Delete note',
-    },
-    helpModal: {
-      title: 'Welcome to Study Hub!',
-      intro: "This is your personal space to learn and organize your ideas. Here's a quick guide:",
-      chatTitle: 'Gems Agent (Chat)',
-      chatDesc: 'Use the chat panel to ask questions about your course material. The AI assistant is specialized in adult learning and can provide clear explanations and practical examples.',
-      boardTitle: 'Notes Board',
-      boardWarningTitle: '⚠️ Important: Data is Not Saved!',
-      boardWarningDesc: 'Your notes and connections are temporary and exist only in this browser tab. If you close or refresh the tab, your work will be lost. Make sure to export your board as an SVG image to save it.',
-      howToPasteTitle: 'How to Copy and Paste',
-      howToPasteDesc: "If you're new to this, 'pasting' is how you add content. Here's how:",
-      howToPasteStep1: 'Find text or an image you want to save (on a website, in a document, etc.).',
-      howToPasteStep2: 'Select it, then right-click and choose "Copy". Or, press Ctrl+C (on Windows) or ⌘+C (on Mac).',
-      howToPasteStep3: 'Come back here, click the "PASTE IMAGE OR TEXT" area, then right-click and choose "Paste". Or, press Ctrl+V or ⌘+V.',
-      close: 'Close',
-      ariaLabelClose: 'Close help modal',
-    },
-    theme: {
-      toggle: 'Switch to {theme} mode',
-    },
-    language: {
-      toggle: 'Switch Language'
-    }
-  },
-  es: {
-    app: {
-      title: 'Study Hub',
-    },
-    chat: {
-      agentName: 'Gems Agent',
-      welcomeMessage: '¡Hola! Soy tu asistente de estudio. ¿En qué tema del diplomado puedo ayudarte hoy?',
-      inputPlaceholder: 'Escribe tu pregunta aquí...',
-      errorMessage: 'Lo siento, ocurrió un error al procesar tu solicitud.',
-      ariaLabelSendMessage: 'Enviar mensaje'
-    },
-    board: {
-      title: 'Tablero de Notas',
-      pasteArea: 'PEGA IMAGEN O TEXTO',
-      exportButtonAria: 'Exportar tablero como SVG',
-      helpButtonAria: 'Ayuda',
-      changeColorAria: 'Cambiar color',
-      deleteNoteAria: 'Eliminar nota',
-    },
-    helpModal: {
-      title: '¡Bienvenido a Study Hub!',
-      intro: 'Este es tu espacio personal para aprender y organizar tus ideas. Aquí tienes una guía rápida:',
-      chatTitle: 'Gems Agent (Chat)',
-      chatDesc: 'Usa el panel de chat para hacer preguntas sobre el material de tu curso. El asistente de IA está especializado en andragogía y puede proporcionar explicaciones claras y ejemplos prácticos.',
-      boardWarningTitle: '⚠️ ¡Importante: Los Datos no se Guardan!',
-      boardWarningDesc: 'Tus notas y conexiones son temporales y solo existen en esta pestaña del navegador. Si cierras o refrescas la pestaña, tu trabajo se perderá. Asegúrate de exportar tu tablero como imagen SVG para guardarlo.',
-      howToPasteTitle: 'Cómo Copiar y Pegar',
-      howToPasteDesc: "Si esto es nuevo para ti, 'pegar' es la forma de añadir contenido. Así se hace:",
-      howToPasteStep1: 'Encuentra el texto o la imagen que quieres guardar (en una web, un documento, etc.).',
-      howToPasteStep2: 'Selecciónalo, luego haz clic derecho y elige "Copiar". O presiona Ctrl+C (en Windows) o ⌘+C (en Mac).',
-      howToPasteStep3: 'Vuelve aquí, haz clic en el área "PEGA IMAGEN O TEXTO", luego haz clic derecho y elige "Pegar". O presiona Ctrl+V o ⌘+V.',
-      close: 'Cerrar',
-      ariaLabelClose: 'Cerrar modal de ayuda',
-    },
-    theme: {
-      toggle: 'Cambiar a modo {theme}',
-    },
-    language: {
-      toggle: 'Cambiar Idioma'
-    }
-  }
+export type Language = 'en' | 'es';
+
+export const systemInstructions: Record<Language, string> = {
+    en: "You are an AI assistant for a mind-mapping and study application called Study Hub. Your goal is to help users brainstorm, organize their thoughts, and understand complex topics. When a user asks a question, provide a concise and clear explanation that can be easily broken down into smaller, connected ideas, suitable for creating mind map notes. Respond in the user's language.",
+    es: "Eres un asistente de IA para una aplicación de mapas mentales y estudio llamada Study Hub. Tu objetivo es ayudar a los usuarios a hacer una lluvia de ideas, organizar sus pensamientos y comprender temas complejos. Cuando un usuario haga una pregunta, proporciona una explicación concisa y clara que se pueda desglosar fácilmente en ideas más pequeñas y conectadas, adecuadas para crear notas de mapa mental. Responde en el idioma del usuario.",
 };
 
-export const systemInstructions = {
-  en: `You are an AI assistant specializing in andragogy and instructional design. Your purpose is to help students of the 'Diploma in Methodological and Evaluative Strategies for Adult Labor Training'. Provide clear explanations, practical examples, and encourage reflection on the course topics. Always respond in English. Be friendly, professional, and encouraging.`,
-  es: `Eres un asistente de IA especializado en andragogía y diseño instruccional. Tu propósito es ayudar a estudiantes del 'Diplomado de estrategias metodológicas y evaluativas para la formación de adultos laborales'. Proporciona explicaciones claras, ejemplos prácticos y fomenta la reflexión sobre los temas del curso. Responde siempre en español. Sé amable, profesional y alentador.`
+export const translations: Record<Language, any> = {
+    en: {
+        chat: {
+            welcomeMessage: "Hello! I'm your Study Hub assistant. How can I help you brainstorm today?",
+            apiKeyError: "Gemini API key is not configured. Please add your key in the settings or set the API_KEY environment variable.",
+            errorMessage: "Sorry, something went wrong. Please try again.",
+            agentName: "Study Assistant",
+            inputPlaceholder: "Ask me anything...",
+            ariaLabelSendMessage: "Send message",
+        },
+        board: {
+            title: "Notes Board",
+            exportButtonAria: "Export board as SVG",
+            helpButtonAria: "Open help modal",
+            pasteArea: "Paste text or an image here (Ctrl+V)",
+            deleteNoteAria: "Delete note",
+        },
+        theme: {
+            toggle: "Toggle {theme} mode",
+        },
+        language: {
+            toggle: "Switch to Spanish",
+        },
+        settings: {
+            title: "Settings",
+            open: "Open settings",
+            description: "Enter your own Gemini API key to use the chat assistant. Your key will be stored locally in your browser and will not be shared.",
+            apiKeyLabel: "Gemini API Key",
+            save: "Save",
+            clear: "Clear Key",
+            getApiKeyPrompt: "Don't know how to get your API key?",
+            getApiKeyLink: "Click here.",
+            privacyNotice: "Your API key is saved securely in your browser's local storage and never leaves your device.",
+            ariaLabelClose: "Close settings",
+        },
+        helpModal: {
+            ariaLabelClose: "Close help modal",
+            title: "How to Use Study Hub",
+            intro: "Welcome to Study Hub! This is a simple tool to help you visually organize your ideas using a chat assistant and a notes board.",
+            boardWarningTitle: "Important: Local Storage",
+            boardWarningDesc: "Your notes and connections are saved in your browser's local storage. They are not backed up online. Clearing your browser data will erase your work.",
+            chatTitle: "The Chat Assistant",
+            chatDesc: "Use the chat panel to ask questions or brainstorm ideas. The assistant is designed to give you concise answers that you can easily turn into notes.",
+            boardTitle: "The Notes Board",
+            howToPasteTitle: "Pasting Notes",
+            howToPasteDesc: "You can easily add content to your board by pasting it.",
+            howToPasteStep1: "Copy any text or an image to your clipboard.",
+            howToPasteStep2: "Click anywhere on the notes board area to focus it.",
+            howToPasteStep3: "Press Ctrl+V (or Cmd+V on Mac) to paste the content as a new note.",
+            close: "Got it!",
+        }
+    },
+    es: {
+        chat: {
+            welcomeMessage: "¡Hola! Soy tu asistente de Study Hub. ¿Cómo puedo ayudarte a generar ideas hoy?",
+            apiKeyError: "La clave de API de Gemini no está configurada. Por favor, añade tu clave en la configuración o establece la variable de entorno API_KEY.",
+            errorMessage: "Lo siento, algo salió mal. Por favor, inténtalo de nuevo.",
+            agentName: "Asistente de Estudio",
+            inputPlaceholder: "Pregúntame lo que sea...",
+            ariaLabelSendMessage: "Enviar mensaje",
+        },
+        board: {
+            title: "Tablero de Notas",
+            exportButtonAria: "Exportar tablero como SVG",
+            helpButtonAria: "Abrir modal de ayuda",
+            pasteArea: "Pega texto o una imagen aquí (Ctrl+V)",
+            deleteNoteAria: "Eliminar nota",
+        },
+        theme: {
+            toggle: "Cambiar a modo {theme}",
+        },
+        language: {
+            toggle: "Cambiar a Inglés",
+        },
+        settings: {
+            title: "Configuración",
+            open: "Abrir configuración",
+            description: "Ingresa tu propia clave de API de Gemini para usar el asistente de chat. Tu clave se almacenará localmente en tu navegador y no se compartirá.",
+            apiKeyLabel: "Clave de API de Gemini",
+            save: "Guardar",
+            clear: "Limpiar Clave",
+            getApiKeyPrompt: "¿No sabes cómo obtener tu API key?",
+            getApiKeyLink: "Haz click aquí.",
+            privacyNotice: "Tu clave de API se guarda de forma segura en el almacenamiento local de tu navegador y nunca abandona tu dispositivo.",
+            ariaLabelClose: "Cerrar configuración",
+        },
+        helpModal: {
+            ariaLabelClose: "Cerrar modal de ayuda",
+            title: "Cómo Usar Study Hub",
+            intro: "¡Bienvenido a Study Hub! Esta es una herramienta sencilla para ayudarte a organizar visualmente tus ideas usando un asistente de chat y un tablero de notas.",
+            boardWarningTitle: "Importante: Almacenamiento Local",
+            boardWarningDesc: "Tus notas y conexiones se guardan en el almacenamiento local de tu navegador. No se respaldan en línea. Limpiar los datos de tu navegador borrará tu trabajo.",
+            chatTitle: "El Asistente de Chat",
+            chatDesc: "Usa el panel de chat para hacer preguntas o generar ideas. El asistente está diseñado para darte respuestas concisas que puedes convertir fácilmente en notas.",
+            boardTitle: "El Tablero de Notas",
+            howToPasteTitle: "Pegar Notas",
+            howToPasteDesc: "Puedes añadir contenido fácilmente a tu tablero pegándolo.",
+            howToPasteStep1: "Copia cualquier texto o imagen a tu portapapeles.",
+            howToPasteStep2: "Haz clic en cualquier parte del área del tablero de notas para enfocarlo.",
+            howToPasteStep3: "Presiona Ctrl+V (o Cmd+V en Mac) para pegar el contenido como una nueva nota.",
+            close: "¡Entendido!",
+        }
+    }
 };
-
-export type Language = keyof typeof translations;

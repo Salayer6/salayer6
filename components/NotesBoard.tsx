@@ -1,116 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Note, Connection, ConnectionStyle } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
-
-const TrashIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M3 6h18" />
-    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-  </svg>
-);
-
-const DownloadIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" x2="12" y1="15" y2="3" />
-  </svg>
-);
-
-const HelpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-    <path d="M12 17h.01" />
-  </svg>
-);
-
-const MoveHorizontalIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    {...props}
-  >
-    <polyline points="18 8 22 12 18 16" />
-    <polyline points="6 8 2 12 6 16" />
-    <line x1="2" x2="22" y1="12" y2="12" />
-  </svg>
-);
-
-const MinusIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    {...props}
-  >
-    <path d="M5 12h14" />
-  </svg>
-);
-
-const ArrowUpRightIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    {...props}
-  >
-    <path d="M7 17V7h10" />
-    <path d="M17 17 7 7" />
-  </svg>
-);
+import TrashIcon from './icons/TrashIcon';
+import DownloadIcon from './icons/DownloadIcon';
+import HelpIcon from './icons/HelpIcon';
+import MoveHorizontalIcon from './icons/MoveHorizontalIcon';
+import MinusIcon from './icons/MinusIcon';
+import ArrowUpRightIcon from './icons/ArrowUpRightIcon';
 
 const HelpModal = lazy(() => import('./HelpModal'));
 
@@ -133,6 +29,14 @@ const CONNECTION_COLORS = [
 
 const LINE_STYLES: ConnectionStyle[] = ['line', 'arrow1', 'arrow2', 'arrow-both'];
 
+const FULL_COLOR_MAP: Record<string, string> = {
+    'bg-yellow-200': '#fef08a', 'dark:bg-yellow-800': '#713f12', 'border-yellow-300': '#fde047', 'dark:border-yellow-700': '#a16207',
+    'bg-blue-200': '#bfdbfe', 'dark:bg-blue-800': '#1e3a8a', 'border-blue-300': '#93c5fd', 'dark:border-blue-700': '#1e40af',
+    'bg-green-200': '#bbf7d0', 'dark:bg-green-800': '#14532d', 'border-green-300': '#86efac', 'dark:border-green-700': '#166534',
+    'bg-pink-200': '#fbcfe8', 'dark:bg-pink-800': '#831843', 'border-pink-300': '#f9a8d4', 'dark:border-pink-700': '#9d174d',
+    'bg-purple-200': '#e9d5ff', 'dark:bg-purple-800': '#581c87', 'border-purple-300': '#d8b4fe', 'dark:border-purple-700': '#6b21a8',
+};
+
 const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -149,7 +53,6 @@ const NotesBoard: React.FC = () => {
 
     const boardRef = useRef<HTMLDivElement>(null);
     const noteRefs = useRef<Record<string, HTMLDivElement>>({});
-    // Fix: Add a ref to track mouse position for pasting
     const mousePositionRef = useRef({ x: 0, y: 0 });
 
     const [draggingNote, setDraggingNote] = useState<{ id: string; offsetX: number; offsetY: number } | null>(null);
@@ -234,55 +137,27 @@ const NotesBoard: React.FC = () => {
         setConnections(prev => prev.filter(c => c.id !== connId));
     };
 
-    const handleExport = useCallback(async () => {
-        const boardElement = boardRef.current;
-        if (!boardElement) return;
-
-        const svgContent = await constructSvgString();
-        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'study-hub-board.svg';
-        a.click();
-        URL.revokeObjectURL(url);
-    }, [notes, connections]);
-    
-    const constructSvgString = async (): Promise<string> => {
+    const constructSvgString = useCallback(async (): Promise<string> => {
         const boardElement = boardRef.current;
         if (!boardElement) return '';
 
         const { width, height } = boardElement.getBoundingClientRect();
         const isDarkMode = document.documentElement.classList.contains('dark');
-        const bgColor = isDarkMode ? '#020617' : '#f1f5f9';
+        const bgColor = isDarkMode ? '#0f172a' : '#f1f5f9'; // slate-950 and slate-100
 
-        const imagePromises = notes
-            .filter(note => note.imageUrl)
-            .map(async note => {
-                const response = await fetch(note.imageUrl!);
-                const blob = await response.blob();
-                const base64 = await new Promise<string>((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result as string);
-                    reader.onerror = reject;
-                });
-                return { id: note.id, base64 };
-            });
-
-        const images = await Promise.all(imagePromises);
-        const imageMap = new Map(images.map(img => [img.id, img.base64]));
-        
         const noteElements = notes.map(note => {
-            const colorClass = note.color;
-            const noteBgColor = isDarkMode ? colorClass.match(/dark:bg-([a-z]+)-(\d+)/)?.[0] : colorClass.match(/bg-([a-z]+)-(\d+)/)?.[0];
-            const noteBorderColor = isDarkMode ? colorClass.match(/dark:border-([a-z]+)-(\d+)/)?.[0] : colorClass.match(/border-([a-z]+)-(\d+)/)?.[0];
-            const textContent = note.imageUrl ? '' : `<div style="font-size: 14px; white-space: pre-wrap; word-wrap: break-word; color: ${isDarkMode ? '#f1f5f9' : '#1e293b'};">${note.content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
-            const imageContent = note.imageUrl && imageMap.get(note.id) ? `<image href="${imageMap.get(note.id)}" x="5" y="5" width="90" height="90" />` : '';
+            const [bgLightClass, bgDarkClass, borderLightClass, borderDarkClass] = note.color.split(' ');
+            const finalBgColor = isDarkMode ? FULL_COLOR_MAP[bgDarkClass] : FULL_COLOR_MAP[bgLightClass];
+            const finalBorderColor = isDarkMode ? FULL_COLOR_MAP[borderDarkClass] : FULL_COLOR_MAP[borderLightClass];
+            const textColor = isDarkMode ? '#f1f5f9' : '#1e293b';
 
-            return `<foreignObject x="${note.x}" y="${note.y}" width="100" height="100">
-                <div xmlns="http://www.w3.org/1999/xhtml" style="width: 100px; height: 100px; border: 1px solid var(--border-color); background-color: var(--bg-color); border-radius: 8px; padding: 5px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; --bg-color: ${noteBgColor?.replace('dark:bg-','').replace('bg-','')}; --border-color: ${noteBorderColor?.replace('dark:border-','').replace('border-','')};">
-                    ${textContent}
-                    ${imageContent}
+            const sanitizedContent = note.content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const textContent = `<div style="font-size: 12px; white-space: pre-wrap; word-wrap: break-word; color: ${textColor};">${sanitizedContent}</div>`;
+            const imageContent = note.imageUrl ? `<image href="${note.imageUrl}" x="10" y="10" width="76" height="76" preserveAspectRatio="xMidYMid meet" />` : '';
+            
+            return `<foreignObject x="${note.x}" y="${note.y}" width="96" height="96">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="width: 96px; height: 96px; border: 1px solid ${finalBorderColor}; background-color: ${finalBgColor}; border-radius: 0.5rem; padding: 8px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center;">
+                    ${note.imageUrl ? imageContent : textContent}
                 </div>
             </foreignObject>`;
         }).join('');
@@ -292,8 +167,8 @@ const NotesBoard: React.FC = () => {
             const endNote = notes.find(n => n.id === conn.endNoteId);
             if (!startNote || !endNote) return '';
             
-            const [x1, y1] = [startNote.x + 50, startNote.y + 50];
-            const [x2, y2] = [endNote.x + 50, endNote.y + 50];
+            const [x1, y1] = [startNote.x + 48, startNote.y + 48];
+            const [x2, y2] = [endNote.x + 48, endNote.y + 48];
 
             return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${conn.color}" stroke-width="2" marker-start="${conn.style === 'arrow1' || conn.style === 'arrow-both' ? `url(#arrowhead-${conn.id})` : ''}" marker-end="${conn.style === 'arrow2' || conn.style === 'arrow-both' ? `url(#arrowhead-${conn.id})` : ''}" />`;
         }).join('');
@@ -301,19 +176,28 @@ const NotesBoard: React.FC = () => {
         const defs = connections.map(conn => `<marker id="arrowhead-${conn.id}" markerWidth="10" markerHeight="7" refX="8.5" refY="3.5" orient="auto" fill="${conn.color}"><polygon points="0 0, 10 3.5, 0 7" /></marker>`).join('');
 
         return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-            <style>
-                .bg-yellow-200 { --bg-color: #fef08a; } .border-yellow-300 { --border-color: #fde047; }
-                .dark .dark:bg-yellow-800 { --bg-color: #713f12; } .dark .dark:border-yellow-700 { --border-color: #a16207; }
-                /* Add other colors as needed */
-            </style>
             <rect width="100%" height="100%" fill="${bgColor}" />
             <defs>${defs}</defs>
-            ${connectionElements}
-            ${noteElements}
+            <g>${connectionElements}</g>
+            <g>${noteElements}</g>
         </svg>`;
-    };
+    }, [notes, connections]);
+
+
+    const handleExport = useCallback(async () => {
+        const svgContent = await constructSvgString();
+        const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'study-hub-board.svg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, [constructSvgString]);
     
-    // Fix: Add handler to track mouse movement over the board
+    
     const handleBoardMouseMove = useCallback((e: React.MouseEvent) => {
         if (boardRef.current) {
             const rect = boardRef.current.getBoundingClientRect();
@@ -321,7 +205,6 @@ const NotesBoard: React.FC = () => {
         }
     }, []);
 
-    // Fix: Use stored mouse position for pasting, as ClipboardEvent has no coordinates
     const handlePaste = useCallback(async (e: React.ClipboardEvent) => {
         e.preventDefault();
         const items = e.clipboardData.items;
@@ -341,8 +224,8 @@ const NotesBoard: React.FC = () => {
             }
         }
         
-        const dropX = mousePositionRef.current.x ? mousePositionRef.current.x - 50 : 20;
-        const dropY = mousePositionRef.current.y ? mousePositionRef.current.y - 50 : 20;
+        const dropX = mousePositionRef.current.x ? mousePositionRef.current.x - 48 : 20;
+        const dropY = mousePositionRef.current.y ? mousePositionRef.current.y - 48 : 20;
 
         const newNote: Note = {
             id: crypto.randomUUID(),
@@ -401,8 +284,8 @@ const NotesBoard: React.FC = () => {
                         const endNote = notes.find(n => n.id === conn.endNoteId);
                         if (!startNote || !endNote) return null;
                         
-                        const [x1, y1] = [startNote.x + 50, startNote.y + 50];
-                        const [x2, y2] = [endNote.x + 50, endNote.y + 50];
+                        const [x1, y1] = [startNote.x + 48, startNote.y + 48];
+                        const [x2, y2] = [endNote.x + 48, endNote.y + 48];
                         
                         return (
                             <line

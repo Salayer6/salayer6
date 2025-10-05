@@ -3,55 +3,33 @@ import type { ChatMessage } from '../types';
 import { createGeminiChat } from '../services/geminiService';
 import { useTranslation } from '../hooks/useTranslation';
 import type { Chat } from '@google/genai';
+import SendIcon from './icons/SendIcon';
+import SparklesIcon from './icons/SparklesIcon';
 
-const SendIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="m22 2-7 20-4-9-9-4Z" />
-    <path d="M22 2 11 13" />
-  </svg>
-);
+// Fix: Removed `onOpenSettings` from props to align with API key handling guidelines.
+interface ChatPanelProps {
+  apiKey: string;
+}
 
-const SparklesIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9 1.9 5.8 1.9-5.8 5.8-1.9-5.8-1.9Z" />
-  </svg>
-);
-
-
-const ChatPanel: React.FC = () => {
+const ChatPanel: React.FC<ChatPanelProps> = ({ apiKey }) => {
   const { t, language } = useTranslation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [chat, setChat] = useState<Chat | null>(null);
+  const chatRef = useRef<Chat | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setChat(createGeminiChat(language));
-    setMessages([{ role: 'model', text: t('chat.welcomeMessage') }]);
-  }, [language, t]);
+    try {
+      // This will throw an error if the API key is missing, which is caught below.
+      chatRef.current = createGeminiChat(language, apiKey);
+      setMessages([{ role: 'model', text: t('chat.welcomeMessage') }]);
+    } catch (error) {
+      console.error("Failed to initialize Gemini chat:", error);
+      chatRef.current = null; // Ensure chat is not usable
+      setMessages([{ role: 'model', text: t('chat.apiKeyError') }]);
+    }
+  }, [language, apiKey, t]);
 
 
   const scrollToBottom = () => {
@@ -64,7 +42,7 @@ const ChatPanel: React.FC = () => {
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!userInput.trim() || isLoading || !chat) return;
+    if (!userInput.trim() || isLoading || !chatRef.current) return;
 
     const userMessage: ChatMessage = { role: 'user', text: userInput };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
@@ -72,7 +50,7 @@ const ChatPanel: React.FC = () => {
     setIsLoading(true);
 
     try {
-        const stream = await chat.sendMessageStream({ message: userInput });
+        const stream = await chatRef.current.sendMessageStream({ message: userInput });
         
         let modelResponse = '';
         setMessages((prev) => [...prev, { role: 'model', text: '...' }]);
@@ -81,7 +59,7 @@ const ChatPanel: React.FC = () => {
             modelResponse += chunk.text;
             setMessages(prev => {
                 const newMessages = [...prev];
-                if (newMessages.length > 0) {
+                if (newMessages.length > 0 && newMessages[newMessages.length - 1].role === 'model') {
                    newMessages[newMessages.length - 1].text = modelResponse;
                 }
                 return newMessages;
@@ -136,26 +114,29 @@ const ChatPanel: React.FC = () => {
         )}
         <div ref={messagesEndRef} />
       </div>
-      <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-200 dark:border-slate-700">
-        <div className="relative">
-          <input
-            type="text"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            placeholder={t('chat.inputPlaceholder')}
-            className="w-full pl-4 pr-12 py-2 border border-slate-300 dark:border-slate-600 rounded-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            disabled={isLoading}
-          />
-          <button
-            type="submit"
-            disabled={isLoading || !userInput.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
-            aria-label={t('chat.ariaLabelSendMessage')}
-          >
-            <SendIcon className="w-5 h-5" />
-          </button>
-        </div>
-      </form>
+      <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+        <form onSubmit={handleSendMessage}>
+          <div className="relative">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder={t('chat.inputPlaceholder')}
+              className="w-full pl-4 pr-12 py-2 border border-slate-300 dark:border-slate-600 rounded-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              disabled={isLoading || !apiKey}
+            />
+            <button
+              type="submit"
+              disabled={isLoading || !userInput.trim() || !apiKey}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+              aria-label={t('chat.ariaLabelSendMessage')}
+            >
+              <SendIcon className="w-5 h-5" />
+            </button>
+          </div>
+        </form>
+        {/* Fix: Removed settings button to adhere to API key guidelines. */}
+      </div>
     </div>
   );
 };
