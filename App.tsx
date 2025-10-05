@@ -9,7 +9,7 @@ import { useApiKey } from './hooks/useApiKey';
 import { useTranslation } from './hooks/useTranslation';
 
 const App: React.FC = () => {
-  const defaultApiKey = process.env.API_KEY || '';
+  const defaultApiKey = process.env.API_KEY || 'AIzaSyDmSdlF8XNE3_drmwtUyqdwWJ7OO01hR18';
   const { apiKey: userApiKey, saveApiKey, clearApiKey, isLoaded } = useApiKey();
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [effectiveApiKey, setEffectiveApiKey] = useState('');
