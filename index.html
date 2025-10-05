@@ -1,111 +1,42 @@
-<!--
-  COMENTARIO DIDÁCTICO: La Anatomía de un Archivo HTML5
-
-  Este es el punto de entrada de nuestra aplicación web. Cada línea tiene un propósito fundamental
-  para que el navegador entienda cómo construir y presentar nuestro sitio.
--->
 <!DOCTYPE html>
-<!-- `<!DOCTYPE html>` declara que este documento es un archivo HTML5. Es crucial para que los navegadores usen el modo de renderizado estándar y no un modo de compatibilidad antiguo ("quirks mode"). -->
-<html lang="es">
-  <!-- El tag `<html>` es la raíz de todo documento HTML. El atributo `lang="es"` es importante para la accesibilidad (los lectores de pantalla lo usan para la pronunciación) y para el SEO (motores de búsqueda lo usan para saber el idioma principal). -->
+<html lang="en">
   <head>
-    <!--
-      El `<head>` contiene metadatos sobre la página: información que no se muestra directamente
-      en el contenido, pero que es vital para el navegador, los motores de búsqueda y otras herramientas.
-    -->
     <meta charset="UTF-8" />
-    <!-- `charset="UTF-8"` establece la codificación de caracteres. UTF-8 es el estándar universal y previene problemas al mostrar caracteres especiales, como acentos y emojis. -->
-
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--
-      COMENTARIO DIDÁCTICO: La Piedra Angular del Diseño Responsivo (Responsive Design)
-
-      Esta etiqueta `meta viewport` es indispensable para que los sitios web se vean bien en dispositivos móviles.
-      - `width=device-width`: Le dice al navegador que el ancho de la página debe ser igual al ancho de la pantalla del dispositivo.
-      - `initial-scale=1.0`: Establece el nivel de zoom inicial en 100%, evitando que la página se vea alejada por defecto en móviles.
-      Sin esta línea, los navegadores móviles intentarían mostrar la versión de escritorio completa, resultando en texto diminuto e ilegible.
-    -->
-
-    <title>Galería Abstracta - Arte y Blockchain</title>
-    <!-- El `<title>` se muestra en la pestaña del navegador y es muy importante para el SEO y la usabilidad. -->
-
-    <!--
-      COMENTARIO DIDÁCTICO: Tipografía Web con Google Fonts
-
-      La tipografía es un pilar del diseño. En lugar de depender de las fuentes del sistema (que varían mucho),
-      importamos fuentes personalizadas desde servicios como Google Fonts.
-      - `preconnect`: Estas etiquetas le dicen al navegador que "caliente" una conexión a estos dominios antes de que realmente se necesiten los recursos. Es una optimización de rendimiento que puede reducir la latencia.
-      - `stylesheet`: Este es el enlace al archivo CSS de Google Fonts que define las familias de fuentes (`@font-face`) para que podamos usarlas en nuestro CSS.
-    -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="./index.css" />
-    <!-- Enlazamos nuestra propia hoja de estilos. Se coloca en el `<head>` para que los estilos comiencen a cargarse lo antes posible, evitando un "flash de contenido sin estilo" (FOUC). -->
-
-    <!--
-      COMENTARIO DIDÁCTICO: Desarrollo Moderno SIN Bundler con "Import Maps"
-
-      En aplicaciones de producción, herramientas como Vite o Webpack ("bundlers") procesan nuestro código,
-      manejan las dependencias y lo optimizan. Para este entorno de prototipado rápido, usamos una
-      característica nativa del navegador llamada "Import Maps".
-      - Un "Import Map" nos permite usar nombres de módulos "desnudos" (como 'react' o 'ethers') en nuestro
-        código JavaScript, y le dice al navegador de dónde debe cargarlos.
-      - Esto simula el `import React from 'react';` que usaríamos en un proyecto con `npm`, pero todo
-        sucede directamente en el navegador, sin necesidad de un paso de compilación.
-      - `esm.sh` es un CDN (Content Delivery Network) que sirve paquetes de NPM como módulos ES nativos,
-        haciéndolos compatibles con este enfoque.
-    -->
-    <script type="importmap">
+    <title>Gems Agent: Study Hub</title>
+    <script>
+      (function() {
+        try {
+          const storedTheme = localStorage.getItem('theme');
+          if (storedTheme) {
+            if (storedTheme === 'dark') {
+              document.documentElement.classList.add('dark');
+            }
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          console.error('Could not set initial theme:', e);
+        }
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0-rc.0",
-    "react/jsx-runtime": "https://esm.sh/react@19.0.0-rc.0/jsx-runtime",
-    "react/jsx-dev-runtime": "https://esm.sh/react@19.0.0-rc.0/jsx-dev-runtime",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0-rc.0/client",
-    "ethers": "https://esm.sh/ethers@6.11.1"
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.22.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "html-to-image": "https://aistudiocdn.com/html-to-image@^1.11.13"
   }
 }
 </script>
-    <!-- Se añade el script de Babel Standalone para transpilar JSX y TypeScript en el navegador -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <!-- El `<body>` contiene todo el contenido visible de la página web. -->
-
-    <noscript>↑, ↑, ↓, ↓, ←, →, ←, →, B, A <br> KUMANI ® </noscript>
-    <!--
-      La etiqueta `<noscript>` es un fallback de accesibilidad. Su contenido solo se muestra si el usuario
-      tiene JavaScript deshabilitado en su navegador. Es crucial para aplicaciones como la nuestra, que dependen
-      completamente de JavaScript para funcionar.
-    -->
-
+  <body class="bg-slate-100 dark:bg-slate-900">
     <div id="root"></div>
-    <!--
-      COMENTARIO DIDÁCTICO: El Punto de Montaje de React
-
-      Este `div` es el "contenedor raíz". Nuestra aplicación de React, que es un conjunto de componentes
-      dinámicos, será "montada" o inyectada dentro de este elemento por la librería `react-dom`.
-      Es el puente entre el DOM estático del HTML y nuestra aplicación de React, que es dinámica.
-    -->
-
-    <!--
-      COMENTARIO DIDÁCTICO: Transpilación en el Navegador con Babel Standalone
-
-      React se escribe con JSX (una extensión de JavaScript que parece HTML) y en nuestro caso, también
-      usamos TypeScript para añadir tipos. Los navegadores no entienden ni JSX ni TypeScript de forma nativa.
-      - En un entorno de producción, un "bundler" se encargaría de "transpilar" (traducir) este código a
-        JavaScript plano que todos los navegadores entienden.
-      - Para este entorno, usamos el paquete "Babel Standalone". Se ejecuta en el navegador y transpila
-        nuestro código .tsx sobre la marcha.
-      - `type="text/babel"`: Le indica a Babel que debe procesar este script.
-      - `data-presets="react,typescript"`: Le dice a Babel qué transformaciones aplicar (cómo convertir JSX y cómo manejar TypeScript).
-      - `data-type="module"`: Le indica al navegador que trate este script como un Módulo ES6, permitiendo el uso de `import` y `export`.
-      - `src="./index.tsx"`: La fuente de nuestro código de la aplicación.
-    -->
-    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

@@ -1,5 +1,5 @@
 {
-  "name": "gems-agent:-study-hub",
+  "name": "cryptointegrationmodule",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,10 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.0",
-    "@google/genai": "^1.22.0",
-    "react-dom": "^19.2.0",
-    "html-to-image": "^1.11.13"
+    "react": "^19.1.1",
+    "ethers": "6.11.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
