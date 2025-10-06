@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
 import ChatPanel from './components/ChatPanel';
 import NotesBoard from './components/NotesBoard';
 import ThemeToggle from './components/ThemeToggle';
@@ -10,9 +10,19 @@ import { useTranslation } from './hooks/useTranslation';
 const SettingsModal = lazy(() => import('./components/SettingsModal'));
 
 const App: React.FC = () => {
-  const { apiKey, saveApiKey, clearApiKey, isLoaded } = useApiKey();
+  const { apiKey, saveApiKey, clearApiKey, isLoaded, isKeyMissing } = useApiKey();
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (isLoaded && isKeyMissing) {
+      // Use a timeout to ensure the alert doesn't block the initial render
+      setTimeout(() => {
+        alert(t('settings.forceSettingsOpen'));
+        setIsSettingsModalOpen(true);
+      }, 100);
+    }
+  }, [isLoaded, isKeyMissing, t]);
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50">

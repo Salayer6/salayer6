@@ -31,7 +31,7 @@ export const translations: Record<Language, any> = {
         },
         settings: {
             title: "Settings",
-            description: "Please enter your Gemini API key to use the chat assistant. Your key is stored securely in your browser's local storage and is never sent to our servers.",
+            description: "You can enter your own Gemini API key to use the chat assistant. If a developer key is provided, your key will override it. Your key is stored securely in your browser's local storage.",
             apiKeyLabel: "Gemini API Key",
             getApiKeyPrompt: "You can get your key from",
             getApiKeyLink: "Google AI Studio.",
@@ -40,6 +40,7 @@ export const translations: Record<Language, any> = {
             clear: "Clear Key",
             ariaLabelOpen: "Open settings",
             ariaLabelClose: "Close settings",
+            forceSettingsOpen: "No API Key found. To use the chat assistant, you must provide your own Gemini API key in the settings.",
         },
         helpModal: {
             ariaLabelClose: "Close help modal",
@@ -83,7 +84,7 @@ export const translations: Record<Language, any> = {
         },
         settings: {
             title: "Configuración",
-            description: "Por favor, introduce tu clave de API de Gemini para usar el asistente de chat. Tu clave se guarda de forma segura en el almacenamiento local de tu navegador y nunca se envía a nuestros servidores.",
+            description: "Puedes introducir tu propia clave de API de Gemini para usar el asistente de chat. Si se proporciona una clave de desarrollador, la tuya la anulará. Tu clave se guarda de forma segura en el almacenamiento local de tu navegador.",
             apiKeyLabel: "Clave de API de Gemini",
             getApiKeyPrompt: "Puedes obtener tu clave desde",
             getApiKeyLink: "Google AI Studio.",
@@ -92,6 +93,7 @@ export const translations: Record<Language, any> = {
             clear: "Limpiar Clave",
             ariaLabelOpen: "Abrir configuración",
             ariaLabelClose: "Cerrar configuración",
+            forceSettingsOpen: "No se encontró una clave de API. Para usar el asistente de chat, debes proporcionar tu propia clave de API de Gemini en la configuración.",
         },
         helpModal: {
             ariaLabelClose: "Cerrar modal de ayuda",

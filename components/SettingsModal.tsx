@@ -11,11 +11,13 @@ interface SettingsModalProps {
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSave, onClear, currentApiKey }) => {
   const { t } = useTranslation();
-  const [inputValue, setInputValue] = useState(currentApiKey || '');
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     if (isOpen) {
-        setInputValue(currentApiKey || '');
+        // We check local storage directly to only show the user's key, not the developer's.
+        const userStoredKey = localStorage.getItem('gemini_api_key');
+        setInputValue(userStoredKey || '');
     }
   }, [currentApiKey, isOpen]);
 
@@ -47,7 +49,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSave, 
           className="absolute top-4 right-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           aria-label={t('settings.ariaLabelClose')}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <svg xmlns="http://www.w.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
         <h2 className="text-2xl font-bold mb-4 text-slate-800 dark:text-slate-100">{t('settings.title')}</h2>
         <p className="text-slate-600 dark:text-slate-300 mb-4">
