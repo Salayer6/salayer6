@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import ChatPanel from './components/ChatPanel';
 import NotesBoard from './components/NotesBoard';
 import ThemeToggle from './components/ThemeToggle';
 import LanguageToggle from './components/LanguageToggle';
-import SettingsModal from './components/SettingsModal';
-import SettingsIcon from './components/icons/SettingsIcon';
 import { useApiKey } from './hooks/useApiKey';
+import SettingsIcon from './components/icons/SettingsIcon';
 import { useTranslation } from './hooks/useTranslation';
 
-const App: React.FC = () => {
-  const defaultApiKey = process.env.API_KEY || 'AIzaSyDmSdlF8XNE3_drmwtUyqdwWJ7OO01hR18';
-  const { apiKey: userApiKey, saveApiKey, clearApiKey, isLoaded } = useApiKey();
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [effectiveApiKey, setEffectiveApiKey] = useState('');
-  const { t } = useTranslation();
+const SettingsModal = lazy(() => import('./components/SettingsModal'));
 
-  useEffect(() => {
-    // Determine the API key to use once the user's key is loaded from storage.
-    if (isLoaded) {
-      setEffectiveApiKey(userApiKey || defaultApiKey);
-    }
-  }, [userApiKey, defaultApiKey, isLoaded]);
+const App: React.FC = () => {
+  const { apiKey, saveApiKey, clearApiKey, isLoaded } = useApiKey();
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50">
@@ -29,20 +21,26 @@ const App: React.FC = () => {
             <h1 className="text-xl font-bold pl-2">Study Hub</h1>
         </div>
         <div className="flex items-center gap-2">
-            <button
-                onClick={() => setIsSettingsModalOpen(true)}
-                className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                aria-label={t('settings.open')}
-            >
-                <SettingsIcon className="w-6 h-6" />
-            </button>
+          <button
+              onClick={() => setIsSettingsModalOpen(true)}
+              className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+              aria-label={t('settings.ariaLabelOpen')}
+          >
+              <SettingsIcon className="w-6 h-6" />
+          </button>
           <ThemeToggle />
         </div>
       </header>
       
       <main className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-4 p-4 overflow-hidden">
         <div className="md:col-span-1 h-full min-h-0">
-          <ChatPanel apiKey={effectiveApiKey} />
+          {isLoaded ? (
+            <ChatPanel apiKey={apiKey} />
+          ) : (
+            <div className="flex items-center justify-center h-full bg-white dark:bg-slate-800 rounded-lg shadow-lg">
+                <p className="text-slate-500">Loading...</p>
+            </div>
+          )}
         </div>
         <div className="md:col-span-2 h-full min-h-0">
           <NotesBoard />
@@ -50,14 +48,17 @@ const App: React.FC = () => {
       </main>
 
       <LanguageToggle />
+
+      <Suspense fallback={null}>
+        <SettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+          onSave={saveApiKey}
+          onClear={clearApiKey}
+          currentApiKey={apiKey}
+        />
+      </Suspense>
       
-      <SettingsModal 
-        isOpen={isSettingsModalOpen}
-        onClose={() => setIsSettingsModalOpen(false)}
-        onSave={saveApiKey}
-        onClear={clearApiKey}
-        currentApiKey={userApiKey}
-      />
     </div>
   );
 };

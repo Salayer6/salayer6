@@ -9,7 +9,8 @@ export const translations: Record<Language, any> = {
     en: {
         chat: {
             welcomeMessage: "Hello! I'm your Study Hub assistant. How can I help you brainstorm today?",
-            apiKeyError: "Gemini API key is not configured. Please add your key in the settings or set the API_KEY environment variable.",
+            apiKeyError: "Please set your API key in the settings to start chatting.",
+            initError: "Chat service could not be initialized. Please check your API key and try again.",
             errorMessage: "Sorry, something went wrong. Please try again.",
             agentName: "Study Assistant",
             inputPlaceholder: "Ask me anything...",
@@ -30,14 +31,14 @@ export const translations: Record<Language, any> = {
         },
         settings: {
             title: "Settings",
-            open: "Open settings",
-            description: "Enter your own Gemini API key to use the chat assistant. Your key will be stored locally in your browser and will not be shared.",
+            description: "Please enter your Gemini API key to use the chat assistant. Your key is stored securely in your browser's local storage and is never sent to our servers.",
             apiKeyLabel: "Gemini API Key",
+            getApiKeyPrompt: "You can get your key from",
+            getApiKeyLink: "Google AI Studio.",
+            privacyNotice: "Your API key is saved locally and is only used to communicate with the Google Gemini API.",
             save: "Save",
             clear: "Clear Key",
-            getApiKeyPrompt: "Don't know how to get your API key?",
-            getApiKeyLink: "Click here.",
-            privacyNotice: "Your API key is saved securely in your browser's local storage and never leaves your device.",
+            ariaLabelOpen: "Open settings",
             ariaLabelClose: "Close settings",
         },
         helpModal: {
@@ -60,7 +61,8 @@ export const translations: Record<Language, any> = {
     es: {
         chat: {
             welcomeMessage: "¡Hola! Soy tu asistente de Study Hub. ¿Cómo puedo ayudarte a generar ideas hoy?",
-            apiKeyError: "La clave de API de Gemini no está configurada. Por favor, añade tu clave en la configuración o establece la variable de entorno API_KEY.",
+            apiKeyError: "Por favor, introduce tu clave de API en la configuración para empezar a chatear.",
+            initError: "No se pudo inicializar el servicio de chat. Por favor, revisa tu clave de API e inténtalo de nuevo.",
             errorMessage: "Lo siento, algo salió mal. Por favor, inténtalo de nuevo.",
             agentName: "Asistente de Estudio",
             inputPlaceholder: "Pregúntame lo que sea...",
@@ -81,14 +83,14 @@ export const translations: Record<Language, any> = {
         },
         settings: {
             title: "Configuración",
-            open: "Abrir configuración",
-            description: "Ingresa tu propia clave de API de Gemini para usar el asistente de chat. Tu clave se almacenará localmente en tu navegador y no se compartirá.",
+            description: "Por favor, introduce tu clave de API de Gemini para usar el asistente de chat. Tu clave se guarda de forma segura en el almacenamiento local de tu navegador y nunca se envía a nuestros servidores.",
             apiKeyLabel: "Clave de API de Gemini",
+            getApiKeyPrompt: "Puedes obtener tu clave desde",
+            getApiKeyLink: "Google AI Studio.",
+            privacyNotice: "Tu clave de API se guarda localmente y solo se utiliza para comunicarse con la API de Google Gemini.",
             save: "Guardar",
             clear: "Limpiar Clave",
-            getApiKeyPrompt: "¿No sabes cómo obtener tu API key?",
-            getApiKeyLink: "Haz click aquí.",
-            privacyNotice: "Tu clave de API se guarda de forma segura en el almacenamiento local de tu navegador y nunca abandona tu dispositivo.",
+            ariaLabelOpen: "Abrir configuración",
             ariaLabelClose: "Cerrar configuración",
         },
         helpModal: {

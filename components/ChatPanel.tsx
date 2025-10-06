@@ -6,9 +6,9 @@ import type { Chat } from '@google/genai';
 import SendIcon from './icons/SendIcon';
 import SparklesIcon from './icons/SparklesIcon';
 
-// Fix: Removed `onOpenSettings` from props to align with API key handling guidelines.
+// The component now requires an apiKey prop.
 interface ChatPanelProps {
-  apiKey: string;
+    apiKey: string | null;
 }
 
 const ChatPanel: React.FC<ChatPanelProps> = ({ apiKey }) => {
@@ -20,16 +20,20 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ apiKey }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    try {
-      // This will throw an error if the API key is missing, which is caught below.
-      chatRef.current = createGeminiChat(language, apiKey);
-      setMessages([{ role: 'model', text: t('chat.welcomeMessage') }]);
-    } catch (error) {
-      console.error("Failed to initialize Gemini chat:", error);
-      chatRef.current = null; // Ensure chat is not usable
-      setMessages([{ role: 'model', text: t('chat.apiKeyError') }]);
+    if (apiKey) {
+      try {
+        chatRef.current = createGeminiChat(apiKey, language);
+        setMessages([{ role: 'model', text: t('chat.welcomeMessage') }]);
+      } catch (error) {
+        console.error("Failed to initialize Gemini chat:", error);
+        chatRef.current = null;
+        setMessages([{ role: 'model', text: t('chat.initError') }]);
+      }
+    } else {
+        chatRef.current = null;
+        setMessages([{ role: 'model', text: t('chat.apiKeyError') }]);
     }
-  }, [language, apiKey, t]);
+  }, [apiKey, language, t]);
 
 
   const scrollToBottom = () => {
@@ -123,11 +127,11 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ apiKey }) => {
               onChange={(e) => setUserInput(e.target.value)}
               placeholder={t('chat.inputPlaceholder')}
               className="w-full pl-4 pr-12 py-2 border border-slate-300 dark:border-slate-600 rounded-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              disabled={isLoading || !apiKey}
+              disabled={isLoading || !chatRef.current}
             />
             <button
               type="submit"
-              disabled={isLoading || !userInput.trim() || !apiKey}
+              disabled={isLoading || !userInput.trim() || !chatRef.current}
               className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
               aria-label={t('chat.ariaLabelSendMessage')}
             >
@@ -135,7 +139,6 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ apiKey }) => {
             </button>
           </div>
         </form>
-        {/* Fix: Removed settings button to adhere to API key guidelines. */}
       </div>
     </div>
   );
