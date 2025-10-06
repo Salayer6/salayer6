@@ -1,20 +1,28 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Gems Agent: Study Hub
 
-# Run and deploy your AI Studio app
+Un agente de IA especializado en asistir y potenciar el proceso de estudio.
 
-This contains everything you need to run your app locally.
+## Sobre el Proyecto
 
-View your app in AI Studio: https://ai.studio/apps/drive/1ab6gGoQwrWrGDIL3KaMqWXo0GQHISPyQ
+**Study Hub** es una herramienta de código abierto diseñada para servir como un asistente de estudio interactivo. Combina un agente de chat impulsado por IA con un tablero de notas visual, permitiendo a los usuarios explorar temas complejos, desglosar ideas y organizar su conocimiento de manera gráfica.
 
-## Run Locally
+Este proyecto nace con la vocación de ser una pieza fundamental para integrar en ambientes educativos donde el uso de la inteligencia artificial para la educación es aún incipiente. Su naturaleza abierta facilita su adaptación y despliegue en diversas plataformas de aprendizaje, democratizando el acceso a herramientas de estudio avanzadas.
 
-**Prerequisites:**  Node.js
+## Motivación e Inspiración
 
+El desarrollo de **Study Hub** fue motivado por mi cursación del diplomado **"Estrategias metodológicas y evaluativas en la Formación para el trabajo"** (Universidad de Chile, 2025). Las metodologías y enfoques pedagógicos explorados durante el programa inspiraron la creación de una herramienta que no solo entrega información, sino que fomenta la organización y conexión de ideas, un pilar clave en el aprendizaje significativo.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+
+### Sobre el Diplomado de Referencia
+
+> **Impulsa la calidad de la capacitación en Chile con estrategias para transformar el aprendizaje.**
+>
+> El Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral, impartido en modalidad e-learning asincrónica, representa un esfuerzo colaborativo entre el Servicio Nacional de Capacitación y Empleo (SENCE), el OTIC de la Cámara Chilena de la Construcción y la Universidad de Chile, a través de su Facultad de Ciencias Físicas y Matemáticas —mediante la Subdirección de Educación Continua— y el proyecto MEDICHI de la Facultad de Medicina. Esta alianza impulsa un modelo de formación de formadores orientado a fortalecer las competencias técnicas, metodológicas y actitudinales de quienes desempeñan un rol protagónico en la calidad de los procesos de capacitación, eje estratégico del SENCE.
+>
+> **Consultas**
+>
+> Escuela de Postgrado y Educación Continua
+>
+> Contacto: Alejandra Muñoz
+> Correo: amunoz@econtinuafcfm.cl
