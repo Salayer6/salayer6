@@ -61,10 +61,10 @@ Una vez que la aplicación funciona localmente, sigue estos pasos para publicarl
 Este es el paso **más importante** para que el despliegue funcione correctamente. GitHub Pages publica tu sitio en una subcarpeta con el nombre de tu repositorio. Debes indicarle a Vite esta ruta.
 
 1.  Abre el archivo `vite.config.ts`.
-2.  Localiza la línea `base: '/your-repo-name/'`.
-3.  **Reemplaza `'your-repo-name'` con el nombre exacto de tu repositorio de GitHub.**
+2.  Localiza la propiedad `base`.
+3.  **Asegúrate de que su valor sea el nombre de tu repositorio de GitHub, rodeado de barras diagonales.**
 
-    Por ejemplo, si la URL de tu repositorio es `https://github.com/tu-usuario/study-hub-app`, el archivo debe quedar así:
+    Por ejemplo, dado que la URL de tu repositorio es `https://github.com/tu-usuario/salayer6`, el archivo debe quedar así:
 
     ```typescript
     // vite.config.ts
@@ -74,7 +74,7 @@ Este es el paso **más importante** para que el despliegue funcione correctament
     export default defineConfig({
       plugins: [react()],
       // ¡Configuración CRÍTICA para GitHub Pages!
-      base: '/study-hub-app/',
+      base: '/salayer6/',
     })
     ```
 
@@ -110,4 +110,4 @@ La primera vez que despliegues, o si nunca has usado GitHub Pages en este reposi
 
 GitHub tardará uno o dos minutos en procesar los archivos y publicar tu sitio. Una vez que esté listo, verás un mensaje en la parte superior de la sección de "Pages" con la URL pública de tu aplicación.
 
-La URL tendrá el formato: `https://<tu-nombre-de-usuario>.github.io/<el-nombre-de-tu-repositorio>/`.
+La URL tendrá el formato: `https://<tu-nombre-de-usuario>.github.io/salayer6/`.

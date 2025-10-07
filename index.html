@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gems Agent: Study Hub</title>
+    <script>
+      (function() {
+        try {
+          const storedTheme = localStorage.getItem('theme');
+          if (storedTheme) {
+            if (storedTheme === 'dark') {
+              document.documentElement.classList.add('dark');
+            }
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          console.error('Could not set initial theme:', e);
+        }
+      })();
+    </script>
+
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.22.0",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.4",
+    "vite": "https://aistudiocdn.com/vite@^7.1.9"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/salayer6/assets/index-BPh1itQA.js"></script>
+  <link rel="stylesheet" crossorigin href="/salayer6/assets/index-5OU_kHIF.css">
+</head>
+  <body class="bg-slate-100 dark:bg-slate-900">
+    <div id="root"></div>
+  </body>
+</html>
