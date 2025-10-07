@@ -12,6 +12,7 @@ Este proyecto nace con la vocación de ser una pieza fundamental para integrar e
 
 El desarrollo de **Study Hub** fue motivado por mi cursación del diplomado **"Estrategias metodológicas y evaluativas en la Formación para el trabajo"** (Universidad de Chile, 2025). Las metodologías y enfoques pedagógicos explorados durante el programa inspiraron la creación de una herramienta que no solo entrega información, sino que fomenta la organización y conexión de ideas, un pilar clave en el aprendizaje significativo.
 
+Creyendo firmemente en poner la tecnología al servicio de la humanidad, mi compromiso principal es mantener este proyecto accesible. Sin embargo, entiendo que cada institución educativa o profesional tiene desafíos únicos. Para quienes busquen potenciar su alcance, ofrezco servicios de personalización para adaptar Study Hub a necesidades específicas, implementando desde funcionalidades exclusivas hasta el despliegue de una infraestructura para tus servicios de aprendizaje. Si te interesa explorar una solución a medida a un costo modesto, te invito a que me contactes para conversar sobre tu proyecto.
 ---
 
 ### Sobre el Diplomado de Referencia
