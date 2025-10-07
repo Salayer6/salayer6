@@ -10,4 +10,4 @@
  * If you leave this string empty AND the user has not provided a key,
  * the application will prompt the user to enter their own key.
  */
-export const DEVELOPER_API_KEY = '';
+export const DEVELOPER_API_KEY = 'AIzaSyDmSdlF8XNE3_drmwtUyqdwWJ7OO01hR18';

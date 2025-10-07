@@ -119,7 +119,7 @@ const NotesBoard: React.FC = () => {
         }
     };
     
-    const handleNoteClickForConnection = (e: React.MouseEvent, clickedNoteId: string) => {
+    const handleNoteClickForConnection = (clickedNoteId: string) => {
         if (connecting && connecting.startNoteId !== clickedNoteId) {
             const newConnection: Connection = {
                 id: crypto.randomUUID(),
@@ -227,6 +227,7 @@ const NotesBoard: React.FC = () => {
         const dropX = mousePositionRef.current.x ? mousePositionRef.current.x - 48 : 20;
         const dropY = mousePositionRef.current.y ? mousePositionRef.current.y - 48 : 20;
 
+        // FIX: Add missing 'title' property to conform to the Note type.
         const newNote: Note = {
             id: crypto.randomUUID(),
             title: '',
@@ -311,7 +312,7 @@ const NotesBoard: React.FC = () => {
                         className={`absolute w-24 h-24 p-2 rounded-lg shadow-md border cursor-grab active:cursor-grabbing group transition-all duration-100 ease-in-out flex items-center justify-center text-center ${note.color} ${connecting?.startNoteId === note.id ? 'ring-4 ring-indigo-500 z-10' : 'hover:shadow-xl'}`}
                         style={{ left: note.x, top: note.y }}
                         onMouseDown={(e) => handleNoteMouseDown(e, note.id)}
-                        onClick={(e) => handleNoteClickForConnection(e, note.id)}
+                        onClick={() => handleNoteClickForConnection(note.id)}
                     >
                          <button onClick={() => handleDeleteNote(note.id)} className="absolute -top-2 -right-2 p-1 rounded-full bg-white dark:bg-slate-700 shadow-md hover:bg-red-100 dark:hover:bg-red-900 opacity-0 group-hover:opacity-100 transition-opacity z-10" aria-label={t('board.deleteNoteAria')}>
                             <TrashIcon className="w-4 h-4 text-red-500" />

@@ -7,5 +7,5 @@ export default defineConfig({
   // If you are deploying to GitHub Pages, you might need to set the base path.
   // For example, if your repository is at https://<username>.github.io/<repo-name>/,
   // then you should set base to '/<repo-name>/'.
-  base: '/your-repo-name/',
+  base: '/salayer6/',
 })
