@@ -10,6 +10,6 @@ Diplomado en control de gestión para profesionales. FEN - U. de Chile. 2024
 Certificado profesional en analítica de datos by Google. Coursera. 2024
 Fundamentos de la ingeniería de datos. Platzi. 2025
 
-![Captura de Iketani con cara de chato](puro semen.webp)
+![Captura de Iketani con cara de chato](puro_semen.webp)
 
 ## ...puro semen.
