@@ -2,7 +2,7 @@
 Plan, Execute and Document a working environment for the Management control of an organization.
 
 ## Setup
-It will be completed using Python, PL/pgSQL, Apache Airflow, Spark, AWS and Airtable (for prototyping)
+It will be completed using Python, PL/pgSQL, Apache Airflow, Spark and free-tier AWS.
 
 ## Background Information:  
 Titulado de Ingeniería en mecánica automotriz. DuocUC 2018.  
