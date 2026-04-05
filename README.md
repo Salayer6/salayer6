@@ -6,5 +6,5 @@ The processing will: I. Be distributed. II. Have separated operational & analyti
 ## Proposed Setup
 This will be achieved using Python, PL/pgSQL, AWS Managed Workflows with Apache Airflow for Operation, Databricks's Delta Lake Medallion Architecure for Analytics, as serverless as possible for cost-efficiency, MongoDB or DynamoDB for social media data ETL.
 
-## Professional profile
+## Vital Signs
 [!](https://proyecto-salayer7.vercel.app/#vitalsigns)
