@@ -1,10 +1,27 @@
-# Salayer6 ► Salayer7 Requirement: (Data Engineering Practice Project)  
-Plan, Execute and Document a working environment for the Management control of an organization (ERP-like).  
+Executive Overview
+Salayer6 / Salayer7 Enterprise Architecture Platform
+Architectural Blueprint & Implementation Strategy: Modular, Cloud-Native Management Control System (ERP-Grade)
 
-The processing will: I. Be distributed. II. Have separated operational & analytical infrastructure. III. Cloud-native. IV. 100% Automated. V. Be commercially competitive. VI. Have social-media data ingest. VII. All in the free-tier of AWS, if not possible, Google Cloud Platform, if note possible, Microsoft Azure.
+Core Architectural Mandates
+Distributed Processing Framework: Decoupled compute and storage nodes to ensure horizontal scalability across high-throughput workloads.
 
-## Proposed Setup
-This will be achieved using Python, PL/pgSQL, AWS Managed Workflows with Apache Airflow for Operation, Databricks's Delta Lake Medallion Architecure for Analytics, as serverless as possible for cost-efficiency, MongoDB or DynamoDB for social media data ETL.
+Infrastructure Segregation: Complete physical and logical separation of operational transactional databases (OLTP) from analytical query engines (OLAP).
 
-## Vital Signs
-[!](https://proyecto-salayer7.vercel.app/#vitalsigns)
+Cloud-Native Deployment: Serverless-first architecture optimized for operational resilience, elasticity, and minimal administrative overhead.
+
+End-to-End Automation: Zero-touch pipeline orchestration from ingest to semantic reporting layers.
+
+Cost Optimization Matrix: Strict adherence to cloud provider free-tier resource allocations, with programmatic overflow to low-cost GCP and Azure serverless tiers.
+
+External Intelligence Ingestion: Automated multi-threaded pipelines for unstructured social-media telemetry and market signal extraction.
+
+Proposed Technical Stack
+Core Scripting & Transformation: Python, PL/pgSQL
+
+Orchestration Layer: AWS Managed Workflows for Apache Airflow (MWAA) / Serverless DAGs
+
+Analytical Storage & Governance: Databricks Delta Lake (Medallion Architecture: Bronze, Silver, Gold layers)
+
+Operational & NoSQL Stores: MongoDB Atlas / AWS DynamoDB for high-velocity social media ETL persistence
+
+Infrastructure-as-Code & Hosting: Serverless framework prioritizing AWS Lambda, S3, and managed database instances
